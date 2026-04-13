@@ -1,0 +1,22 @@
+{
+  "name": "Sena FarmERP v7.0",
+  "short_name": "SenaFarmERP",
+  "description": "Commercial enterprise AI agribusiness platform by Sena Agribusiness Investment Group PLC for contract farming, supply chain, finance, and GIS operations.",
+  "author": "Sena Agribusiness Investment Group PLC",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0B1120",
+  "theme_color": "#0F766E",
+  "icons": [
+    {
+      "src": "https://ui-avatars.com/api/?name=Sena+FarmERP&background=0F766E&color=fff&size=512",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "https://ui-avatars.com/api/?name=S&background=0F766E&color=fff&size=192",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,39 +1,45 @@
-# Skapi HTML Starter Template
+# Sena FarmERP v7.0
 
-This is a plain HTML template for Skapi.
+This repository contains the commercial Sena FarmERP v7.0 Enterprise AI Agribusiness web application owned and copyrighted by **Sena Agribusiness Investment Group PLC**.
 
-This template includes basic features for your HTML application:
+## What this app includes
 
--   Signup
--   Signup email verification
--   Login
+- PWA install support for Chrome/Edge and compatible browsers
+- Offline-ready service worker caching
+- Live weather integration using Open-Meteo
+- Contract farming, agri-input procurement, finance ledger, GIS mapping, AI diagnostics dashboard
+- Multilingual support including English, Amharic, German, and Afan Oromo
 
-## How To Run
+## Run locally
 
-Just download the project, unzip it, and open `index.html` in your browser.
-
-### Remote Server (Optional)
-
-If you want to host this on a remote server and use Node.js, you can install the package:
-
-```bash
-npm i
-```
-
-Then run:
+1. Open a terminal in the project folder.
+2. Run a simple static server:
 
 ```bash
-npm run dev
+python3 -m http.server 8080
 ```
 
-The application will be hosted on port `3300`.
+3. Open the app in your browser:
 
-## Live Demo
+```text
+http://localhost:8080
+```
 
-You can check our live demo [Here](https://getting-started-template-vanilla.skapi.com/).
+4. Use the `Install` button in the app header to add Sena FarmERP to your desktop or mobile device.
 
-## Important!
+## Local app launch note
 
-Replace the `SERVICE_ID` and `OWNER_ID` values in `service.js` with your own service information.
+For best PWA behavior, serve the app from a local web server instead of opening `index.html` directly.
 
-You can get your own service ID from [Skapi](https://www.skapi.com).
+## How to deploy commercially
+
+- Host the contents on a real domain or CDN
+- Ensure HTTPS is enabled for PWA install and secure API usage
+- Submit a Trusted Web Activity (TWA) wrapper to Google Play for Android publishing
+- Use standard app store review and publishing pipelines for commercial launch
+
+## Important
+
+This app is already configured to run in production-like mode using free open data sources and PWA install support.
+
+To connect to a backend or real enterprise data center, add your secure backend APIs in the `SenaERP` methods and replace demo data with live service endpoints.

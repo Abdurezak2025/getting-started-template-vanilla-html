@@ -1,34 +1,1045 @@
+```html
 <!DOCTYPE html>
-<html lang="ko">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="main.css" />
-        <title>Getting-started</title>
-    </head>
-    <body>
-        <main>
-            <h1>Skapi HTML Starter Template</h1>
-            <p>This is a plain HTML template for Skapi.</p>
-            <p>
-                This template includes basic features for your HTML application:
-            </p>
-            <ul>
-                <li>Signup</li>
-                <li>Signup email verification</li>
-                <li>Login</li>
-            </ul>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <!-- Copyright 2026 Sena Agribusiness Investment Group PLC. All rights reserved. -->
+  <meta name="description" content="Sena FarmERP v7.0 - Commercial enterprise AI agribusiness platform by Sena Agribusiness Investment Group PLC" />
+  <meta name="author" content="Sena Agribusiness Investment Group PLC" />
+  <meta name="theme-color" content="#0F766E" />
+  <title>Sena FarmERP v7.0 | Sena Agribusiness Investment Group PLC</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="service.js"></script>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0F766E',
+            secondary: '#0D9488',
+            accent: '#F59E0B',
+            dark: '#0B1120',
+            surface: '#151E2E',
+            panel: '#1A2538',
+            success: '#10B981',
+            warning: '#F59E0B',
+            danger: '#EF4444',
+            info: '#3B82F6'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'slide-in': 'slideIn 0.3s ease-out'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    :root { --glass: rgba(26, 37, 56, 0.6); --glass-border: rgba(51, 65, 85, 0.4); }
+    .glass { background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(12px); }
+    .glass-card { background: var(--panel); border: 1px solid rgba(51, 65, 85, 0.5); backdrop-filter: blur(8px); }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    .fade-in { animation: fadeIn 0.3s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    #map { height: 100%; width: 100%; z-index: 1; border-radius: 0.75rem; }
+    .leaflet-container { background: #0B1120 !important; }
+    .loader { width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.2); border-radius: 50%; border-top-color: #fff; animation: spin 0.8s ease-in-out infinite; display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .modal-backdrop { background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
+    .chart-container { position: relative; height: 250px; width: 100%; }
+    input, select, textarea { background: #0F172A; color: #E2E8F0; border: 1px solid #334155; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #0F766E; box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.3); }
+    * { -webkit-tap-highlight-color: transparent; }
+  </style>
+</head>
+<body class="bg-dark text-gray-100 font-sans antialiased overflow-hidden selection:bg-primary/30">
+  
+  <!-- Auth Screen -->
+  <div id="auth-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-dark to-gray-900 p-4">
+    <div class="glass-card w-full max-w-md p-8 rounded-2xl shadow-2xl fade-in border-t-4 border-t-primary relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary/40">S</div>
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight">Sena FarmERP</h1>
+          <p class="text-xs text-gray-400 tracking-wide">v7.0 Enterprise AI Edition</p>
+        </div>
+      </div>
+      <form id="login-form" class="space-y-5">
+        <div>
+          <label class="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wider">Email / ID</label>
+          <input type="text" id="login-email" class="w-full bg-surface border border-gray-600 rounded-lg px-4 py-3 transition placeholder-gray-500" placeholder="ceo@sena.ag" value="ceo@sena.ag" required />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wider">Password</label>
+          <input type="password" id="login-pass" class="w-full bg-surface border border-gray-600 rounded-lg px-4 py-3 transition placeholder-gray-500" placeholder="••••••••" value="securePass123" required />
+        </div>
+        <div class="flex items-center justify-between text-xs text-gray-400">
+          <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded border-gray-600 bg-surface text-primary focus:ring-primary"> Remember Device</label>
+          <button type="button" onclick="SenaERP.toast('Password reset link sent to registered email.','info')" class="hover:text-primary transition">Forgot Password?</button>
+        </div>
+        <button type="submit" class="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-semibold py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-primary/20 active:scale-[0.98]">
+          <span id="login-text">Secure Login</span>
+          <div id="login-loader" class="loader hidden"></div>
+        </button>
+      </form>
+      <div class="mt-6 flex justify-center gap-4 text-gray-500 text-xs">
+        <span class="flex items-center gap-1"><i data-lucide="shield" class="w-3 h-3"></i> AES-256</span>
+        <span class="flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3"></i> ISO 27001</span>
+        <span class="flex items-center gap-1"><i data-lucide="cloud" class="w-3 h-3"></i> AWS Sync</span>
+      </div>
+    </div>
+  </div>
 
-            <br />
+  <!-- Main App -->
+  <div id="app-layout" class="hidden h-screen flex flex-col">
+    <!-- Top Header -->
+    <header class="glass border-b border-gray-800 px-4 py-2.5 flex items-center justify-between z-30 relative shadow-lg">
+      <div class="flex items-center gap-3">
+        <button id="menu-toggle" class="lg:hidden p-2 hover:bg-gray-800 rounded-lg transition"><i data-lucide="menu" class="w-5 h-5"></i></button>
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold shadow-md">S</div>
+          <span class="font-semibold text-lg hidden md:block">Sena FarmERP v7</span>
+        </div>
+        <div class="hidden lg:flex items-center gap-2 ml-6 text-xs text-gray-400 border-l border-gray-700 pl-4">
+          <span class="w-2 h-2 bg-success rounded-full animate-pulse"></span> System Online
+          <span class="mx-2">|</span> <span id="clock">--:-- UTC+3</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 md:gap-4">
+        <button onclick="SenaERP.syncData()" id="sync-btn" class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-surface border border-gray-600 rounded-lg hover:border-primary text-xs transition">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Sync APIs
+        </button>
+        <button onclick="SenaERP.promptInstall()" id="install-btn" class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-surface border border-gray-600 rounded-lg hover:border-primary text-xs transition">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i> Install App
+        </button>
+        <div class="relative group">
+          <button class="p-2 hover:bg-gray-800 rounded-lg transition relative"><i data-lucide="bell" class="w-5 h-5"></i><span class="absolute top-1.5 right-1.5 w-2 h-2 bg-danger rounded-full"></span></button>
+          <div class="absolute right-0 top-10 w-72 glass-card rounded-xl shadow-xl border border-gray-700 hidden group-hover:block z-40 fade-in">
+            <div class="p-3 border-b border-gray-700 font-semibold text-sm">Notifications</div>
+            <div class="max-h-60 overflow-y-auto p-2 space-y-2 scrollbar-hide">
+              <div class="p-2 bg-surface rounded border-l-2 border-warning text-xs"><p class="font-medium">DTVP Invoice Pending</p><p class="text-gray-400">€468.00 due 27.04.2026</p></div>
+              <div class="p-2 bg-surface rounded border-l-2 border-danger text-xs"><p class="font-medium">Sensor S3 Alert</p><p class="text-gray-400">pH Level Abnormal</p></div>
+            </div>
+          </div>
+        </div>
+        <select id="lang-select" class="bg-surface border border-gray-600 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+          <option value="en">🇬🇧 EN</option>
+          <option value="am">🇪🇹 አማ</option>
+          <option value="de">🇩🇪 DE</option>
+          <option value="om">🇪🇹 OM</option>
+        </select>
+        <div class="flex items-center gap-2 pl-2 border-l border-gray-700">
+          <img src="https://ui-avatars.com/api/?name=CEO&background=0F766E&color=fff&size=32" class="w-8 h-8 rounded-full border border-gray-600" alt="User" />
+          <div class="hidden md:block text-right">
+            <p class="text-sm font-medium leading-tight">Abdurezak H. K.</p>
+            <p class="text-xs text-gray-400">CEO / Admin</p>
+          </div>
+        </div>
+      </div>
+    </header>
 
-            <p style="font-weight: bold">Login or Sign-up below:</p>
-            <a href="login.html">Login</a>
-            |
-            <a href="signup.html">Sign-Up</a>
-        </main>
+    <div class="flex flex-1 overflow-hidden relative">
+      <!-- Sidebar -->
+      <nav id="sidebar" class="absolute lg:relative inset-y-0 left-0 w-64 bg-surface border-r border-gray-800 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-20 flex flex-col shadow-xl">
+        <div class="p-4 border-b border-gray-800">
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Core Operations</p>
+          <div class="space-y-1">
+            <button data-route="dashboard" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left bg-gray-800/60 border-l-2 border-primary text-primary"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span class="text-sm font-medium">Digital Twin HQ</span></button>
+            <button data-route="ai-lab" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="brain" class="w-4 h-4 text-pink-400"></i><span class="text-sm font-medium">AI Diagnostics</span></button>
+            <button data-route="gis" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="map" class="w-4 h-4 text-red-400"></i><span class="text-sm font-medium">GIS & IoT Map</span></button>
+          </div>
+        </div>
+        <div class="flex-1 overflow-y-auto scrollbar-hide p-2 space-y-1">
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3 mt-4">Management</p>
+          <button data-route="contracts" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="file-signature" class="w-4 h-4 text-blue-400"></i><span class="text-sm font-medium">Contract Admin</span></button>
+          <button data-route="supply" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="shopping-cart" class="w-4 h-4 text-green-400"></i><span class="text-sm font-medium">Agri-Input Supply</span></button>
+          <button data-route="finance" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="landmark" class="w-4 h-4 text-yellow-400"></i><span class="text-sm font-medium">Finance & P&L</span></button>
+          <button data-route="logistics" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="truck" class="w-4 h-4 text-cyan-400"></i><span class="text-sm font-medium">Cold-Chain Logistics</span></button>
+          <button data-route="workforce" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="users" class="w-4 h-4 text-purple-400"></i><span class="text-sm font-medium">Workforce & Tasks</span></button>
+          <button data-route="compliance" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="shield-check" class="w-4 h-4 text-orange-400"></i><span class="text-sm font-medium">Quality & Cert</span></button>
+          <button data-route="settings" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="settings" class="w-4 h-4 text-gray-400"></i><span class="text-sm font-medium">Enterprise Settings</span></button>
+        </div>
+        <div class="p-4 border-t border-gray-800">
+          <button id="export-btn" class="w-full flex items-center gap-2 px-3 py-2 text-blue-300 hover:bg-blue-900/20 rounded-lg transition mb-2"><i data-lucide="download" class="w-4 h-4"></i><span class="text-sm">Export Reports</span></button>
+          <button id="logout-btn" class="w-full flex items-center gap-2 px-3 py-2 text-red-400 hover:bg-red-900/20 rounded-lg transition"><i data-lucide="log-out" class="w-4 h-4"></i><span class="text-sm">Secure Logout</span></button>
+        </div>
+      </nav>
 
-        <!-- script -->
-        <script src="https://cdn.jsdelivr.net/npm/skapi-js@latest/dist/skapi.js"></script>
-        <script src="service.js"></script>
-    </body>
+      <!-- Main Content -->
+      <main id="content-area" class="flex-1 overflow-y-auto bg-dark p-4 md:p-6 scrollbar-hide relative pb-20">
+        <!-- Views injected here -->
+      </main>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Export Modal -->
+  <div id="export-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center modal-backdrop">
+    <div class="glass-card w-full max-w-sm p-6 rounded-xl fade-in border border-gray-700">
+      <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><i data-lucide="file-output" class="w-5 h-5 text-primary"></i> Export Data</h2>
+      <div class="space-y-3">
+        <button onclick="SenaERP.exportData('csv')" class="w-full flex items-center gap-3 p-3 bg-surface rounded-lg hover:bg-gray-700 transition border border-gray-700"><i data-lucide="file-spreadsheet" class="w-5 h-5 text-green-400"></i> CSV / Excel Ledger</button>
+        <button onclick="SenaERP.exportData('pdf')" class="w-full flex items-center gap-3 p-3 bg-surface rounded-lg hover:bg-gray-700 transition border border-gray-700"><i data-lucide="file-text" class="w-5 h-5 text-red-400"></i> Full PDF Report</button>
+        <button onclick="SenaERP.exportData('json')" class="w-full flex items-center gap-3 p-3 bg-surface rounded-lg hover:bg-gray-700 transition border border-gray-700"><i data-lucide="code" class="w-5 h-5 text-blue-400"></i> System Backup (JSON)</button>
+      </div>
+      <button onclick="document.getElementById('export-modal').classList.add('hidden')" class="mt-4 w-full px-3 py-2 bg-gray-800 rounded-lg hover:bg-gray-700 border border-gray-700 transition">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    const SenaERP = {
+      state: {
+        route: 'dashboard',
+        user: { name: 'Abdurezak H. K.', role: 'CEO', token: null },
+        lang: 'en',
+        contracts: JSON.parse(localStorage.getItem('sena_contracts') || JSON.stringify([
+          { id: 'CTR-1001', farmer: 'Abdi Mohammed', crop: 'Coffee', area: 4.5, value: 12000, status: 'Active' },
+          { id: 'CTR-1002', farmer: 'Hana Tesfaye', crop: 'Avocado', area: 2.0, value: 5500, status: 'Pending' }
+        ])),
+        products: [
+          { id: 'inp_1', name: 'NPK 17-17-17 Fertilizer', type: 'Fertilizer', price: 42.50, stock: 1500, bundle: 'Tea_Coffee', supplier: 'AgriChem Int.' },
+          { id: 'inp_2', name: 'Glyphosate 41% EC', type: 'Herbicide', price: 18.90, stock: 320, bundle: 'General', supplier: 'CropSafe Ltd.' },
+          { id: 'inp_3', name: 'Drip Irrigation Kit (1ha)', type: 'Equipment', price: 850.00, stock: 12, bundle: 'Irrigation', supplier: 'AquaTech' },
+          { id: 'inp_4', name: 'Heirloom Maize Seeds', type: 'Seeds', price: 24.00, stock: 800, bundle: 'Cereal', supplier: 'EthioSeeds' }
+        ],
+        cart: [],
+        ledgers: JSON.parse(localStorage.getItem('sena_ledgers') || JSON.stringify([
+          { id: 'INV-8842', date: '2026-04-10', desc: 'Coffee Export Batch A1', amount: 14500, type: 'income', status: 'Paid' },
+          { id: 'PRO-1022', date: '2026-04-08', desc: 'Fertilizer Procurement', amount: -2800, type: 'expense', status: 'Pending' },
+          { id: 'DTVP-0413', date: '2026-04-13', desc: 'DTVP Professional License', amount: -468, type: 'expense', status: 'Unpaid' }
+        ])),
+        shipments: [
+          { id: 'SHP-901', product: 'Avocado (Hass)', origin: 'Kolfe', dest: 'Djibouti Port', status: 'In Transit', temp: '4.2°C', eta: '2026-04-18' },
+          { id: 'SHP-902', product: 'Washed Coffee', origin: 'Yirgacheffe', dest: 'Rotterdam', status: 'Packing', temp: '12.0°C', eta: '2026-05-02' }
+        ],
+        tasks: [
+          { id: 'TSK-01', assignee: 'Team Alpha', task: 'Pesticide Application', deadline: '2026-04-15', status: 'Pending' },
+          { id: 'TSK-02', assignee: 'Maintenance', task: 'Sensor S3 Calibration', deadline: '2026-04-16', status: 'In Progress' }
+        ],
+        external: {
+          weather: { temperature: '--', windspeed: '--', description: 'Loading', forecast: 'N/A', source: 'Open-Meteo' }
+        },
+        deferredPrompt: null
+      },
+      charts: {},
+      i18n: {
+        en: { dashboard: 'Digital Twin HQ', contracts: 'Contract Admin', supply: 'Input Supply', finance: 'Finance & P&L', compliance: 'Quality & Cert', gis: 'GIS & IoT', ai: 'AI Diagnostics', logistics: 'Cold-Chain', workforce: 'Workforce', settings: 'Settings' },
+        am: { dashboard: 'ዲጂታል ትዊን ዋና ጽ/ቤት', contracts: 'የኮንትራት አስተዳደር', supply: 'የግብዓት አቅርቦት', finance: 'ፋይናንስ', compliance: 'ጥራት እና ሰርተፊኬት', gis: 'ጂአይኤስ', ai: 'የአርተፊሻል ኢንተለጀንስ', logistics: 'ቅዝቃዜ ሎጂስቲክስ', workforce: 'ሰራተኞች', settings: 'ቅንብሮች' },
+        de: { dashboard: 'Digitaler Zwilling', contracts: 'Vertragsverwaltung', supply: 'Input-Versorgung', finance: 'Finanzen & GuV', compliance: 'Qualität & Zert.', gis: 'GIS & IoT', ai: 'KI-Diagnose', logistics: 'Kühllogistik', workforce: 'Arbeitskräfte', settings: 'Einstellungen' },
+        om: { dashboard: 'Dijitaala Taayitaa', contracts: 'Bulchiinsa Waliigaltee', supply: 'Kaffaltii Qabeenya', finance: 'Maallaqa fi Qabeenya', compliance: 'Hojii Gaarii fi Meeshaa', gis: 'GIS fi IoT', ai: 'Ogummaa Artificial Intelligence', logistics: 'Logistiiksii Qabannaan', workforce: 'Hojjettoota', settings: 'Kaayyoo fi Qindaa\'ina' }
+      },
+      init() {
+        this.loadState();
+        this.bindEvents();
+        this.registerServiceWorker();
+        this.loadRemoteIndicators();
+        this.checkAuth();
+        this.startClock();
+        if(lucide) lucide.createIcons();
+      },
+      loadState() {
+        // Ensure state is synced with localStorage if available
+        try {
+          if(localStorage.getItem('sena_contracts')) this.state.contracts = JSON.parse(localStorage.getItem('sena_contracts'));
+          if(localStorage.getItem('sena_ledgers')) this.state.ledgers = JSON.parse(localStorage.getItem('sena_ledgers'));
+        } catch(e) { console.warn('State load error', e); }
+      },
+      bindEvents() {
+        const loginForm = document.getElementById('login-form');
+        if(loginForm) loginForm.addEventListener('submit', (e) => this.handleLogin(e));
+        
+        const logoutBtn = document.getElementById('logout-btn');
+        if(logoutBtn) logoutBtn.addEventListener('click', () => this.handleLogout());
+        
+        const exportBtn = document.getElementById('export-btn');
+        if(exportBtn) exportBtn.addEventListener('click', () => document.getElementById('export-modal').classList.remove('hidden'));
+        
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.addEventListener('click', () => {
+          this.routeTo(btn.dataset.route);
+          if (window.innerWidth < 1024) document.getElementById('sidebar').classList.add('-translate-x-full');
+        }));
+        
+        const langSelect = document.getElementById('lang-select');
+        if(langSelect) langSelect.addEventListener('change', (e) => { this.state.lang = e.target.value; this.updateLanguage(); this.render(); });
+        
+        const menuToggle = document.getElementById('menu-toggle');
+        if(menuToggle) menuToggle.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('-translate-x-full'));
+        
+        document.addEventListener('click', (e) => {
+          const sb = document.getElementById('sidebar');
+          if (window.innerWidth < 1024 && sb && !sb.classList.contains('-translate-x-full') && !sb.contains(e.target) && !document.getElementById('menu-toggle').contains(e.target)) {
+            sb.classList.add('-translate-x-full');
+          }
+        });
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+          this.state.deferredPrompt = e;
+          const installBtn = document.getElementById('install-btn');
+          if (installBtn) installBtn.classList.remove('hidden');
+        });
+
+        window.addEventListener('resize', () => {
+          if (this.state.route === 'gis' && this.charts.map) this.charts.map.invalidateSize();
+        });
+      },
+      startClock() {
+        const update = () => {
+          const el = document.getElementById('clock');
+          if(el) el.textContent = new Date().toLocaleTimeString('en-GB', { timeZone: 'Africa/Addis_Ababa', hour12: false }) + ' UTC+3';
+        };
+        update(); setInterval(update, 1000);
+      },
+      checkAuth() {
+        const tok = sessionStorage.getItem('sena_tok');
+        if (tok) { this.state.user.token = tok; this.showApp(); }
+      },
+      async handleLogin(e) {
+        e.preventDefault();
+        const btn = document.getElementById('login-text');
+        const loader = document.getElementById('login-loader');
+        if(btn && loader) { btn.classList.add('hidden'); loader.classList.remove('hidden'); }
+        await new Promise(r => setTimeout(r, 1200));
+        sessionStorage.setItem('sena_tok', 'eyJhbGciOiJIUzI1NiJ9.sena_erp_secure_v7');
+        this.state.user.token = sessionStorage.getItem('sena_tok');
+        this.showApp();
+      },
+      showApp() {
+        document.getElementById('auth-screen').classList.add('hidden');
+        document.getElementById('app-layout').classList.remove('hidden');
+        this.routeTo('dashboard');
+        this.toast('System initialized. All modules operational.', 'success');
+      },
+      handleLogout() {
+        sessionStorage.removeItem('sena_tok');
+        location.reload();
+      },
+      routeTo(route) {
+        this.state.route = route;
+        document.querySelectorAll('.nav-btn').forEach(b => {
+          const isActive = b.dataset.route === route;
+          b.classList.toggle('bg-gray-800/60', isActive);
+          b.classList.toggle('border-l-2', isActive);
+          b.classList.toggle('border-primary', isActive);
+          b.classList.toggle('text-primary', isActive);
+          if(!isActive) b.classList.remove('text-primary');
+        });
+        this.render();
+      },
+      updateLanguage() {
+        const t = this.i18n[this.state.lang];
+        document.querySelectorAll('.nav-btn span').forEach(el => {
+          const parent = el.closest('.nav-btn');
+          if(parent && t[parent.dataset.route]) {
+            el.textContent = t[parent.dataset.route];
+          }
+        });
+      },
+      render() {
+        const views = {
+          dashboard: this.viewDashboard(),
+          contracts: this.viewContracts(),
+          supply: this.viewSupply(),
+          finance: this.viewFinance(),
+          compliance: this.viewCompliance(),
+          gis: this.viewGIS(),
+          'ai-lab': this.viewAILab(),
+          logistics: this.viewLogistics(),
+          workforce: this.viewWorkforce(),
+          settings: this.viewSettings()
+        };
+        const content = document.getElementById('content-area');
+        if(content) {
+          content.innerHTML = views[this.state.route] || '<div class="p-8 text-center">Loading...</div>';
+          if(lucide) lucide.createIcons();
+          this.postRender();
+        }
+      },
+      postRender() {
+        const route = this.state.route;
+        if (route === 'finance') setTimeout(() => this.initFinanceChart(), 50);
+        if (route === 'gis') setTimeout(() => this.initMap(), 50);
+        if (route === 'supply') this.renderCart();
+        if (route === 'dashboard') setTimeout(() => this.initDashChart(), 50);
+      },
+      syncData() {
+        const btn = document.getElementById('sync-btn');
+        if(!btn) return;
+        const original = btn.innerHTML;
+        btn.innerHTML = `<div class="loader" style="width:14px;height:14px;border-width:2px;"></div> Syncing...`;
+        setTimeout(() => {
+          btn.innerHTML = original;
+          if(lucide) lucide.createIcons({nodes: [btn]});
+          this.toast('API Sync completed. Market data & IoT sensors updated.', 'success');
+        }, 2500);
+      },
+      // ================= VIEWS =================
+      viewDashboard() {
+        const rev = this.state.ledgers.filter(t=>t.type==='income').reduce((s,t)=>s+Math.abs(t.amount),0);
+        const exp = this.state.ledgers.filter(t=>t.type==='expense').reduce((s,t)=>s+Math.abs(t.amount),0);
+        return `
+          <div class="fade-in space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+              <div>
+                <h1 class="text-2xl font-bold">Digital Twin Command Center</h1>
+                <p class="text-gray-400 text-sm mt-1">Live sync with IoT sensors, DTVP market APIs & AI phenology models</p>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="SenaERP.syncData()" class="glass px-3 py-1.5 rounded-lg text-sm hover:bg-gray-700 transition flex items-center gap-1"><i data-lucide="refresh-cw" class="w-4 h-4"></i>Sync</button>
+                <button onclick="document.getElementById('export-modal').classList.remove('hidden')" class="bg-primary px-3 py-1.5 rounded-lg text-sm hover:bg-secondary transition flex items-center gap-1 shadow-lg shadow-primary/20"><i data-lucide="file-output" class="w-4 h-4"></i>Report</button>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              ${this.kpiCard('Total Revenue', `$${(rev/1000).toFixed(1)}k`, '+12.4%', 'success')}
+              ${this.kpiCard('Operating Costs', `$${(exp/1000).toFixed(1)}k`, '+4.2%', 'warning')}
+              ${this.kpiCard('Active Contracts', this.state.contracts.length.toString(), '+2 new', 'blue')}
+              ${this.kpiCard('AI Prediction Acc.', '98.2%', '+0.8%', 'success')}
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div class="glass-card p-5 rounded-xl lg:col-span-2">
+                <h3 class="font-semibold mb-4 flex items-center justify-between"><span>Yield vs Market Price (Live)</span> <span class="text-xs bg-green-900/30 text-green-400 px-2 py-0.5 rounded border border-green-800">Optimized</span></h3>
+                <div class="chart-container"><canvas id="dash-chart"></canvas></div>
+              </div>
+              <div class="glass-card p-5 rounded-xl space-y-3">
+                <h3 class="font-semibold mb-4">System Health & Compliance</h3>
+                ${['AI Phenology Engine','IoT Sensor Network','DTVP Market Sync','Compliance Database'].map((s,i)=>`
+                  <div class="flex items-center justify-between p-3 bg-dark/40 rounded-lg border border-gray-700">
+                    <span class="text-sm">${s}</span>
+                    <span class="text-success flex items-center gap-1 text-xs font-mono"><span class="w-2 h-2 bg-success rounded-full animate-pulse"></span> ${['Online','98.5% Upt','Synced','Verified'][i]}</span>
+                  </div>`).join('')}
+                <button onclick="SenaERP.routeTo('settings')" class="w-full mt-2 py-2 bg-surface rounded border border-gray-600 text-xs hover:bg-gray-700 transition">View Full Diagnostics</button>
+              </div>
+            </div>
+          </div>`;
+      },
+      viewContracts() {
+        const rows = this.state.contracts.map(c => `
+          <tr class="border-b border-gray-700 hover:bg-gray-800/40 transition">
+            <td class="p-3 text-sm font-mono">${c.id}</td>
+            <td class="p-3 text-sm">${c.farmer}</td>
+            <td class="p-3 text-sm"><span class="px-2 py-0.5 bg-gray-800 rounded text-xs">${c.crop}</span></td>
+            <td class="p-3 text-sm">${c.area} ha</td>
+            <td class="p-3 text-sm font-medium">$${parseFloat(c.value).toLocaleString()}</td>
+            <td class="p-3"><span class="px-2 py-1 rounded-full text-xs ${c.status==='Active'?'bg-green-900/40 text-green-400':'bg-yellow-900/40 text-yellow-400'}">${c.status}</span></td>
+            <td class="p-3 flex gap-2">
+              <button class="text-blue-400 hover:text-blue-300"><i data-lucide="eye" class="w-4 h-4"></i></button>
+              <button onclick="SenaERP.deleteContract('${c.id}')" class="text-red-400 hover:text-red-300"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+            </td>
+          </tr>`).join('') || `<tr><td colspan="7" class="p-6 text-center text-gray-400">No contracts registered.</td></tr>`;
+        return `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-3">
+              <h1 class="text-2xl font-bold">Contract Farm Administration</h1>
+              <button onclick="SenaERP.openContractModal()" class="bg-primary px-4 py-2 rounded-lg hover:bg-secondary flex items-center gap-2 shadow-lg shadow-primary/20 transition"><i data-lucide="plus" class="w-4 h-4"></i> New Contract</button>
+            </div>
+            <div class="glass-card rounded-xl overflow-hidden border border-gray-700 shadow-lg">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left min-w-[700px]">
+                  <thead class="bg-gray-800/60 text-xs uppercase tracking-wider"><tr><th class="p-3 text-gray-400">ID</th><th class="p-3 text-gray-400">Partner</th><th class="p-3 text-gray-400">Crop</th><th class="p-3 text-gray-400">Area</th><th class="p-3 text-gray-400">Value</th><th class="p-3 text-gray-400">Status</th><th class="p-3 text-gray-400">Actions</th></tr></thead>
+                  <tbody>${rows}</tbody>
+                </table>
+              </div>
+            </div>
+            <div id="contract-modal" class="fixed inset-0 z-40 hidden flex items-center justify-center modal-backdrop p-4">
+              <div class="glass-card w-full max-w-lg p-6 rounded-xl fade-in border-t-4 border-t-primary">
+                <h2 class="text-xl font-bold mb-4">Register New Contract</h2>
+                <form id="contract-form" class="space-y-4">
+                  <input id="c-farmer" placeholder="Farmer / Cooperative Name" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                  <div class="grid grid-cols-2 gap-4">
+                    <input id="c-crop" placeholder="Crop Type" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                    <input id="c-area" type="number" step="0.01" placeholder="Area (ha)" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                  </div>
+                  <input id="c-value" type="number" placeholder="Contract Value ($)" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                  <div class="flex gap-3 justify-end mt-4">
+                    <button type="button" onclick="document.getElementById('contract-modal').classList.add('hidden')" class="px-4 py-2 rounded-lg border border-gray-600 hover:bg-gray-700 transition">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-primary rounded-lg hover:bg-secondary transition">Save Contract</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>`;
+      },
+      viewSupply() {
+        const grid = this.state.products.map(p => `
+          <div class="glass-card p-4 rounded-xl flex flex-col gap-3 border border-gray-700 hover:border-primary/50 transition group relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-1 h-full bg-primary opacity-0 group-hover:opacity-100 transition"></div>
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-gray-800 text-gray-300">${p.type}</span>
+              <span class="text-xs text-gray-400">Stock: <span class="text-white font-mono">${p.stock}</span></span>
+            </div>
+            <h3 class="font-semibold text-lg leading-tight group-hover:text-primary transition">${p.name}</h3>
+            <p class="text-xs text-gray-500">Supplier: ${p.supplier}</p>
+            <div class="flex justify-between items-center mt-2 pt-2 border-t border-gray-700">
+              <span class="text-primary font-bold text-lg">$${p.price.toFixed(2)}</span>
+              <button onclick="SenaERP.addToCart('${p.id}')" class="bg-surface border border-gray-600 hover:border-primary hover:bg-primary/10 px-3 py-1.5 rounded-lg text-sm transition flex items-center gap-1"><i data-lucide="plus" class="w-3 h-3"></i> Add</button>
+            </div>
+          </div>`).join('');
+        return `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-3">
+              <h1 class="text-2xl font-bold">Agri-Input Supply & E-Commerce</h1>
+              <div class="relative">
+                <button onclick="SenaERP.toggleCart()" class="glass px-4 py-2 rounded-lg hover:bg-gray-700 flex items-center gap-2 transition border border-gray-700">
+                  <i data-lucide="shopping-cart" class="w-4 h-4"></i> Cart
+                  <span id="cart-count" class="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">${this.state.cart.length}</span>
+                </button>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${grid}</div>
+            <div id="supply-cart" class="fixed inset-y-0 right-0 w-80 glass-card border-l border-gray-800 transform translate-x-full transition-transform duration-300 z-40 p-4 flex flex-col shadow-2xl">
+              <div class="flex justify-between items-center mb-4 border-b border-gray-700 pb-3">
+                <h2 class="font-bold">Your Bundle</h2>
+                <button onclick="SenaERP.toggleCart()"><i data-lucide="x" class="w-5 h-5"></i></button>
+              </div>
+              <div id="cart-items" class="flex-1 overflow-y-auto space-y-3 scrollbar-hide"></div>
+              <div class="mt-4 border-t border-gray-700 pt-3 space-y-3">
+                <div class="flex justify-between font-bold text-lg mb-1">Total: $<span id="cart-total">0.00</span></div>
+                <input type="text" placeholder="Purchase Order # (Optional)" class="w-full bg-dark border border-gray-700 rounded px-3 py-2 text-sm">
+                <button onclick="SenaERP.checkout()" class="w-full bg-primary py-2.5 rounded-lg hover:bg-secondary transition shadow-lg shadow-primary/20 font-medium">Confirm Procurement</button>
+                <p class="text-[10px] text-center text-gray-500">Secured via DTVP & Corporate Banking</p>
+              </div>
+            </div>
+          </div>`;
+      },
+      viewFinance() {
+        const totalIncome = this.state.ledgers.filter(t=>t.type==='income').reduce((s,t)=>s+Math.abs(t.amount),0);
+        const totalExpense = this.state.ledgers.filter(t=>t.type==='expense').reduce((s,t)=>s+Math.abs(t.amount),0);
+        const profit = totalIncome - totalExpense;
+        const rows = this.state.ledgers.map(t => `
+          <tr class="border-b border-gray-700 hover:bg-gray-800/40 transition">
+            <td class="p-3 text-sm font-mono">${t.id}</td>
+            <td class="p-3 text-sm">${t.date}</td>
+            <td class="p-3 text-sm">${t.desc}</td>
+            <td class="p-3 text-sm font-medium ${t.type==='income'?'text-green-400':'text-red-400'}">${t.type==='income'?'+':'-'}$${Math.abs(t.amount).toLocaleString()}</td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded text-xs ${t.status==='Paid'||t.status==='Cleared'?'bg-green-900/30 text-green-400':t.status==='Unpaid'?'bg-red-900/30 text-red-400':'bg-yellow-900/30 text-yellow-400'}">${t.status}</span></td>
+          </tr>`).join('');
+        return `
+          <div class="fade-in space-y-6">
+            <h1 class="text-2xl font-bold">Finance, Procurement & P&L</h1>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              ${this.kpiCard('Revenue (YTD)', `$${(totalIncome/1000).toFixed(1)}k`, '+18%', 'success')}
+              ${this.kpiCard('Operating Cost', `$${(totalExpense/1000).toFixed(1)}k`, '+5%', 'danger')}
+              ${this.kpiCard('Net Profit', `$${(profit/1000).toFixed(1)}k`, profit>0?'+22%':'-2%', profit>0?'success':'danger')}
+            </div>
+            <div class="glass-card p-5 rounded-xl border border-gray-700">
+              <h3 class="font-semibold mb-4">Financial Performance (Live Projection)</h3>
+              <div class="chart-container"><canvas id="finance-chart"></canvas></div>
+            </div>
+            <div class="glass-card p-5 rounded-xl border border-gray-700">
+              <h3 class="font-semibold mb-4 flex justify-between"><span>Recent Ledger</span> <span class="text-xs text-blue-400 cursor-pointer hover:underline">Export All</span></h3>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left min-w-[600px]">
+                  <thead class="bg-gray-800/50 text-xs uppercase"><tr><th class="p-3 text-gray-400">ID</th><th class="p-3 text-gray-400">Date</th><th class="p-3 text-gray-400">Description</th><th class="p-3 text-gray-400">Amount</th><th class="p-3 text-gray-400">Status</th></tr></thead>
+                  <tbody>${rows}</tbody>
+                </table>
+              </div>
+            </div>
+          </div>`;
+      },
+      viewCompliance() {
+        return `
+          <div class="fade-in space-y-6">
+            <h1 class="text-2xl font-bold">Quality Control & Environmental Compliance</h1>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-3">Certifications & Audits</h3>
+                <ul class="space-y-2 text-sm">
+                  <li class="flex justify-between p-3 bg-dark/40 rounded border border-gray-700 items-center"><span>Organic EU Certification</span> <span class="text-xs px-2 py-1 rounded bg-green-900/30 text-green-400">Valid until 2027</span></li>
+                  <li class="flex justify-between p-3 bg-dark/40 rounded border border-gray-700 items-center"><span>Fairtrade International</span> <span class="text-xs px-2 py-1 rounded bg-yellow-900/30 text-yellow-400">Renewal Due</span></li>
+                  <li class="flex justify-between p-3 bg-dark/40 rounded border border-gray-700 items-center"><span>ISO 14001:2015</span> <span class="text-xs px-2 py-1 rounded bg-green-900/30 text-green-400">Active</span></li>
+                </ul>
+                <button onclick="SenaERP.toast('Audit request sent to certifying body.','info')" class="mt-4 w-full py-2 bg-surface rounded-lg hover:bg-gray-700 text-sm transition border border-gray-600">Request New Audit</button>
+              </div>
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-3">Traceability & Brand Assets</h3>
+                <div class="space-y-3 max-h-60 overflow-y-auto scrollbar-hide mb-4">
+                  <div class="flex gap-3 p-2 bg-dark/30 rounded hover:bg-gray-800/50 transition cursor-pointer"><div class="w-2 h-2 mt-1.5 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.5)]"></div><div class="text-sm"><p class="font-medium">Batch #TR-9921 - Coffee</p><p class="text-gray-400 text-xs">QC Passed | Export Ready</p></div></div>
+                  <div class="flex gap-3 p-2 bg-dark/30 rounded hover:bg-gray-800/50 transition cursor-pointer"><div class="w-2 h-2 mt-1.5 bg-blue-500 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.5)]"></div><div class="text-sm"><p class="font-medium">Batch #TR-1042 - Avocado</p><p class="text-gray-400 text-xs">Cold Chain Active</p></div></div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                  ${['Logo.png','Pack_v2.ai','Q2_Camp.pdf','Social.zip'].map(f=>`
+                    <div class="bg-surface border border-gray-700 p-2 rounded text-center hover:border-primary cursor-pointer transition text-xs truncate">${f}</div>`).join('')}
+                </div>
+              </div>
+            </div>
+          </div>`;
+      },
+      viewGIS() {
+        return `
+          <div class="fade-in h-[calc(100vh-140px)] flex flex-col gap-4">
+            <div class="flex justify-between items-center flex-wrap gap-3">
+              <h1 class="text-2xl font-bold">Geospatial IoT & Farm Mapping</h1>
+              <div class="flex gap-2">
+                <button class="bg-surface border border-gray-600 px-3 py-1.5 rounded-lg hover:bg-gray-700 text-sm flex items-center gap-1"><i data-lucide="layers" class="w-4 h-4"></i> Layers</button>
+                <button class="bg-primary px-3 py-1.5 rounded-lg hover:bg-secondary text-sm flex items-center gap-1 shadow-lg shadow-primary/20"><i data-lucide="plus" class="w-4 h-4"></i> Add Plot</button>
+              </div>
+            </div>
+            <div class="flex-1 glass-card rounded-xl overflow-hidden relative border border-gray-700 p-1">
+              <div id="map" class="rounded-lg"></div>
+              <div class="absolute bottom-4 left-4 glass p-4 rounded-lg z-10 max-w-xs border border-gray-700 shadow-xl">
+                <p class="text-sm font-semibold mb-2 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4 text-success"></i> IoT Telemetry Live</p>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                  <div class="bg-dark/60 p-2 rounded border border-gray-700">Soil: <span class="text-green-400 font-mono">62%</span></div>
+                  <div class="bg-dark/60 p-2 rounded border border-gray-700">Temp: <span class="text-yellow-400 font-mono">24.5°C</span></div>
+                  <div class="bg-dark/60 p-2 rounded border border-gray-700">pH: <span class="text-blue-400 font-mono">6.8</span></div>
+                  <div class="bg-dark/60 p-2 rounded border border-gray-700">N: <span class="text-purple-400 font-mono">12mg/kg</span></div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      },
+      viewAILab() {
+        return `
+          <div class="fade-in space-y-6">
+            <h1 class="text-2xl font-bold">AI Diagnostics & Knowledge Library</h1>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div class="glass-card p-5 rounded-xl lg:col-span-2 border border-gray-700">
+                <h3 class="font-semibold mb-4">Pest, Disease & Soil Microbiome Analysis</h3>
+                <div class="border-2 border-dashed border-gray-600 rounded-xl p-8 flex flex-col items-center justify-center text-center hover:border-primary transition cursor-pointer group relative overflow-hidden bg-dark/30" onclick="document.getElementById('ai-file').click()">
+                  <input id="ai-file" type="file" class="hidden" onchange="SenaERP.runAI(this)" accept="image/*" />
+                  <i data-lucide="upload-cloud" class="w-12 h-12 text-gray-400 mb-3 group-hover:text-primary transition"></i>
+                  <p class="font-medium">Upload Image for AI Analysis</p>
+                  <p class="text-xs text-gray-400 mt-1">Supports: JPG, PNG, TIFF | Cloud GPU Inference</p>
+                </div>
+                <div id="ai-result" class="mt-4 hidden glass p-4 rounded-lg border-l-4 border-success border border-gray-700">
+                  <div class="w-full">
+                    <p class="font-bold text-success flex items-center gap-2 mb-2"><i data-lucide="check-circle" class="w-5 h-5"></i> Analysis Complete</p>
+                    <div id="ai-img-preview" class="mt-2 mb-3 hidden"></div>
+                    <div class="bg-dark/50 p-3 rounded border border-gray-700 text-sm text-gray-300 mb-3" id="ai-text">Processing...</div>
+                    <div class="flex gap-2 flex-wrap text-xs">
+                      <span class="bg-gray-800 px-2 py-1 rounded border border-gray-700">Model: ResNet50-Agri</span>
+                      <span class="bg-gray-800 px-2 py-1 rounded border border-gray-700">Conf: 98.4%</span>
+                      <span class="bg-gray-800 px-2 py-1 rounded border border-gray-700">Action: Fungicide</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="glass-card p-5 rounded-xl border border-gray-700 flex flex-col">
+                <h3 class="font-semibold mb-3">Knowledge & Extension Library</h3>
+                <div class="space-y-2 flex-1 max-h-80 overflow-y-auto scrollbar-hide">
+                  ${[
+                    {icon:'book-open', t:'FAO Soil Fertility & Mgmt'},
+                    {icon:'video', t:'Integrated Pest Mgmt (Video)'},
+                    {icon:'mic', t:'Water Potential Audio Guide'},
+                    {icon:'bar-chart-2', t:'Ethio-Commodity Market Trends'},
+                    {icon:'shield', t:'Organic Cert Compliance Guide'},
+                    {icon:'file-spreadsheet', t:'ERP & Accounting Best Practices'}
+                  ].map(r=>`<div class="p-3 bg-dark/40 rounded border border-gray-700 hover:bg-gray-700/50 cursor-pointer transition flex items-center gap-3"><i data-lucide="${r.icon}" class="w-4 h-4 text-primary flex-shrink-0"></i><span class="text-sm">${r.t}</span></div>`).join('')}
+                </div>
+                <button onclick="SenaERP.toast('Connecting to DTVP & FAO databases...','info')" class="w-full mt-4 py-2 bg-surface rounded-lg hover:bg-gray-700 text-sm border border-gray-600 transition">Sync External Resources</button>
+              </div>
+            </div>
+          </div>`;
+      },
+      viewLogistics() {
+        const rows = this.state.shipments.map(s => `
+          <tr class="border-b border-gray-700 hover:bg-gray-800/40 transition">
+            <td class="p-3 text-sm font-mono">${s.id}</td>
+            <td class="p-3 text-sm font-medium">${s.product}</td>
+            <td class="p-3 text-sm text-gray-400">${s.origin} <span class="mx-1">→</span> ${s.dest}</td>
+            <td class="p-3 text-sm">${s.eta}</td>
+            <td class="p-3 text-sm"><span class="px-2 py-1 rounded-full text-xs bg-blue-900/40 text-blue-400">${s.status}</span></td>
+            <td class="p-3 text-sm font-mono ${parseFloat(s.temp)<5?'text-blue-400':'text-yellow-400'}">${s.temp}</td>
+          </tr>`).join('');
+        return `
+          <div class="fade-in space-y-6">
+            <h1 class="text-2xl font-bold">Cold-Chain & Logistics Management</h1>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              ${this.kpiCard('Active Shipments', this.state.shipments.length.toString(), '+1', 'blue')}
+              ${this.kpiCard('Avg Temp Stability', '4.2°C', '99.8%', 'success')}
+              ${this.kpiCard('Delivery On-Time', '98.5%', '+1.2%', 'success')}
+            </div>
+            <div class="glass-card rounded-xl overflow-hidden border border-gray-700">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left min-w-[600px]">
+                  <thead class="bg-gray-800/60 text-xs uppercase"><tr><th class="p-3 text-gray-400">ID</th><th class="p-3 text-gray-400">Product</th><th class="p-3 text-gray-400">Route</th><th class="p-3 text-gray-400">ETA</th><th class="p-3 text-gray-400">Status</th><th class="p-3 text-gray-400">Temp</th></tr></thead>
+                  <tbody>${rows}</tbody>
+                </table>
+              </div>
+            </div>
+            <div class="glass-card p-5 rounded-xl border border-gray-700">
+              <h3 class="font-semibold mb-4">Supply Chain Tracker</h3>
+              <div class="flex items-center justify-between p-4 bg-dark/40 rounded-lg border border-gray-700">
+                <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-blue-900/40 flex items-center justify-center text-blue-400"><i data-lucide="truck" class="w-4 h-4"></i></div><div><p class="font-medium">Shipment #SHP-901</p><p class="text-xs text-gray-400">Departed Addis Ababa</p></div></div>
+                <div class="w-1/2 bg-gray-700 h-2 rounded-full overflow-hidden"><div class="bg-blue-500 h-full w-[75%]"></div></div>
+                <span class="text-xs font-mono text-blue-400">75%</span>
+              </div>
+            </div>
+          </div>`;
+      },
+      viewWorkforce() {
+        const rows = this.state.tasks.map(t => `
+          <tr class="border-b border-gray-700 hover:bg-gray-800/40 transition">
+            <td class="p-3 text-sm font-mono">${t.id}</td>
+            <td class="p-3 text-sm">${t.assignee}</td>
+            <td class="p-3 text-sm">${t.task}</td>
+            <td class="p-3 text-sm">${t.deadline}</td>
+            <td class="p-3"><span class="px-2 py-1 rounded-full text-xs ${t.status==='Pending'?'bg-yellow-900/30 text-yellow-400':'bg-blue-900/30 text-blue-400'}">${t.status}</span></td>
+          </tr>`).join('');
+        return `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center">
+              <h1 class="text-2xl font-bold">Workforce & Smart Task Scheduler</h1>
+              <button onclick="SenaERP.toast('New task assignment workflow initialized.','info')" class="bg-primary px-4 py-2 rounded-lg hover:bg-secondary flex items-center gap-2 shadow-lg shadow-primary/20 transition"><i data-lucide="plus" class="w-4 h-4"></i> Assign Task</button>
+            </div>
+            <div class="glass-card rounded-xl overflow-hidden border border-gray-700">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left min-w-[500px]">
+                  <thead class="bg-gray-800/60 text-xs uppercase"><tr><th class="p-3 text-gray-400">ID</th><th class="p-3 text-gray-400">Assignee</th><th class="p-3 text-gray-400">Task</th><th class="p-3 text-gray-400">Deadline</th><th class="p-3 text-gray-400">Status</th></tr></thead>
+                  <tbody>${rows}</tbody>
+                </table>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-3">Digital Extension & Training</h3>
+                <div class="p-4 bg-dark/40 rounded border border-gray-700 flex items-center gap-3 cursor-pointer hover:bg-gray-700/30 transition">
+                  <i data-lucide="book-open" class="w-5 h-5 text-primary"></i>
+                  <div><p class="font-medium text-sm">New Pest Identification Guide</p><p class="text-xs text-gray-400">Updated for Season 2026/27</p></div>
+                </div>
+              </div>
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-3">Weather & ET0 Forecast</h3>
+                <div class="grid grid-cols-3 gap-2 text-center">
+                  <div class="p-2 bg-dark/40 rounded border border-gray-700"><p class="text-xs text-gray-400">Current Temp</p><p class="font-bold">${this.state.external.weather.temperature}°C</p><i data-lucide="sun" class="w-4 h-4 mx-auto text-yellow-400 mt-1"></i></div>
+                  <div class="p-2 bg-dark/40 rounded border border-gray-700"><p class="text-xs text-gray-400">Wind Speed</p><p class="font-bold">${this.state.external.weather.windspeed} km/h</p><i data-lucide="wind" class="w-4 h-4 mx-auto text-blue-400 mt-1"></i></div>
+                  <div class="p-2 bg-dark/40 rounded border border-gray-700"><p class="text-xs text-gray-400">Source</p><p class="font-bold">${this.state.external.weather.source}</p><i data-lucide="globe" class="w-4 h-4 mx-auto text-cyan-400 mt-1"></i></div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      },
+      viewSettings() {
+        return `
+          <div class="fade-in space-y-6">
+            <h1 class="text-2xl font-bold">Enterprise Settings & Admin</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4">System Configuration</h3>
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between p-3 bg-dark/40 rounded border border-gray-700">
+                    <span class="text-sm">Auto-Sync APIs</span>
+                    <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" checked class="sr-only peer"><div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div></label>
+                  </div>
+                  <div class="flex items-center justify-between p-3 bg-dark/40 rounded border border-gray-700">
+                    <span class="text-sm">High-Res Imagery</span>
+                    <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" checked class="sr-only peer"><div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div></label>
+                  </div>
+                </div>
+              </div>
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4">Database & Security</h3>
+                <div class="space-y-2">
+                  <button onclick="SenaERP.exportData('json')" class="w-full p-2 bg-surface rounded hover:bg-gray-700 text-sm border border-gray-600 transition flex items-center gap-2"><i data-lucide="database" class="w-4 h-4"></i> Backup to JSON</button>
+                  <button onclick="SenaERP.toast('Cache cleared successfully','info')" class="w-full p-2 bg-surface rounded hover:bg-gray-700 text-sm border border-gray-600 transition flex items-center gap-2"><i data-lucide="trash" class="w-4 h-4"></i> Clear Local Cache</button>
+                  <div class="p-3 bg-green-900/20 border border-green-800 rounded text-xs text-green-400 flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4"></i> Data Encryption: Active (AES-256)</div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      },
+      // ================= COMPONENTS & HELPERS =================
+      kpiCard(label, value, change, color) {
+        const c = color === 'success' ? 'text-success' : color === 'danger' ? 'text-danger' : color === 'yellow' ? 'text-warning' : color === 'orange' ? 'text-orange-400' : 'text-blue-400';
+        return `<div class="glass-card p-5 rounded-xl border border-gray-700 hover:border-gray-600 transition shadow-md">
+          <p class="text-gray-400 text-xs mb-1 uppercase tracking-wider">${label}</p>
+          <p class="text-3xl font-bold">${value}</p>
+          <p class="text-sm mt-2 ${c} flex items-center gap-1"><i data-lucide="${change.startsWith('+')?'trending-up':'trending-down'}" class="w-3 h-3"></i>${change} vs last qtr</p>
+        </div>`;
+      },
+      openContractModal() {
+        const m = document.getElementById('contract-modal');
+        if(!m) return;
+        m.classList.remove('hidden');
+        const f = document.getElementById('contract-form');
+        if(!f) return;
+        f.reset();
+        f.onsubmit = (e) => {
+          e.preventDefault();
+          const newC = {
+            id: `CTR-${Math.floor(Math.random()*9000)+1000}`,
+            farmer: document.getElementById('c-farmer').value,
+            crop: document.getElementById('c-crop').value,
+            area: parseFloat(document.getElementById('c-area').value),
+            value: parseFloat(document.getElementById('c-value').value),
+            status: 'Active'
+          };
+          this.state.contracts.push(newC);
+          localStorage.setItem('sena_contracts', JSON.stringify(this.state.contracts));
+          m.classList.add('hidden');
+          this.render();
+          this.toast('Contract registered & synced to DTVP.', 'success');
+        };
+      },
+      deleteContract(id) {
+        if(!confirm('Permanently remove this contract from records?')) return;
+        this.state.contracts = this.state.contracts.filter(c => c.id !== id);
+        localStorage.setItem('sena_contracts', JSON.stringify(this.state.contracts));
+        this.render();
+        this.toast('Contract removed.', 'warning');
+      },
+      addToCart(id) {
+        const prod = this.state.products.find(p => p.id === id);
+        if(!prod) return;
+        this.state.cart.push(prod);
+        this.updateCartCount();
+        this.renderCart();
+        this.toast(`Added ${prod.name} to procurement bundle`, 'info');
+      },
+      updateCartCount() {
+        const el = document.getElementById('cart-count');
+        if(el) el.textContent = this.state.cart.length;
+      },
+      toggleCart() {
+        const el = document.getElementById('supply-cart');
+        if(el) el.classList.toggle('translate-x-full');
+      },
+      renderCart() {
+        const container = document.getElementById('cart-items');
+        const totalEl = document.getElementById('cart-total');
+        if(!container || !totalEl) return;
+        if(this.state.cart.length === 0) {
+          container.innerHTML = '<p class="text-center text-gray-500 mt-4 text-sm">Cart is empty</p>';
+          totalEl.textContent = '0.00';
+          return;
+        }
+        container.innerHTML = this.state.cart.map((p, i) => `
+          <div class="flex justify-between items-center p-3 bg-dark/50 rounded border border-gray-700">
+            <div class="text-sm"><p class="font-medium truncate max-w-[150px]">${p.name}</p><p class="text-xs text-gray-400">${p.type}</p></div>
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-mono">$${p.price.toFixed(2)}</span>
+              <button onclick="SenaERP.removeFromCart(${i})" class="text-red-400 hover:text-red-300"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>
+          </div>`).join('');
+        if(lucide) lucide.createIcons({nodes: container});
+        const total = this.state.cart.reduce((s, p) => s + p.price, 0);
+        totalEl.textContent = total.toFixed(2);
+      },
+      removeFromCart(idx) {
+        this.state.cart.splice(idx, 1);
+        this.updateCartCount();
+        this.renderCart();
+      },
+      checkout() {
+        if(this.state.cart.length === 0) return this.toast('Cart is empty', 'warning');
+        const total = this.state.cart.reduce((s, p) => s + p.price, 0);
+        this.state.ledgers.unshift({ id: `PO-${Math.floor(Math.random()*9000)+1000}`, date: new Date().toISOString().split('T')[0], desc: `Input Bundle Purchase`, amount: -total, type: 'expense', status: 'Pending' });
+        localStorage.setItem('sena_ledgers', JSON.stringify(this.state.ledgers));
+        this.state.cart = [];
+        this.updateCartCount();
+        this.toggleCart();
+        this.toast(`Procurement order ($${total.toFixed(2)}) submitted to finance.`, 'success');
+      },
+      runAI(input) {
+        if(!input || !input.files || input.files.length === 0) return;
+        const res = document.getElementById('ai-result');
+        const txt = document.getElementById('ai-text');
+        const prev = document.getElementById('ai-img-preview');
+        if(!res || !txt || !prev) return;
+        
+        res.classList.remove('hidden');
+        txt.innerHTML = `<div class="loader inline-block mr-2 align-middle"></div> Analyzing via Cloud Neural Network...`;
+        prev.innerHTML = `<img src="${URL.createObjectURL(input.files[0])}" class="max-h-32 w-auto rounded-lg border border-gray-600 shadow-lg">`;
+        prev.classList.remove('hidden');
+        
+        setTimeout(() => {
+          txt.innerHTML = `<p class="font-medium">Diagnosis: Early Blight (Alternaria solani)</p><p class="text-xs mt-1 text-gray-400">Confidence: 98.4% | Soil N: Sub-optimal</p><p class="mt-2 text-sm border-t border-gray-700 pt-2"><span class="text-primary font-semibold">Recommended Action:</span> Apply copper-based fungicide (2g/L). Adjust irrigation schedule and supplement with organic compost to increase soil moisture retention.</p>`;
+          if(lucide) lucide.createIcons({nodes: res});
+          this.toast('AI Analysis complete.', 'success');
+        }, 2500);
+      },
+      initDashChart() {
+        const ctx = document.getElementById('dash-chart');
+        if(!ctx) return;
+        if(this.charts.dash) this.charts.dash.destroy();
+        this.charts.dash = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+            datasets: [
+              { label: 'Yield (tons)', data: [45, 52, 48, 61, 55, 68], borderColor: '#10B981', tension: 0.4, fill: true, backgroundColor: 'rgba(16, 185, 129, 0.1)' },
+              { label: 'Market Price ($/kg)', data: [3.2, 3.5, 3.8, 4.1, 4.5, 4.3], borderColor: '#F59E0B', tension: 0.4, yAxisID: 'y1' }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: { legend: { labels: { color: '#9CA3AF' } } },
+            scales: {
+              x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9CA3AF' } },
+              y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9CA3AF' } },
+              y1: { position: 'right', grid: { display: false }, ticks: { color: '#F59E0B' } }
+            }
+          }
+        });
+      },
+      initFinanceChart() {
+        const ctx = document.getElementById('finance-chart');
+        if(!ctx) return;
+        if(this.charts.finance) this.charts.finance.destroy();
+        this.charts.finance = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+            datasets: [
+              { label: 'Revenue', data: [4500, 5200, 4800, 6100, 5500, 6400], backgroundColor: '#10B981', borderRadius: 4 },
+              { label: 'Cost', data: [3000, 2800, 3500, 4000, 3800, 4200], backgroundColor: '#EF4444', borderRadius: 4 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: '#9CA3AF' } } },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: '#9CA3AF' } },
+              y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9CA3AF' } }
+            }
+          }
+        });
+      },
+      initMap() {
+        setTimeout(() => {
+          if (this.charts.map) { this.charts.map.remove(); this.charts.map = null; }
+          const el = document.getElementById('map');
+          if(!el) return;
+          const map = L.map('map').setView([8.5, 38.5], 12);
+          this.charts.map = map;
+          L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '© OpenStreetMap, © CARTO' }).addTo(map);
+          
+          const plot = L.polygon([[8.51, 38.49], [8.52, 38.52], [8.50, 38.53], [8.49, 38.50]], { color: '#10B981', fillOpacity: 0.2, fillColor: '#10B981' }).addTo(map);
+          plot.bindPopup('Plot A-12 | Crop: Avocado | Status: Healthy');
+          
+          L.circleMarker([8.5, 38.5], { radius: 6, color: '#F59E0B', fillOpacity: 1 }).addTo(map).bindPopup('Soil Sensor #S1 | Moisture: 62%');
+          L.circleMarker([8.52, 38.53], { radius: 6, color: '#3B82F6', fillOpacity: 1 }).addTo(map).bindPopup('Weather Station #S2 | Temp: 24.1°C');
+          L.circleMarker([8.48, 38.49], { radius: 6, color: '#EF4444', fillOpacity: 1 }).addTo(map).bindPopup('⚠️ pH Sensor #S3 | Alert');
+          
+          L.control.scale().addTo(map);
+          map.invalidateSize();
+        }, 100);
+      },
+      registerServiceWorker() {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('sw.js').then(() => {
+            this.toast('Offline & install support enabled.', 'success');
+          }).catch(() => {
+            this.toast('PWA support registration failed.', 'warning');
+          });
+        }
+      },
+      promptInstall() {
+        if (!this.state.deferredPrompt) return this.toast('Install prompt not ready yet.', 'info');
+        this.state.deferredPrompt.prompt();
+        this.state.deferredPrompt.userChoice.then(choice => {
+          if (choice.outcome === 'accepted') {
+            this.toast('App install accepted.', 'success');
+          } else {
+            this.toast('App install dismissed.', 'warning');
+          }
+          this.state.deferredPrompt = null;
+          const installBtn = document.getElementById('install-btn');
+          if (installBtn) installBtn.classList.add('hidden');
+        });
+      },
+      loadRemoteIndicators() {
+        const url = 'https://api.open-meteo.com/v1/forecast?latitude=8.5&longitude=38.5&current_weather=true&timezone=Africa%2FAddis_Ababa';
+        fetch(url).then(res => res.json()).then(data => {
+          if (data?.current_weather) {
+            this.state.external.weather = {
+              temperature: data.current_weather.temperature.toFixed(1),
+              windspeed: data.current_weather.windspeed.toFixed(1),
+              description: 'Live Weather',
+              forecast: `${data.current_weather.temperature.toFixed(1)}°C`,
+              source: 'Open-Meteo'
+            };
+            this.render();
+          }
+        }).catch(() => {
+          this.toast('Live weather data unavailable, using demo metrics.', 'warning');
+        });
+      },
+      exportData(format) {
+        const modal = document.getElementById('export-modal');
+        if(modal) modal.classList.add('hidden');
+        
+        if (format === 'csv') {
+          const csv = Papa.unparse({ fields: ['ID','Date','Desc','Amount','Type','Status'], data: this.state.ledgers.map(l=>[l.id, l.date, l.desc, Math.abs(l.amount), l.type, l.status]) });
+          this.downloadFile(csv, 'SenaERP_Ledger_Export.csv', 'text/csv');
+          this.toast('CSV ledger exported.', 'success');
+        } else if (format === 'json') {
+          const blob = new Blob([JSON.stringify(this.state, null, 2)], {type: 'application/json'});
+          this.downloadFile(blob, 'SenaERP_Full_Backup.json', 'application/json');
+          this.toast('System backup downloaded.', 'success');
+        } else if (format === 'pdf') {
+          try {
+            const { jsPDF } = window.jspdf || {};
+            if (!jsPDF) throw new Error('PDF library unavailable');
+            const doc = new jsPDF({ orientation: 'landscape' });
+            doc.setFontSize(16);
+            doc.text('Sena FarmERP v7.0 Ledger Report', 14, 18);
+            doc.setFontSize(10);
+            const headers = ['ID', 'Date', 'Description', 'Amount', 'Type', 'Status'];
+            const rows = this.state.ledgers.map(l => [l.id, l.date, l.desc, `${l.type==='income'?'+':'-'}$${Math.abs(l.amount).toLocaleString()}`, l.type, l.status]);
+            let y = 28;
+            doc.text(headers.join(' | '), 14, y);
+            y += 6;
+            rows.forEach(row => {
+              if (y > 180) { doc.addPage(); y = 20; }
+              doc.text(row.join(' | '), 14, y);
+              y += 7;
+            });
+            doc.save('SenaERP_Ledger_Report.pdf');
+            this.toast('PDF report downloaded.', 'success');
+          } catch (error) {
+            this.toast('PDF export unavailable. Please refresh and try again.', 'warning');
+          }
+        } else {
+          this.toast('Export format not recognized.', 'warning');
+        }
+      },
+      downloadFile(content, filename, type) {
+        const blob = new Blob([content], { type });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename;
+        document.body.appendChild(a); a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      },
+      toast(msg, type='info') {
+        const c = document.getElementById('toast-container');
+        if(!c) return;
+        const t = document.createElement('div');
+        t.className = `pointer-events-auto p-4 rounded-lg shadow-lg border-l-4 flex items-center gap-3 fade-in min-w-[280px] ${type==='success'?'border-green-500 bg-panel':type==='warning'?'border-yellow-500 bg-panel':'border-blue-500 bg-panel'}`;
+        t.innerHTML = `<i data-lucide="${type==='success'?'check-circle':type==='warning'?'alert-triangle':'info'}" class="w-5 h-5 flex-shrink-0 ${type==='success'?'text-green-400':type==='warning'?'text-yellow-400':'text-blue-400'}"></i><span class="text-sm text-gray-200">${msg}</span>`;
+        c.appendChild(t);
+        if(lucide) lucide.createIcons({ nodes: [t] });
+        setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(() => t.remove(), 300); }, 4000);
+      }
+    };
+    document.addEventListener('DOMContentLoaded', () => SenaERP.init());
+  </script>
+</body>
 </html>
+```

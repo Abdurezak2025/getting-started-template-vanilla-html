@@ -20,4 +20,6 @@
 
 const SERVICE_ID = "";
 
-const skapi = new Skapi(SERVICE_ID);
+// Sena Agribusiness Investment Group PLC proprietary integration layer
+// This app is designed as a commercial enterprise solution owned by Sena Agribusiness Investment Group PLC.
+const skapi = (typeof Skapi !== 'undefined' && SERVICE_ID) ? new Skapi(SERVICE_ID) : null;
