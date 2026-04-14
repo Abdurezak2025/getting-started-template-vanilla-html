@@ -8,6 +8,7 @@
   <meta name="description" content="Sena FarmERP v7.0 - Commercial enterprise AI agribusiness platform by Sena Agribusiness Investment Group PLC" />
   <meta name="author" content="Sena Agribusiness Investment Group PLC" />
   <meta name="theme-color" content="#0F766E" />
+  <link rel="icon" href="https://ui-avatars.com/api/?name=S&background=0F766E&color=fff&size=32" type="image/png" />
   <title>Sena FarmERP v7.0 | Sena Agribusiness Investment Group PLC</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1086,6 +1087,7 @@
           }
         });
       },
+      initFinanceChart() {
         const ctx = document.getElementById('finance-chart');
         if(!ctx) return;
         if(this.charts.finance) this.charts.finance.destroy();
@@ -1800,6 +1802,23 @@
         this.toast('Full inventory system opened. Track stock levels, manage supplies, and optimize SKU distribution.', 'info');
       },
       toast(msg, type='info') {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+        const colors = {
+          success: 'bg-emerald-600/95 border-emerald-400 text-emerald-100',
+          warning: 'bg-amber-700/95 border-amber-400 text-amber-100',
+          danger: 'bg-rose-700/95 border-rose-400 text-rose-100',
+          info: 'bg-slate-800/95 border-slate-600 text-slate-100'
+        };
+        const toast = document.createElement('div');
+        toast.className = `glass-card border px-4 py-3 rounded-xl shadow-lg shadow-black/20 transition ${colors[type] || colors.info}`;
+        toast.innerHTML = `<div class="flex items-center gap-3"><span class="text-sm leading-snug">${msg}</span></div>`;
+        container.appendChild(toast);
+        window.setTimeout(() => {
+          toast.classList.add('opacity-0');
+          window.setTimeout(() => toast.remove(), 400);
+        }, 4200);
+      }
     };
     document.addEventListener('DOMContentLoaded', () => SenaERP.init());
   </script>
