@@ -165,12 +165,17 @@
             <button data-route="dashboard" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left bg-gray-800/60 border-l-2 border-primary text-primary"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span class="text-sm font-medium">Digital Twin HQ</span></button>
             <button data-route="ai-lab" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="brain" class="w-4 h-4 text-pink-400"></i><span class="text-sm font-medium">AI Diagnostics</span></button>
             <button data-route="gis" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="map" class="w-4 h-4 text-red-400"></i><span class="text-sm font-medium">GIS & IoT Map</span></button>
+            <button data-route="weather" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="cloud-sun" class="w-4 h-4 text-indigo-400"></i><span class="text-sm font-medium">Weather Forecast AI</span></button>
           </div>
         </div>
         <div class="flex-1 overflow-y-auto scrollbar-hide p-2 space-y-1">
           <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3 mt-4">Management</p>
           <button data-route="contracts" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="file-signature" class="w-4 h-4 text-blue-400"></i><span class="text-sm font-medium">Contract Admin</span></button>
+          <button data-route="extension-service" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="headphones" class="w-4 h-4 text-teal-400"></i><span class="text-sm font-medium">Digital Extension</span></button>
           <button data-route="supply" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="shopping-cart" class="w-4 h-4 text-green-400"></i><span class="text-sm font-medium">Agri-Input Supply</span></button>
+          <button data-route="seed-production" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="sprout" class="w-4 h-4 text-lime-400"></i><span class="text-sm font-medium">Seed Production</span></button>
+          <button data-route="soil-lab" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="test-tubes" class="w-4 h-4 text-yellow-300"></i><span class="text-sm font-medium">Soil Laboratory</span></button>
+          <button data-route="plant-clinic" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="bug" class="w-4 h-4 text-red-300"></i><span class="text-sm font-medium">Plant Clinic</span></button>
           <button data-route="finance" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="landmark" class="w-4 h-4 text-yellow-400"></i><span class="text-sm font-medium">Finance & P&L</span></button>
           <button data-route="logistics" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="truck" class="w-4 h-4 text-cyan-400"></i><span class="text-sm font-medium">Cold-Chain Logistics</span></button>
           <button data-route="workforce" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="users" class="w-4 h-4 text-purple-400"></i><span class="text-sm font-medium">Workforce & Tasks</span></button>
@@ -244,10 +249,10 @@
       },
       charts: {},
       i18n: {
-        en: { dashboard: 'Digital Twin HQ', contracts: 'Contract Admin', supply: 'Input Supply', finance: 'Finance & P&L', compliance: 'Quality & Cert', gis: 'GIS & IoT', ai: 'AI Diagnostics', logistics: 'Cold-Chain', workforce: 'Workforce', settings: 'Settings' },
-        am: { dashboard: 'ዲጂታል ትዊን ዋና ጽ/ቤት', contracts: 'የኮንትራት አስተዳደር', supply: 'የግብዓት አቅርቦት', finance: 'ፋይናንስ', compliance: 'ጥራት እና ሰርተፊኬት', gis: 'ጂአይኤስ', ai: 'የአርተፊሻል ኢንተለጀንስ', logistics: 'ቅዝቃዜ ሎጂስቲክስ', workforce: 'ሰራተኞች', settings: 'ቅንብሮች' },
-        de: { dashboard: 'Digitaler Zwilling', contracts: 'Vertragsverwaltung', supply: 'Input-Versorgung', finance: 'Finanzen & GuV', compliance: 'Qualität & Zert.', gis: 'GIS & IoT', ai: 'KI-Diagnose', logistics: 'Kühllogistik', workforce: 'Arbeitskräfte', settings: 'Einstellungen' },
-        om: { dashboard: 'Dijitaala Taayitaa', contracts: 'Bulchiinsa Waliigaltee', supply: 'Kaffaltii Qabeenya', finance: 'Maallaqa fi Qabeenya', compliance: 'Hojii Gaarii fi Meeshaa', gis: 'GIS fi IoT', ai: 'Ogummaa Artificial Intelligence', logistics: 'Logistiiksii Qabannaan', workforce: 'Hojjettoota', settings: 'Kaayyoo fi Qindaa\'ina' }
+        en: { dashboard: 'Digital Twin HQ', contracts: 'Contract Admin', 'extension-service': 'Digital Extension', supply: 'Input Supply', 'seed-production': 'Seed Production', 'soil-lab': 'Soil Laboratory', 'plant-clinic': 'Plant Clinic', finance: 'Finance & P&L', compliance: 'Quality & Cert', gis: 'GIS & IoT', weather: 'Weather Forecast AI', ai: 'AI Diagnostics', logistics: 'Cold-Chain', workforce: 'Workforce', settings: 'Settings' },
+        am: { dashboard: 'ዲጂታል ትዊን ዋና ጽ/ቤት', contracts: 'የኮንትራት አስተዳደር', 'extension-service': 'ዲጂታል ራዕይ', supply: 'የግብዓት አቅርቦት', 'seed-production': 'ዘር ማምረት', 'soil-lab': ' почвар ላብራቶሪ', 'plant-clinic': 'የእጽዋት ክሊኒክ', finance: 'ፋይናንስ', compliance: 'ጥራት እና ሰርተፊኬት', gis: 'ጂአይኤስ', weather: 'የአየር ንግግር ትንበያ', ai: 'የአርተፊሻል ኢንተለጀንስ', logistics: 'ቅዝቃዜ ሎጂስቲክስ', workforce: 'ሰራተኞች', settings: 'ቅንብሮች' },
+        de: { dashboard: 'Digitaler Zwilling', contracts: 'Vertragsverwaltung', 'extension-service': 'Digitale Erweiterung', supply: 'Input-Versorgung', 'seed-production': 'Saatgutproduktion', 'soil-lab': 'Bodenlabor', 'plant-clinic': 'Pflanzenklinik', finance: 'Finanzen & GuV', compliance: 'Qualität & Zert.', gis: 'GIS & IoT', weather: 'Wettervorhersage KI', ai: 'KI-Diagnose', logistics: 'Kühllogistik', workforce: 'Arbeitskräfte', settings: 'Einstellungen' },
+        om: { dashboard: 'Dijitaala Taayitaa', contracts: 'Bulchiinsa Waliigaltee', 'extension-service': 'Dijitaala Bal\'inaan', supply: 'Kaffaltii Qabeenya', 'seed-production': 'Iji Ijaarsa', 'soil-lab': 'Laaboratoorii Jiidha', 'plant-clinic': 'Kilinikii Muuxannoo', finance: 'Maallaqa fi Qabeenya', compliance: 'Hojii Gaarii fi Meeshaa', gis: 'GIS fi IoT', weather: 'Raawwii Qilleensaa AI', ai: 'Ogummaa Artificial Intelligence', logistics: 'Logistiiksii Qabannaan', workforce: 'Hojjettoota', settings: 'Kaayyoo fi Qindaa\'ina' }
       },
       init() {
         this.loadState();
@@ -360,10 +365,15 @@
         const views = {
           dashboard: this.viewDashboard(),
           contracts: this.viewContracts(),
+          'extension-service': this.viewExtensionService(),
           supply: this.viewSupply(),
+          'seed-production': this.viewSeedProduction(),
+          'soil-lab': this.viewSoilLab(),
+          'plant-clinic': this.viewPlantClinic(),
           finance: this.viewFinance(),
           compliance: this.viewCompliance(),
           gis: this.viewGIS(),
+          weather: this.viewWeather(),
           'ai-lab': this.viewAILab(),
           logistics: this.viewLogistics(),
           workforce: this.viewWorkforce(),
@@ -382,6 +392,9 @@
         if (route === 'gis') setTimeout(() => this.initMap(), 50);
         if (route === 'supply') this.renderCart();
         if (route === 'dashboard') setTimeout(() => this.initDashChart(), 50);
+        if (route === 'weather') setTimeout(() => this.initWeatherChart(), 50);
+        if (route === 'seed-production') setTimeout(() => this.initSeedChart(), 50);
+        if (route === 'soil-lab') setTimeout(() => this.initSoilChart(), 50);
       },
       syncData() {
         const btn = document.getElementById('sync-btn');
@@ -462,18 +475,76 @@
               </div>
             </div>
             <div id="contract-modal" class="fixed inset-0 z-40 hidden flex items-center justify-center modal-backdrop p-4">
-              <div class="glass-card w-full max-w-lg p-6 rounded-xl fade-in border-t-4 border-t-primary">
-                <h2 class="text-xl font-bold mb-4">Register New Contract</h2>
-                <form id="contract-form" class="space-y-4">
-                  <input id="c-farmer" placeholder="Farmer / Cooperative Name" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
-                  <div class="grid grid-cols-2 gap-4">
-                    <input id="c-crop" placeholder="Crop Type" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
-                    <input id="c-area" type="number" step="0.01" placeholder="Area (ha)" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+              <div class="glass-card w-full max-w-4xl p-6 rounded-xl fade-in border-t-4 border-t-primary max-h-[90vh] overflow-y-auto">
+                <h2 class="text-xl font-bold mb-4">Contract Agreement Details</h2>
+                <form id="contract-form" class="space-y-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                      <h3 class="font-semibold text-lg border-b border-gray-700 pb-2">Basic Information</h3>
+                      <input id="c-farmer" placeholder="Farmer / Cooperative Name" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                      <div class="grid grid-cols-2 gap-4">
+                        <input id="c-crop" placeholder="Crop Type (e.g., Maize, Teff, Wheat)" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                        <input id="c-variety" placeholder="Crop Variety" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                      </div>
+                      <div class="grid grid-cols-2 gap-4">
+                        <input id="c-area" type="number" step="0.01" placeholder="Area (ha)" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                        <input id="c-volume" type="number" step="0.01" placeholder="Expected Volume (tons)" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                      </div>
+                      <input id="c-value" type="number" placeholder="Contract Value ($)" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                    </div>
+                    
+                    <div class="space-y-4">
+                      <h3 class="font-semibold text-lg border-b border-gray-700 pb-2">Contract Requirements</h3>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">Climate & Environment Compliance</label>
+                        <textarea placeholder="Temperature range, rainfall requirements, soil type specifications..." rows="2" class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2"></textarea>
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">Biodiversity & Organic Standards</label>
+                        <textarea placeholder="Organic certification requirements, biodiversity conservation measures..." rows="2" class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2"></textarea>
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">Quality Parameters</label>
+                        <textarea placeholder="Moisture content, impurity levels, size specifications, grading standards..." rows="2" class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2"></textarea>
+                      </div>
+                    </div>
                   </div>
-                  <input id="c-value" type="number" placeholder="Contract Value ($)" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
-                  <div class="flex gap-3 justify-end mt-4">
+                  
+                  <div class="space-y-4">
+                    <h3 class="font-semibold text-lg border-b border-gray-700 pb-2">Off-Market Agreement & Buyers</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">Off-Market Terms</label>
+                        <textarea placeholder="Exclusive supply agreements, minimum price guarantees, volume commitments..." rows="3" class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2"></textarea>
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">Potential Buyers</label>
+                        <textarea placeholder="Export markets, local processors, institutional buyers, cooperatives..." rows="3" class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="space-y-4">
+                    <h3 class="font-semibold text-lg border-b border-gray-700 pb-2">Standardized Crop Quality Setup</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">Quality Grade A (%)</label>
+                        <input type="number" min="0" max="100" placeholder="90" class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">Quality Grade B (%)</label>
+                        <input type="number" min="0" max="100" placeholder="8" class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1">Reject Grade (%)</label>
+                        <input type="number" min="0" max="100" placeholder="2" class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="flex gap-3 justify-end mt-6">
                     <button type="button" onclick="document.getElementById('contract-modal').classList.add('hidden')" class="px-4 py-2 rounded-lg border border-gray-600 hover:bg-gray-700 transition">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-primary rounded-lg hover:bg-secondary transition">Save Contract</button>
+                    <button type="submit" class="px-6 py-2 bg-primary rounded-lg hover:bg-secondary transition">Create Contract Agreement</button>
                   </div>
                 </form>
               </div>
@@ -498,26 +569,75 @@
         return `
           <div class="fade-in space-y-6">
             <div class="flex justify-between items-center flex-wrap gap-3">
-              <h1 class="text-2xl font-bold">Agri-Input Supply & E-Commerce</h1>
-              <div class="relative">
+              <h1 class="text-2xl font-bold">Bundled Agri-Inputs: Online Sales & Distribution Hub</h1>
+              <div class="flex gap-2">
+                <button onclick="SenaERP.viewOrders()" class="glass px-4 py-2 rounded-lg hover:bg-gray-700 flex items-center gap-2 transition border border-gray-700"><i data-lucide="list" class="w-4 h-4"></i> My Orders</button>
                 <button onclick="SenaERP.toggleCart()" class="glass px-4 py-2 rounded-lg hover:bg-gray-700 flex items-center gap-2 transition border border-gray-700">
                   <i data-lucide="shopping-cart" class="w-4 h-4"></i> Cart
                   <span id="cart-count" class="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">${this.state.cart.length}</span>
                 </button>
               </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${grid}</div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div class="glass-card p-4 rounded-xl border border-gray-700 flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-green-900/40 flex items-center justify-center"><i data-lucide="shopping-cart" class="w-6 h-6 text-green-400"></i></div>
+                <div>
+                  <p class="text-xs text-gray-400">Total Orders</p>
+                  <p class="font-bold text-lg">847</p>
+                </div>
+              </div>
+              <div class="glass-card p-4 rounded-xl border border-gray-700 flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-blue-900/40 flex items-center justify-center"><i data-lucide="package" class="w-6 h-6 text-blue-400"></i></div>
+                <div>
+                  <p class="text-xs text-gray-400">In Stock Items</p>
+                  <p class="font-bold text-lg">156</p>
+                </div>
+              </div>
+              <div class="glass-card p-4 rounded-xl border border-gray-700 flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-purple-900/40 flex items-center justify-center"><i data-lucide="truck" class="w-6 h-6 text-purple-400"></i></div>
+                <div>
+                  <p class="text-xs text-gray-400">In Transit</p>
+                  <p class="font-bold text-lg">34</p>
+                </div>
+              </div>
+              <div class="glass-card p-4 rounded-xl border border-gray-700 flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-yellow-900/40 flex items-center justify-center"><i data-lucide="dollar-sign" class="w-6 h-6 text-yellow-400"></i></div>
+                <div>
+                  <p class="text-xs text-gray-400">Sales This Month</p>
+                  <p class="font-bold text-lg">$125k</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="glass-card p-5 rounded-xl border border-gray-700">
+              <h3 class="font-semibold mb-4 flex items-center justify-between">
+                <span>Featured Input Bundles & Products</span>
+                <button onclick="SenaERP.openInventoryDashboard()" class="text-xs bg-surface border border-gray-600 hover:border-primary px-3 py-1 rounded transition">Full Inventory</button>
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${grid}</div>
+            </div>
+            
             <div id="supply-cart" class="fixed inset-y-0 right-0 w-80 glass-card border-l border-gray-800 transform translate-x-full transition-transform duration-300 z-40 p-4 flex flex-col shadow-2xl">
               <div class="flex justify-between items-center mb-4 border-b border-gray-700 pb-3">
-                <h2 class="font-bold">Your Bundle</h2>
+                <h2 class="font-bold">Procurement Bundle</h2>
                 <button onclick="SenaERP.toggleCart()"><i data-lucide="x" class="w-5 h-5"></i></button>
               </div>
               <div id="cart-items" class="flex-1 overflow-y-auto space-y-3 scrollbar-hide"></div>
               <div class="mt-4 border-t border-gray-700 pt-3 space-y-3">
                 <div class="flex justify-between font-bold text-lg mb-1">Total: $<span id="cart-total">0.00</span></div>
                 <input type="text" placeholder="Purchase Order # (Optional)" class="w-full bg-dark border border-gray-700 rounded px-3 py-2 text-sm">
-                <button onclick="SenaERP.checkout()" class="w-full bg-primary py-2.5 rounded-lg hover:bg-secondary transition shadow-lg shadow-primary/20 font-medium">Confirm Procurement</button>
-                <p class="text-[10px] text-center text-gray-500">Secured via DTVP & Corporate Banking</p>
+                <div class="space-y-2">
+                  <p class="text-xs text-gray-400">Payment Method:</p>
+                  <select class="w-full bg-dark border border-gray-700 rounded px-3 py-2 text-sm">
+                    <option>Bank Transfer</option>
+                    <option>Mobile Money (M-Pesa, AirtelMoney)</option>
+                    <option>Stripe/PayPal</option>
+                    <option>Deferred (30-day Credit)</option>
+                  </select>
+                </div>
+                <button onclick="SenaERP.checkout()" class="w-full bg-primary py-2.5 rounded-lg hover:bg-secondary transition shadow-lg shadow-primary/20 font-medium">Confirm Order & Pay</button>
+                <p class="text-[10px] text-center text-gray-500">🔒 Secured Payment | Instant Confirmation | Free Delivery Above $50</p>
               </div>
             </div>
           </div>`;
@@ -684,6 +804,52 @@
                 <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-blue-900/40 flex items-center justify-center text-blue-400"><i data-lucide="truck" class="w-4 h-4"></i></div><div><p class="font-medium">Shipment #SHP-901</p><p class="text-xs text-gray-400">Departed Addis Ababa</p></div></div>
                 <div class="w-1/2 bg-gray-700 h-2 rounded-full overflow-hidden"><div class="bg-blue-500 h-full w-[75%]"></div></div>
                 <span class="text-xs font-mono text-blue-400">75%</span>
+              </div>
+            </div>
+            
+            <div class="glass-card p-5 rounded-xl border border-gray-700">
+              <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="wheat" class="w-5 h-5 text-amber-400"></i> Post-Harvest Value Chain</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="p-3 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="scissors" class="w-6 h-6 mx-auto text-green-400 mb-2"></i>
+                  <p class="text-sm font-medium">Harvesting</p>
+                  <p class="text-xs text-gray-400">Optimal timing & methods</p>
+                </div>
+                <div class="p-3 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="package" class="w-6 h-6 mx-auto text-blue-400 mb-2"></i>
+                  <p class="text-sm font-medium">Drying</p>
+                  <p class="text-xs text-gray-400">Moisture control & storage</p>
+                </div>
+                <div class="p-3 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="filter" class="w-6 h-6 mx-auto text-purple-400 mb-2"></i>
+                  <p class="text-sm font-medium">Cleaning</p>
+                  <p class="text-xs text-gray-400">Impurity removal & grading</p>
+                </div>
+                <div class="p-3 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="archive" class="w-6 h-6 mx-auto text-orange-400 mb-2"></i>
+                  <p class="text-sm font-medium">Storage</p>
+                  <p class="text-xs text-gray-400">Climate-controlled facilities</p>
+                </div>
+                <div class="p-3 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="truck" class="w-6 h-6 mx-auto text-cyan-400 mb-2"></i>
+                  <p class="text-sm font-medium">Transportation</p>
+                  <p class="text-xs text-gray-400">Cold-chain logistics</p>
+                </div>
+                <div class="p-3 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="factory" class="w-6 h-6 mx-auto text-red-400 mb-2"></i>
+                  <p class="text-sm font-medium">Processing</p>
+                  <p class="text-xs text-gray-400">Milling & value addition</p>
+                </div>
+                <div class="p-3 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="shopping-bag" class="w-6 h-6 mx-auto text-yellow-400 mb-2"></i>
+                  <p class="text-sm font-medium">Packaging</p>
+                  <p class="text-xs text-gray-400">Quality & branding</p>
+                </div>
+                <div class="p-3 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="dollar-sign" class="w-6 h-6 mx-auto text-green-400 mb-2"></i>
+                  <p class="text-sm font-medium">Marketing</p>
+                  <p class="text-xs text-gray-400">Sales & distribution</p>
+                </div>
               </div>
             </div>
           </div>`;
@@ -895,7 +1061,31 @@
           }
         });
       },
-      initFinanceChart() {
+      initWeatherChart() {
+        const ctx = document.getElementById('weather-chart');
+        if(!ctx) return;
+        if(this.charts.weather) this.charts.weather.destroy();
+        this.charts.weather = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [
+              { label: 'Temperature (°C)', data: [22, 24, 23, 26, 25, 27, 24], borderColor: '#F59E0B', tension: 0.4, fill: true, backgroundColor: 'rgba(245, 158, 11, 0.1)' },
+              { label: 'Precipitation (mm)', data: [0, 2, 5, 1, 0, 3, 1], borderColor: '#3B82F6', tension: 0.4, yAxisID: 'y1' }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: '#9CA3AF' } } },
+            scales: {
+              x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9CA3AF' } },
+              y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9CA3AF' } },
+              y1: { position: 'right', grid: { display: false }, ticks: { color: '#3B82F6' } }
+            }
+          }
+        });
+      },
         const ctx = document.getElementById('finance-chart');
         if(!ctx) return;
         if(this.charts.finance) this.charts.finance.destroy();
@@ -1027,16 +1217,589 @@
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
       },
+      viewExtensionService() {
+        return `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-3">
+              <h1 class="text-2xl font-bold">Digital Extension Services</h1>
+              <button onclick="SenaERP.openFarmerModal()" class="bg-primary px-4 py-2 rounded-lg hover:bg-secondary flex items-center gap-2 shadow-lg shadow-primary/20 transition"><i data-lucide="user-plus" class="w-4 h-4"></i> Register Farmer</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-teal-400"></i> Farmer Registration</h3>
+                <p class="text-sm text-gray-400 mb-4">Detailed personal information and farm profiles for smallholder farmers.</p>
+                <div class="space-y-2">
+                  <div class="text-xs text-gray-500">Total Registered: <span class="text-white font-mono">247</span></div>
+                  <div class="text-xs text-gray-500">Active This Month: <span class="text-white font-mono">89</span></div>
+                </div>
+              </div>
+              
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="book-open" class="w-5 h-5 text-blue-400"></i> Agronomic Practices</h3>
+                <p class="text-sm text-gray-400 mb-4">Crop-specific good agricultural practices, cultural methods, and best extension services.</p>
+                <button class="w-full bg-surface border border-gray-600 hover:border-primary px-3 py-2 rounded text-sm transition">View Practice Guides</button>
+              </div>
+              
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="headphones" class="w-5 h-5 text-green-400"></i> Call Center Services</h3>
+                <p class="text-sm text-gray-400 mb-4">24/7 open call centers with professional subject matter specialists.</p>
+                <div class="flex gap-2">
+                  <button class="flex-1 bg-green-600 hover:bg-green-500 px-3 py-2 rounded text-xs transition">Call Now</button>
+                  <button class="flex-1 bg-blue-600 hover:bg-blue-500 px-3 py-2 rounded text-xs transition">Schedule</button>
+                </div>
+              </div>
+              
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="message-circle" class="w-5 h-5 text-purple-400"></i> Communication Hub</h3>
+                <p class="text-sm text-gray-400 mb-4">Multi-channel farmer engagement: SMS, WhatsApp, Telegram, direct audio/video calls.</p>
+                <div class="space-y-1">
+                  <button class="w-full bg-surface border border-gray-600 hover:border-primary px-3 py-1 rounded text-xs transition">SMS Broadcast</button>
+                  <button class="w-full bg-surface border border-gray-600 hover:border-primary px-3 py-1 rounded text-xs transition">WhatsApp Group</button>
+                </div>
+              </div>
+              
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="search" class="w-5 h-5 text-orange-400"></i> Field Monitoring</h3>
+                <p class="text-sm text-gray-400 mb-4">Remote farm monitoring and diagnosis tools for pest, disease, and soil issues.</p>
+                <button class="w-full bg-orange-600 hover:bg-orange-500 px-3 py-2 rounded text-xs transition">Start Monitoring</button>
+              </div>
+              
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="video" class="w-5 h-5 text-red-400"></i> Video Consultation</h3>
+                <p class="text-sm text-gray-400 mb-4">Direct video communication with farmers on their farm sites.</p>
+                <button class="w-full bg-red-600 hover:bg-red-500 px-3 py-2 rounded text-xs transition">Video Call</button>
+              </div>
+            </div>
+            
+            <div id="farmer-modal" class="fixed inset-0 z-40 hidden flex items-center justify-center modal-backdrop p-4">
+              <div class="glass-card w-full max-w-2xl p-6 rounded-xl fade-in border-t-4 border-t-primary max-h-[90vh] overflow-y-auto">
+                <h2 class="text-xl font-bold mb-4">Register Smallholder Farmer</h2>
+                <form id="farmer-form" class="space-y-4">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input placeholder="Full Name" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                    <input placeholder="Phone Number" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                    <input placeholder="Email (Optional)" class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                    <input placeholder="Farm Location" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                    <input type="number" placeholder="Farm Size (ha)" step="0.01" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                    <select required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2">
+                      <option value="">Primary Crop</option>
+                      <option>Maize</option>
+                      <option>Teff</option>
+                      <option>Wheat</option>
+                      <option>Barley</option>
+                      <option>Coffee</option>
+                      <option>Avocado</option>
+                    </select>
+                  </div>
+                  <textarea placeholder="Additional Notes (farming experience, challenges, etc.)" rows="3" class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2"></textarea>
+                  <div class="flex gap-3 justify-end mt-4">
+                    <button type="button" onclick="document.getElementById('farmer-modal').classList.add('hidden')" class="px-4 py-2 rounded-lg border border-gray-600 hover:bg-gray-700 transition">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-primary rounded-lg hover:bg-secondary transition">Register Farmer</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>`;
+      },
+      viewWeather() {
+        return `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-3">
+              <h1 class="text-2xl font-bold">Weather Forecast & AI Support</h1>
+              <button onclick="SenaERP.sendWeatherAlert()" class="bg-primary px-4 py-2 rounded-lg hover:bg-secondary flex items-center gap-2 shadow-lg shadow-primary/20 transition"><i data-lucide="send" class="w-4 h-4"></i> Send Alert</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="glass-card p-5 rounded-xl border border-gray-700 md:col-span-2">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="cloud-sun" class="w-5 h-5 text-indigo-400"></i> Current Weather & Forecast</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                  <div class="p-3 bg-dark/40 rounded border border-gray-700 text-center">
+                    <p class="text-xs text-gray-400">Temperature</p>
+                    <p class="text-2xl font-bold text-indigo-400">${this.state.external.weather.temperature}°C</p>
+                  </div>
+                  <div class="p-3 bg-dark/40 rounded border border-gray-700 text-center">
+                    <p class="text-xs text-gray-400">Wind Speed</p>
+                    <p class="text-2xl font-bold text-blue-400">${this.state.external.weather.windspeed} km/h</p>
+                  </div>
+                  <div class="p-3 bg-dark/40 rounded border border-gray-700 text-center">
+                    <p class="text-xs text-gray-400">Humidity</p>
+                    <p class="text-2xl font-bold text-cyan-400">65%</p>
+                  </div>
+                  <div class="p-3 bg-dark/40 rounded border border-gray-700 text-center">
+                    <p class="text-xs text-gray-400">Precipitation</p>
+                    <p class="text-2xl font-bold text-green-400">2.1mm</p>
+                  </div>
+                </div>
+                <div class="chart-container"><canvas id="weather-chart"></canvas></div>
+              </div>
+              
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="brain" class="w-5 h-5 text-purple-400"></i> AI Recommendations</h3>
+                <div class="space-y-3">
+                  <div class="p-3 bg-yellow-900/20 border border-yellow-800 rounded">
+                    <p class="text-sm font-medium text-yellow-400">⚠️ Heavy Rain Alert</p>
+                    <p class="text-xs text-gray-400 mt-1">Expected tomorrow. Recommend harvesting high-moisture crops.</p>
+                  </div>
+                  <div class="p-3 bg-blue-900/20 border border-blue-800 rounded">
+                    <p class="text-sm font-medium text-blue-400">💧 Irrigation Advisory</p>
+                    <p class="text-xs text-gray-400 mt-1">Soil moisture dropping. Schedule irrigation for maize fields.</p>
+                  </div>
+                  <div class="p-3 bg-green-900/20 border border-green-800 rounded">
+                    <p class="text-sm font-medium text-green-400">🌱 Planting Window</p>
+                    <p class="text-xs text-gray-400 mt-1">Optimal conditions for wheat planting in 3 days.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="glass-card p-5 rounded-xl border border-gray-700">
+              <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="bell" class="w-5 h-5 text-orange-400"></i> Weekly SMS Early Warning System</h3>
+              <p class="text-sm text-gray-400 mb-4">Automated SMS alerts sent to registered Sena customers with weather warnings and AI recommendations.</p>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-3 bg-dark/40 rounded border border-gray-700">
+                  <p class="text-xs text-gray-400">Registered Users</p>
+                  <p class="text-xl font-bold">1,247</p>
+                </div>
+                <div class="p-3 bg-dark/40 rounded border border-gray-700">
+                  <p class="text-xs text-gray-400">Alerts This Week</p>
+                  <p class="text-xl font-bold">89</p>
+                </div>
+                <div class="p-3 bg-dark/40 rounded border border-gray-700">
+                  <p class="text-xs text-gray-400">Response Rate</p>
+                  <p class="text-xl font-bold">94%</p>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      },
+      viewSeedProduction() {
+        return `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-3">
+              <h1 class="text-2xl font-bold">Seed Production Systems - Transforming Ethiopian Seed Sector</h1>
+              <button onclick="SenaERP.openSeedModal()" class="bg-lime-600 px-4 py-2 rounded-lg hover:bg-lime-500 flex items-center gap-2 shadow-lg transition"><i data-lucide="plus" class="w-4 h-4"></i> New Seed Lot</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              ${this.kpiCard('Nucleus Farm Production', '2,450 tons', '+5%', 'success')}
+              ${this.kpiCard('Franchise Producers', '47 Coops', '+3', 'success')}
+              ${this.kpiCard('Certified Seed Stock', '892 tons', '+12%', 'success')}
+              ${this.kpiCard('Distribution Centers', '23 Hubs', '+2', 'success')}
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="building" class="w-5 h-5 text-lime-400"></i> Sena Nucleus Farms</h3>
+                <div class="space-y-3">
+                  <div class="p-3 bg-dark/40 rounded border border-gray-700">
+                    <p class="font-medium text-sm">Nucleus Farm Alpha (Eastern Highlands)</p>
+                    <p class="text-xs text-gray-400 mt-1">Maize, Wheat, Teff • 450 hectares • ISO Certified</p>
+                    <div class="flex gap-2 mt-2">
+                      <span class="text-xs bg-green-900/30 text-green-400 px-2 py-1 rounded">Active</span>
+                      <span class="text-xs bg-blue-900/30 text-blue-400 px-2 py-1 rounded">1,250 tons/year</span>
+                    </div>
+                  </div>
+                  <div class="p-3 bg-dark/40 rounded border border-gray-700">
+                    <p class="font-medium text-sm">Nucleus Farm Beta (Central Region)</p>
+                    <p class="text-xs text-gray-400 mt-1">Pulses, Vegetables • 380 hectares • EISI Accredited</p>
+                    <div class="flex gap-2 mt-2">
+                      <span class="text-xs bg-green-900/30 text-green-400 px-2 py-1 rounded">Active</span>
+                      <span class="text-xs bg-blue-900/30 text-blue-400 px-2 py-1 rounded">980 tons/year</span>
+                    </div>
+                  </div>
+                  <div class="p-3 bg-dark/40 rounded border border-gray-700">
+                    <p class="font-medium text-sm">Nucleus Farm Gamma (Western Zone)</p>
+                    <p class="text-xs text-gray-400 mt-1">Sorghum, Millet, Oil crops • 420 hectares • Level 3</p>
+                    <div class="flex gap-2 mt-2">
+                      <span class="text-xs bg-orange-900/30 text-orange-400 px-2 py-1 rounded">Expansion</span>
+                      <span class="text-xs bg-blue-900/30 text-blue-400 px-2 py-1 rounded">1,200 tons/year</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="users-round" class="w-5 h-5 text-cyan-400"></i> Franchise Seed Producer Cooperatives</h3>
+                <div class="space-y-3">
+                  <div class="p-3 bg-dark/40 rounded border border-gray-700">
+                    <p class="font-medium text-sm">Regional Franchise Network</p>
+                    <p class="text-xs text-gray-400 mt-1">47 active cooperatives serving 15 regions</p>
+                    <div class="grid grid-cols-3 gap-2 mt-2 text-center">
+                      <div>
+                        <p class="text-xs text-gray-400">Category A</p>
+                        <p class="text-sm font-bold text-green-400">18 Coops</p>
+                      </div>
+                      <div>
+                        <p class="text-xs text-gray-400">Category B</p>
+                        <p class="text-sm font-bold text-blue-400">22 Coops</p>
+                      </div>
+                      <div>
+                        <p class="text-xs text-gray-400">Category C</p>
+                        <p class="text-sm font-bold text-purple-400">7 Coops</p>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="w-full bg-cyan-600 hover:bg-cyan-500 px-3 py-2 rounded text-sm transition">Franchise Onboarding Portal</button>
+                  <button class="w-full bg-surface border border-gray-600 hover:border-cyan-600 px-3 py-2 rounded text-sm transition">Coop Performance Dashboard</button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="glass-card p-5 rounded-xl border border-gray-700">
+              <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="gitflow" class="w-5 h-5 text-amber-400"></i> Standard Seed System Workflow: Source to Distribution</h3>
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                <div class="p-4 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="dna" class="w-6 h-6 mx-auto text-amber-400 mb-2"></i>
+                  <p class="font-medium text-sm">1. Seed Source</p>
+                  <p class="text-xs text-gray-400 mt-1">Elite germplasm, pure lines, breeder seed</p>
+                </div>
+                <div class="p-4 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="sprout" class="w-6 h-6 mx-auto text-green-400 mb-2"></i>
+                  <p class="font-medium text-sm">2. Farm Management</p>
+                  <p class="text-xs text-gray-400 mt-1">Isolation distance, roguing, field inspections</p>
+                </div>
+                <div class="p-4 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="wheat" class="w-6 h-6 mx-auto text-yellow-400 mb-2"></i>
+                  <p class="font-medium text-sm">3. Harvesting & Threshing</p>
+                  <p class="text-xs text-gray-400 mt-1">Equipment cleaning, timing, moisture control</p>
+                </div>
+                <div class="p-4 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="package" class="w-6 h-6 mx-auto text-blue-400 mb-2"></i>
+                  <p class="font-medium text-sm">4. Post-Harvest Handling</p>
+                  <p class="text-xs text-gray-400 mt-1">Drying to 12%, storage, quality maintenance</p>
+                </div>
+                <div class="p-4 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="filter" class="w-6 h-6 mx-auto text-purple-400 mb-2"></i>
+                  <p class="font-medium text-sm">5. Processing & Cleaning</p>
+                  <p class="text-xs text-gray-400 mt-1">Grading, seed treatment, purity testing</p>
+                </div>
+                <div class="p-4 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="beaker" class="w-6 h-6 mx-auto text-orange-400 mb-2"></i>
+                  <p class="font-medium text-sm">6. Certification Testing</p>
+                  <p class="text-xs text-gray-400 mt-1">Germination, purity, vigor analysis</p>
+                </div>
+                <div class="p-4 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="box" class="w-6 h-6 mx-auto text-red-400 mb-2"></i>
+                  <p class="font-medium text-sm">7. Packaging & Labeling</p>
+                  <p class="text-xs text-gray-400 mt-1">Standard sizes, traceability codes, branding</p>
+                </div>
+                <div class="p-4 bg-dark/40 rounded border border-gray-700 text-center">
+                  <i data-lucide="truck" class="w-6 h-6 mx-auto text-cyan-400 mb-2"></i>
+                  <p class="font-medium text-sm">8. Distribution & Sales</p>
+                  <p class="text-xs text-gray-400 mt-1">Inventory, retail partners, farmer access</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="glass-card p-5 rounded-xl border border-gray-700">
+              <h3 class="font-semibold mb-4">Seed Production Performance <span id="seed-chart-label" class="text-xs text-gray-400 font-normal">(By Crop Type)</span></h3>
+              <div class="chart-container"><canvas id="seed-chart"></canvas></div>
+            </div>
+          </div>`;
+      },
+      viewSoilLab() {
+        return `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-3">
+              <h1 class="text-2xl font-bold">Soil Laboratory & Diagnosis Centre</h1>
+              <button onclick="SenaERP.openSoilSampleModal()" class="bg-yellow-600 px-4 py-2 rounded-lg hover:bg-yellow-500 flex items-center gap-2 shadow-lg transition"><i data-lucide="plus" class="w-4 h-4"></i> Submit Sample</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              ${this.kpiCard('Samples Analyzed', '1,247', '+89 this month', 'success')}
+              ${this.kpiCard('Avg Test Time', '3.2 days', '-0.5 days', 'success')}
+              ${this.kpiCard('Lab Capacity', '85%', 'Optimal', 'info')}
+              ${this.kpiCard('Accreditation', 'ISO 17025', 'Fully Certified', 'success')}
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div class="glass-card p-5 rounded-xl border border-gray-700 lg:col-span-2">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="beaker" class="w-5 h-5 text-yellow-400"></i> Soil Analysis Tests</h3>
+                <div class="space-y-2">
+                  <div class="p-3 bg-dark/40 rounded border border-gray-700 flex justify-between items-center">
+                    <div>
+                      <p class="font-medium text-sm">Physical Properties</p>
+                      <p class="text-xs text-gray-400">Texture, structure, porosity, depth, color</p>
+                    </div>
+                    <button class="bg-yellow-600 hover:bg-yellow-500 px-3 py-1 rounded text-xs transition">Request Test</button>
+                  </div>
+                  <div class="p-3 bg-dark/40 rounded border border-gray-700 flex justify-between items-center">
+                    <div>
+                      <p class="font-medium text-sm">Chemical Analysis</p>
+                      <p class="text-xs text-gray-400">pH, N, P, K, Ca, Mg, S, micronutrients</p>
+                    </div>
+                    <button class="bg-yellow-600 hover:bg-yellow-500 px-3 py-1 rounded text-xs transition">Request Test</button>
+                  </div>
+                  <div class="p-3 bg-dark/40 rounded border border-gray-700 flex justify-between items-center">
+                    <div>
+                      <p class="font-medium text-sm">Biological Properties</p>
+                      <p class="text-xs text-gray-400">Microbial count, organic matter, enzymatic activity</p>
+                    </div>
+                    <button class="bg-yellow-600 hover:bg-yellow-500 px-3 py-1 rounded text-xs transition">Request Test</button>
+                  </div>
+                  <div class="p-3 bg-dark/40 rounded border border-gray-700 flex justify-between items-center">
+                    <div>
+                      <p class="font-medium text-sm">Soil Health Index</p>
+                      <p class="text-xs text-gray-400">Comprehensive soil quality assessment</p>
+                    </div>
+                    <button class="bg-yellow-600 hover:bg-yellow-500 px-3 py-1 rounded text-xs transition">Request Test</button>
+                  </div>
+                  <div class="p-3 bg-dark/40 rounded border border-gray-700 flex justify-between items-center">
+                    <div>
+                      <p class="font-medium text-sm">Contaminant Screening</p>
+                      <p class="text-xs text-gray-400">Heavy metals, pesticide residues, pathogens</p>
+                    </div>
+                    <button class="bg-yellow-600 hover:bg-yellow-500 px-3 py-1 rounded text-xs transition">Request Test</button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="activity" class="w-5 h-5 text-green-400"></i> Your Recent Results</h3>
+                <div class="space-y-3 max-h-[400px] overflow-y-auto">
+                  <div class="p-3 bg-green-900/20 border border-green-800 rounded">
+                    <p class="text-sm font-medium text-green-400">Farm ABC-12 Analysis</p>
+                    <p class="text-xs text-gray-400 mt-1">Soil Health: Excellent | 25 Apr 2026</p>
+                    <button class="text-xs text-blue-400 hover:text-blue-300 mt-1">View Report →</button>
+                  </div>
+                  <div class="p-3 bg-yellow-900/20 border border-yellow-800 rounded">
+                    <p class="text-sm font-medium text-yellow-400">Farm XYZ-08 Analysis</p>
+                    <p class="text-xs text-gray-400 mt-1">Soil Health: Good | pH Low (5.2) | 17 Apr 2026</p>
+                    <button class="text-xs text-blue-400 hover:text-blue-300 mt-1">View Report →</button>
+                  </div>
+                  <div class="p-3 bg-orange-900/20 border border-orange-800 rounded">
+                    <p class="text-sm font-medium text-orange-400">Farm DEF-45 Analysis</p>
+                    <p class="text-xs text-gray-400 mt-1">Soil Health: Fair | N Deficient | 10 Apr 2026</p>
+                    <button class="text-xs text-blue-400 hover:text-blue-300 mt-1">View Report →</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="glass-card p-5 rounded-xl border border-gray-700">
+              <h3 class="font-semibold mb-4">Nutrient Status Analysis <span id="soil-chart-label" class="text-xs text-gray-400 font-normal">(Sample Results Trend)</span></h3>
+              <div class="chart-container"><canvas id="soil-chart"></canvas></div>
+            </div>
+          </div>`;
+      },
+      viewPlantClinic() {
+        return `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-3">
+              <h1 class="text-2xl font-bold">Plant Clinic - Pest, Weed & Disease Diagnosis</h1>
+              <button onclick="SenaERP.openPlantClinicModal()" class="bg-red-600 px-4 py-2 rounded-lg hover:bg-red-500 flex items-center gap-2 shadow-lg transition"><i data-lucide="plus" class="w-4 h-4"></i> Report Issue</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              ${this.kpiCard('Active Cases', '342', '+45 this week', 'info')}
+              ${this.kpiCard('Avg Response Time', '4.2 hrs', '24/7 Service', 'success')}
+              ${this.kpiCard('Resolution Rate', '94.3%', '+2.1%', 'success')}
+              ${this.kpiCard('Expert Specialists', '18', 'Available', 'success')}
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div class="glass-card p-5 rounded-xl border border-gray-700 lg:col-span-2">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="stethoscope" class="w-5 h-5 text-red-400"></i> Online Diagnosis Services</h3>
+                <div class="space-y-3">
+                  <div class="p-4 bg-dark/40 rounded border border-gray-700">
+                    <div class="flex items-start justify-between mb-2">
+                      <div>
+                        <p class="font-medium text-sm">Upload Photo Diagnosis</p>
+                        <p class="text-xs text-gray-400 mt-1">AI + Expert analysis of plant symptoms using photo upload</p>
+                      </div>
+                      <i data-lucide="camera" class="w-5 h-5 text-blue-400 flex-shrink-0"></i>
+                    </div>
+                    <button class="w-full mt-2 bg-blue-600 hover:bg-blue-500 px-3 py-2 rounded text-sm transition">Upload Photo</button>
+                  </div>
+                  
+                  <div class="p-4 bg-dark/40 rounded border border-gray-700">
+                    <div class="flex items-start justify-between mb-2">
+                      <div>
+                        <p class="font-medium text-sm">Symptom Checker</p>
+                        <p class="text-xs text-gray-400 mt-1">Describe symptoms and get guided diagnosis with treatment options</p>
+                      </div>
+                      <i data-lucide="check-circle-2" class="w-5 h-5 text-green-400 flex-shrink-0"></i>
+                    </div>
+                    <button class="w-full mt-2 bg-green-600 hover:bg-green-500 px-3 py-2 rounded text-sm transition">Start Checker</button>
+                  </div>
+                  
+                  <div class="p-4 bg-dark/40 rounded border border-gray-700">
+                    <div class="flex items-start justify-between mb-2">
+                      <div>
+                        <p class="font-medium text-sm">Live Video Consultation</p>
+                        <p class="text-xs text-gray-400 mt-1">Real-time consultation with agronomist specialists via video call</p>
+                      </div>
+                      <i data-lucide="video" class="w-5 h-5 text-purple-400 flex-shrink-0"></i>
+                    </div>
+                    <button class="w-full mt-2 bg-purple-600 hover:bg-purple-500 px-3 py-2 rounded text-sm transition">Schedule Call</button>
+                  </div>
+                  
+                  <div class="p-4 bg-dark/40 rounded border border-gray-700">
+                    <div class="flex items-start justify-between mb-2">
+                      <div>
+                        <p class="font-medium text-sm">SMS Advisory Service</p>
+                        <p class="text-xs text-gray-400 mt-1">Text-based plant health monitoring and recommendations</p>
+                      </div>
+                      <i data-lucide="message-square" class="w-5 h-5 text-cyan-400 flex-shrink-0"></i>
+                    </div>
+                    <button class="w-full mt-2 bg-cyan-600 hover:bg-cyan-500 px-3 py-2 rounded text-sm transition">Enable SMS Service</button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="glass-card p-5 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="bug" class="w-5 h-5 text-orange-400"></i> Common Issues Found</h3>
+                <div class="space-y-2">
+                  <div class="p-3 bg-red-900/20 border border-red-800 rounded">
+                    <p class="text-sm font-medium text-red-400">🐛 Fall Armyworm</p>
+                    <p class="text-xs text-gray-400 mt-1">23 cases this month</p>
+                  </div>
+                  <div class="p-3 bg-orange-900/20 border border-orange-800 rounded">
+                    <p class="text-sm font-medium text-orange-400">🌾 Striga (Witch Weed)</p>
+                    <p class="text-xs text-gray-400 mt-1">18 cases this month</p>
+                  </div>
+                  <div class="p-3 bg-yellow-900/20 border border-yellow-800 rounded">
+                    <p class="text-sm font-medium text-yellow-400">🦠 Leaf Rust</p>
+                    <p class="text-xs text-gray-400 mt-1">15 cases this month</p>
+                  </div>
+                  <div class="p-3 bg-purple-900/20 border border-purple-800 rounded">
+                    <p class="text-sm font-medium text-purple-400">🍂 Powdery Mildew</p>
+                    <p class="text-xs text-gray-400 mt-1">9 cases this month</p>
+                  </div>
+                  <div class="p-3 bg-green-900/20 border border-green-800 rounded">
+                    <p class="text-sm font-medium text-green-400">🌾 Deficiency: Nitrogen</p>
+                    <p class="text-xs text-gray-400 mt-1">31 cases this month</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div id="plant-clinic-modal" class="fixed inset-0 z-40 hidden flex items-center justify-center modal-backdrop p-4">
+              <div class="glass-card w-full max-w-2xl p-6 rounded-xl fade-in border-t-4 border-t-red-600 max-h-[90vh] overflow-y-auto">
+                <h2 class="text-xl font-bold mb-4">Report Plant Health Issue</h2>
+                <form id="plant-clinic-form" class="space-y-4">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input placeholder="Farm/Field Name" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                    <select required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2">
+                      <option value="">Crop Type</option>
+                      <option>Maize</option>
+                      <option>Wheat</option>
+                      <option>Teff</option>
+                      <option>Pulses</option>
+                      <option>Vegetables</option>
+                    </select>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <select required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2">
+                      <option value="">Issue Type</option>
+                      <option>Pest Attack</option>
+                      <option>Disease</option>
+                      <option>Weed Problem</option>
+                      <option>Nutrient Deficiency</option>
+                      <option>Environmental</option>
+                    </select>
+                    <input type="number" placeholder="Affected Area (%)" min="1" max="100" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2" />
+                  </div>
+                  <textarea placeholder="Describe symptoms and observations in detail..." rows="3" required class="w-full bg-surface border border-gray-600 rounded-lg px-3 py-2"></textarea>
+                  <div class="flex gap-3 justify-end mt-4">
+                    <button type="button" onclick="document.getElementById('plant-clinic-modal').classList.add('hidden')" class="px-4 py-2 rounded-lg border border-gray-600 hover:bg-gray-700 transition">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-red-600 rounded-lg hover:bg-red-500 transition">Submit Report</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>`;
+      },
+      openFarmerModal() {
+        const m = document.getElementById('farmer-modal');
+        if(!m) return;
+        m.classList.remove('hidden');
+        const f = document.getElementById('farmer-form');
+        if(!f) return;
+        f.reset();
+        f.onsubmit = (e) => {
+          e.preventDefault();
+          // Here you would save farmer data
+          m.classList.add('hidden');
+          this.toast('Farmer registered successfully. Extension services activated.', 'success');
+        };
+      },
+      openSeedModal() {
+        this.toast('Seed lot registration form opened. Submit new certified seed batch to inventory.', 'info');
+      },
+      openSoilSampleModal() {
+        this.toast('Soil sample submission portal opened. Fill details, schedule pickup, get results in 3-5 days.', 'info');
+      },
+      openPlantClinicModal() {
+        const m = document.getElementById('plant-clinic-modal');
+        if(!m) return;
+        m.classList.remove('hidden');
+        const f = document.getElementById('plant-clinic-form');
+        if(!f) return;
+        f.reset();
+        f.onsubmit = (e) => {
+          e.preventDefault();
+          m.classList.add('hidden');
+          this.toast('Plant health issue reported. Specialist will contact you within 4 hours.', 'success');
+        };
+      },
+      initSeedChart() {
+        const ctx = document.getElementById('seed-chart');
+        if(!ctx) return;
+        if(this.charts.seed) this.charts.seed.destroy();
+        this.charts.seed = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Maize', 'Wheat', 'Teff', 'Barley', 'Pulses', 'Vegetables'],
+            datasets: [
+              { label: 'Nucleus Farm Production', data: [450, 320, 180, 150, 220, 130], backgroundColor: '#22c55e', borderRadius: 4 },
+              { label: 'Franchise Cooperatives', data: [380, 280, 160, 140, 200, 110], backgroundColor: '#06b6d4', borderRadius: 4 },
+              { label: 'Certified Distribution', data: [200, 150, 90, 70, 110, 60], backgroundColor: '#a855f7', borderRadius: 4 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: '#9CA3AF' } } },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: '#9CA3AF' } },
+              y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9CA3AF' } }
+            }
+          }
+        });
+      },
+      initSoilChart() {
+        const ctx = document.getElementById('soil-chart');
+        if(!ctx) return;
+        if(this.charts.soil) this.charts.soil.destroy();
+        this.charts.soil = new Chart(ctx, {
+          type: 'radar',
+          data: {
+            labels: ['pH', 'Nitrogen', 'Phosphorus', 'Potassium', 'Organic Matter', 'Microbes'],
+            datasets: [
+              { label: 'Optimal Range', data: [7, 0.3, 0.02, 0.2, 5, 8], borderColor: '#10B981', fill: true, backgroundColor: 'rgba(16, 185, 129, 0.1)' },
+              { label: 'Your Average', data: [6.2, 0.18, 0.015, 0.14, 3.2, 6.5], borderColor: '#F59E0B', fill: true, backgroundColor: 'rgba(245, 158, 11, 0.1)' }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: '#9CA3AF' } } },
+            scales: { r: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9CA3AF' } } }
+          }
+        });
+      },
+      sendWeatherAlert() {
+        this.toast('Weather alert sent to all registered farmers via SMS.', 'success');
+      },
+      viewOrders() {
+        this.toast('Order history and tracking portal opened. View delivery status and download invoices.', 'info');
+      },
+      openInventoryDashboard() {
+        this.toast('Full inventory system opened. Track stock levels, manage supplies, and optimize SKU distribution.', 'info');
+      },
       toast(msg, type='info') {
-        const c = document.getElementById('toast-container');
-        if(!c) return;
-        const t = document.createElement('div');
-        t.className = `pointer-events-auto p-4 rounded-lg shadow-lg border-l-4 flex items-center gap-3 fade-in min-w-[280px] ${type==='success'?'border-green-500 bg-panel':type==='warning'?'border-yellow-500 bg-panel':'border-blue-500 bg-panel'}`;
-        t.innerHTML = `<i data-lucide="${type==='success'?'check-circle':type==='warning'?'alert-triangle':'info'}" class="w-5 h-5 flex-shrink-0 ${type==='success'?'text-green-400':type==='warning'?'text-yellow-400':'text-blue-400'}"></i><span class="text-sm text-gray-200">${msg}</span>`;
-        c.appendChild(t);
-        if(lucide) lucide.createIcons({ nodes: [t] });
-        setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(() => t.remove(), 300); }, 4000);
-      }
     };
     document.addEventListener('DOMContentLoaded', () => SenaERP.init());
   </script>
