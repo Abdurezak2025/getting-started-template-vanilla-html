@@ -5,11 +5,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <!-- Copyright 2026 Sena Agribusiness Investment Group PLC. All rights reserved. -->
-  <meta name="description" content="Sena FarmERP v7.0 - Commercial enterprise AI agribusiness platform by Sena Agribusiness Investment Group PLC" />
+  <meta name="description" content="Sena FarmERPv7.0 all in one Agri-service Enterprise Digital Tools - Commercial enterprise AI agribusiness platform by Sena Agribusiness Investment Group PLC" />
   <meta name="author" content="Sena Agribusiness Investment Group PLC" />
   <meta name="theme-color" content="#0F766E" />
   <link rel="icon" href="https://ui-avatars.com/api/?name=S&background=0F766E&color=fff&size=32" type="image/png" />
-  <title>Sena FarmERP v7.0 | Sena Agribusiness Investment Group PLC</title>
+  <title>Sena FarmERPv7.0 all in one Agri-service Enterprise Digital Tools</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -141,10 +141,14 @@
             </div>
           </div>
         </div>
-        <select id="lang-select" class="bg-surface border border-gray-600 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer" title="Select Language / ভাষা নির্বাচন করুন / ቋንቋ ይምረጡ / Afaan Filadhaa">
+        <select id="lang-select" class="bg-surface border border-gray-600 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer" title="Select Language / ቋንቋ ይምረጡ / Afaan Filadhaa">
           <option value="en">🇬🇧 English</option>
           <option value="am">🇪🇹 አማርኛ (Amharic)</option>
           <option value="om">🇪🇹 ಅಫನ್ ಆರಾಮೋ (Afaan Oromo)</option>
+          <option value="so">🇸🇴 Af-Somali</option>
+          <option value="aa">🇪🇷 Afari (Afar)</option>
+          <option value="ti">🇪🇷 ትግርኛ (Tigrinya)</option>
+          <option value="sw">🇰🇪 Kiswahili</option>
           <option value="de">🇩🇪 Deutsch (German)</option>
         </select>
         <div class="flex items-center gap-2 pl-2 border-l border-gray-700">
@@ -252,8 +256,12 @@
       i18n: {
         en: { dashboard: 'Digital Twin HQ', contracts: 'Contract Admin', 'extension-service': 'Digital Extension', supply: 'Input Supply', 'seed-production': 'Seed Production', 'soil-lab': 'Soil Laboratory', 'plant-clinic': 'Plant Clinic', finance: 'Finance & P&L', compliance: 'Quality & Cert', gis: 'GIS & IoT', weather: 'Weather Forecast AI', ai: 'AI Diagnostics', logistics: 'Cold-Chain', workforce: 'Workforce', settings: 'Settings' },
         am: { dashboard: 'ዲጂታል ትዊን ዋና ጽ/ቤት', contracts: 'የኮንትራት አስተዳደር', 'extension-service': 'ዲጂታል ራዕይ', supply: 'የግብዓት አቅርቦት', 'seed-production': 'ዘር ማምረት', 'soil-lab': 'አፈር ላብራቶሪ', 'plant-clinic': 'የእጽዋት ክሊኒክ', finance: 'ፋይናንስ', compliance: 'ጥራት እና ሰርተፊኬት', gis: 'ጂአይኤስ', weather: 'የአየር ንግግር ትንበያ', ai: 'የአርተፊሻል ኢንተለጀንስ', logistics: 'ቅዝቃዜ ሎጂስቲክስ', workforce: 'ሰራተኞች', settings: 'ቅንብሮች' },
-        de: { dashboard: 'Digitaler Zwilling', contracts: 'Vertragsverwaltung', 'extension-service': 'Digitale Erweiterung', supply: 'Input-Versorgung', 'seed-production': 'Saatgutproduktion', 'soil-lab': 'Bodenlabor', 'plant-clinic': 'Pflanzenklinik', finance: 'Finanzen & GuV', compliance: 'Qualität & Zert.', gis: 'GIS & IoT', weather: 'Wettervorhersage KI', ai: 'KI-Diagnose', logistics: 'Kühllogistik', workforce: 'Arbeitskräfte', settings: 'Einstellungen' },
-        om: { dashboard: 'Dijitaala Taayitaa', contracts: 'Bulchiinsa Waliigaltee', 'extension-service': 'Dijitaala Bal\'inaan', supply: 'Kaffaltii Qabeenya', 'seed-production': 'Iji Ijaarsa', 'soil-lab': 'Laaboratoorii Jiidha', 'plant-clinic': 'Kilinikii Muuxannoo', finance: 'Maallaqa fi Qabeenya', compliance: 'Hojii Gaarii fi Meeshaa', gis: 'GIS fi IoT', weather: 'Raawwii Qilleensaa AI', ai: 'Ogummaa Artificial Intelligence', logistics: 'Logistiiksii Qabannaan', workforce: 'Hojjettoota', settings: 'Kaayyoo fi Qindaa\'ina' }
+        om: { dashboard: 'Dijitaala Taayitaa', contracts: 'Bulchiinsa Waliigaltee', 'extension-service': 'Dijitaala Bal\'inaan', supply: 'Kaffaltii Qabeenya', 'seed-production': 'Iji Ijaarsa', 'soil-lab': 'Laaboratoorii Jiidha', 'plant-clinic': 'Kilinikii Muuxannoo', finance: 'Maallaqa fi Qabeenya', compliance: 'Hojii Gaarii fi Meeshaa', gis: 'GIS fi IoT', weather: 'Raawwii Qilleensaa AI', ai: 'Ogummaa Artificial Intelligence', logistics: 'Logistiiksii Qabannaan', workforce: 'Hojjettoota', settings: 'Kaayyoo fi Qindaa\'ina' },
+        so: { dashboard: 'Dashboard', contracts: 'Qandaraasyada', 'extension-service': 'Adeegga Fidinta', supply: 'Sahayda', 'seed-production': 'Soosaarka Abuurka', 'soil-lab': 'Shaybaarka Ciidda', 'plant-clinic': 'Klinikada Dhirta', finance: 'Maaliyadda', compliance: 'U hoggaansanaanta', gis: 'GIS', weather: 'Cimilada', ai: 'AI', logistics: 'Saadka', workforce: 'Shaqaalaha', settings: 'Dejinta' },
+        aa: { dashboard: 'Dashboard', contracts: 'Qandaraasyada', 'extension-service': 'Adeegga Fidinta', supply: 'Sahayda', 'seed-production': 'Soosaarka Abuurka', 'soil-lab': 'Shaybaarka Ciidda', 'plant-clinic': 'Klinikada Dhirta', finance: 'Maaliyadda', compliance: 'U hoggaansanaanta', gis: 'GIS', weather: 'Cimilada', ai: 'AI', logistics: 'Saadka', workforce: 'Shaqaalaha', settings: 'Dejinta' },
+        ti: { dashboard: 'ዳሽቦርድ', contracts: 'ኮንትራት', 'extension-service': 'ራዕይ', supply: 'አቅርቦት', 'seed-production': 'ዘር ምርት', 'soil-lab': 'አፈር ላብራቶሪ', 'plant-clinic': 'እጽዋት ክሊኒክ', finance: 'ፋይናንስ', compliance: 'ጥራት', gis: 'GIS', weather: 'አየር ንግግር', ai: 'AI', logistics: 'ሎጂስቲክስ', workforce: 'ሰራተኞች', settings: 'ቅንብሮች' },
+        sw: { dashboard: 'Dashibodi', contracts: 'Mikataba', 'extension-service': 'Huduma ya Upanuzi', supply: 'Ugavi wa Pembejeo', 'seed-production': 'Uzalishaji wa Mbegu', 'soil-lab': 'Maabara ya Udongo', 'plant-clinic': 'Kliniki ya Mimea', finance: 'Fedha', compliance: 'Ubora na Cheti', gis: 'GIS', weather: 'Utabiri wa Hali ya Hewa', ai: 'AI', logistics: 'Usafirishaji', workforce: 'Wafanyakazi', settings: 'Mipangilio' },
+        de: { dashboard: 'Digitaler Zwilling', contracts: 'Vertragsverwaltung', 'extension-service': 'Digitale Erweiterung', supply: 'Input-Versorgung', 'seed-production': 'Saatgutproduktion', 'soil-lab': 'Bodenlabor', 'plant-clinic': 'Pflanzenklinik', finance: 'Finanzen & GuV', compliance: 'Qualität & Zert.', gis: 'GIS & IoT', weather: 'Wettervorhersage KI', ai: 'KI-Diagnose', logistics: 'Kühllogistik', workforce: 'Arbeitskräfte', settings: 'Einstellungen' }
       },
       init() {
         this.loadState();
