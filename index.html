@@ -174,11 +174,16 @@
           </div>
         </div>
         <div class="flex-1 overflow-y-auto scrollbar-hide p-2 space-y-1">
-          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3 mt-4">Management</p>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3 mt-4">Value Chain</p>
           <button data-route="contracts" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="file-signature" class="w-4 h-4 text-blue-400"></i><span class="text-sm font-medium">Contract Admin</span></button>
-          <button data-route="extension-service" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="headphones" class="w-4 h-4 text-teal-400"></i><span class="text-sm font-medium">Digital Extension</span></button>
           <button data-route="supply" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="shopping-cart" class="w-4 h-4 text-green-400"></i><span class="text-sm font-medium">Agri-Input Supply</span></button>
           <button data-route="seed-production" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="sprout" class="w-4 h-4 text-lime-400"></i><span class="text-sm font-medium">Seed Production</span></button>
+          <button data-route="seed-certification" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i><span class="text-sm font-medium">Seed Certification</span></button>
+          <button data-route="post-harvest" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="package" class="w-4 h-4 text-orange-400"></i><span class="text-sm font-medium">Post-Harvest Mgmt</span></button>
+          <button data-route="processing" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="cog" class="w-4 h-4 text-purple-400"></i><span class="text-sm font-medium">Processing & Value Add</span></button>
+          <button data-route="franchise" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="building" class="w-4 h-4 text-cyan-400"></i><span class="text-sm font-medium">Franchise Admin</span></button>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3 mt-4">Services</p>
+          <button data-route="extension-service" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="headphones" class="w-4 h-4 text-teal-400"></i><span class="text-sm font-medium">Digital Extension</span></button>
           <button data-route="soil-lab" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="test-tubes" class="w-4 h-4 text-yellow-300"></i><span class="text-sm font-medium">Soil Laboratory</span></button>
           <button data-route="plant-clinic" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="bug" class="w-4 h-4 text-red-300"></i><span class="text-sm font-medium">Plant Clinic</span></button>
           <button data-route="finance" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800/60 transition text-left"><i data-lucide="landmark" class="w-4 h-4 text-yellow-400"></i><span class="text-sm font-medium">Finance & P&L</span></button>
@@ -1808,6 +1813,474 @@
       },
       openInventoryDashboard() {
         this.toast('Full inventory system opened. Track stock levels, manage supplies, and optimize SKU distribution.', 'info');
+      },
+      viewSeedCertification() {
+        return `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-3">
+              <h1 class="text-2xl font-bold">Seed Certification & Quality Assurance</h1>
+              <button onclick="SenaERP.openCertificationModal()" class="bg-emerald-600 px-4 py-2 rounded-lg hover:bg-emerald-500 flex items-center gap-2 shadow-lg transition"><i data-lucide="shield-check" class="w-4 h-4"></i> New Certification</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              ${this.kpiCard('Certified Lots', '1,247', '+12%', 'success')}
+              ${this.kpiCard('Quality Tests Passed', '98.7%', '+0.3%', 'success')}
+              ${this.kpiCard('Pending Reviews', '23', '-5', 'warning')}
+              ${this.kpiCard('Rejected Lots', '8', '-2', 'danger')}
+            </div>
+            
+            <div class="glass-card p-6 rounded-xl border border-gray-700">
+              <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i> Certification Pipeline</h3>
+              <div class="space-y-4">
+                <div class="flex items-center justify-between p-4 bg-surface rounded border border-gray-700">
+                  <div>
+                    <p class="font-medium">Maize Hybrid A-12</p>
+                    <p class="text-sm text-gray-400">Lot #CERT-2026-001 | Purity: 98.5%</p>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-1 bg-green-600 text-xs rounded">Certified</span>
+                    <button class="text-blue-400 hover:text-blue-300"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-surface rounded border border-gray-700">
+                  <div>
+                    <p class="font-medium">Wheat Variety B-7</p>
+                    <p class="text-sm text-gray-400">Lot #CERT-2026-002 | Germination: 92%</p>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-1 bg-yellow-600 text-xs rounded">Under Review</span>
+                    <button class="text-blue-400 hover:text-blue-300"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      },
+      viewPostHarvest() {
+        return `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-3">
+              <h1 class="text-2xl font-bold">Post-Harvest Management & Cold-Chain Logistics</h1>
+              <button onclick="SenaERP.openShipmentModal()" class="bg-orange-600 px-4 py-2 rounded-lg hover:bg-orange-500 flex items-center gap-2 shadow-lg transition"><i data-lucide="truck" class="w-4 h-4"></i> New Shipment</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              ${this.kpiCard('Active Shipments', '47', '+8', 'info')}
+              ${this.kpiCard('Temperature Compliance', '99.2%', '+0.1%', 'success')}
+              ${this.kpiCard('Quality Maintained', '96.8%', '+1.2%', 'success')}
+              ${this.kpiCard('On-Time Delivery', '94.5%', '+2.1%', 'success')}
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="glass-card p-6 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="thermometer" class="w-5 h-5 text-blue-400"></i> Cold-Chain Monitoring</h3>
+                <div class="space-y-3">
+                  ${this.state.shipments.map(shipment => `
+                    <div class="p-4 bg-surface rounded border border-gray-700">
+                      <div class="flex justify-between items-start mb-2">
+                        <div>
+                          <p class="font-medium text-sm">${shipment.product}</p>
+                          <p class="text-xs text-gray-400">${shipment.origin} → ${shipment.dest}</p>
+                        </div>
+                        <span class="px-2 py-1 bg-${shipment.status === 'In Transit' ? 'blue' : 'green'}-600 text-xs rounded">${shipment.status}</span>
+                      </div>
+                      <div class="flex justify-between text-xs text-gray-400">
+                        <span>Temp: ${shipment.temp}</span>
+                        <span>ETA: ${shipment.eta}</span>
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+              
+              <div class="glass-card p-6 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="package" class="w-5 h-5 text-orange-400"></i> Quality Preservation</h3>
+                <div class="space-y-4">
+                  <div class="p-4 bg-surface rounded border border-gray-700">
+                    <p class="font-medium text-sm mb-2">Storage Conditions</p>
+                    <div class="grid grid-cols-2 gap-4 text-xs">
+                      <div>
+                        <p class="text-gray-400">Humidity</p>
+                        <p class="text-white">65-75%</p>
+                      </div>
+                      <div>
+                        <p class="text-gray-400">Temperature</p>
+                        <p class="text-white">4-8°C</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-4 bg-surface rounded border border-gray-700">
+                    <p class="font-medium text-sm mb-2">Quality Metrics</p>
+                    <div class="space-y-2">
+                      <div class="flex justify-between text-xs">
+                        <span class="text-gray-400">Moisture Content</span>
+                        <span class="text-white">12.5%</span>
+                      </div>
+                      <div class="flex justify-between text-xs">
+                        <span class="text-gray-400">Foreign Matter</span>
+                        <span class="text-white">0.8%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      },
+      viewProcessing() {
+        return `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-3">
+              <h1 class="text-2xl font-bold">Processing & Value Addition Facilities</h1>
+              <button onclick="SenaERP.openProcessingModal()" class="bg-purple-600 px-4 py-2 rounded-lg hover:bg-purple-500 flex items-center gap-2 shadow-lg transition"><i data-lucide="cog" class="w-4 h-4"></i> New Batch</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              ${this.kpiCard('Processing Capacity', '1,200 tons/day', '+15%', 'success')}
+              ${this.kpiCard('Value Addition', '45%', '+5%', 'success')}
+              ${this.kpiCard('Energy Efficiency', '92%', '+2%', 'info')}
+              ${this.kpiCard('Export Quality', '98%', '+1%', 'success')}
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div class="glass-card p-6 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="zap" class="w-5 h-5 text-yellow-400"></i> Milling Operations</h3>
+                <div class="space-y-3">
+                  <div class="p-3 bg-surface rounded border border-gray-700">
+                    <p class="font-medium text-sm">Maize Flour Production</p>
+                    <p class="text-xs text-gray-400">Capacity: 500 tons/day | Efficiency: 94%</p>
+                  </div>
+                  <div class="p-3 bg-surface rounded border border-gray-700">
+                    <p class="font-medium text-sm">Wheat Flour Processing</p>
+                    <p class="text-xs text-gray-400">Capacity: 300 tons/day | Efficiency: 96%</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="glass-card p-6 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="droplets" class="w-5 h-5 text-blue-400"></i> Oil Extraction</h3>
+                <div class="space-y-3">
+                  <div class="p-3 bg-surface rounded border border-gray-700">
+                    <p class="font-medium text-sm">Sunflower Oil</p>
+                    <p class="text-xs text-gray-400">Yield: 42% | Quality: Premium</p>
+                  </div>
+                  <div class="p-3 bg-surface rounded border border-gray-700">
+                    <p class="font-medium text-sm">Sesame Oil</p>
+                    <p class="text-xs text-gray-400">Yield: 48% | Organic Certified</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="glass-card p-6 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="package" class="w-5 h-5 text-green-400"></i> Packaging & Branding</h3>
+                <div class="space-y-3">
+                  <div class="p-3 bg-surface rounded border border-gray-700">
+                    <p class="font-medium text-sm">Export Packaging</p>
+                    <p class="text-xs text-gray-400">Standards: HACCP, ISO 22000</p>
+                  </div>
+                  <div class="p-3 bg-surface rounded border border-gray-700">
+                    <p class="font-medium text-sm">Local Branding</p>
+                    <p class="text-xs text-gray-400">Market Penetration: 65%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      },
+      viewFranchise() {
+        return `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-3">
+              <h1 class="text-2xl font-bold">Franchise Administration & Network Management</h1>
+              <button onclick="SenaERP.openFranchiseModal()" class="bg-cyan-600 px-4 py-2 rounded-lg hover:bg-cyan-500 flex items-center gap-2 shadow-lg transition"><i data-lucide="building" class="w-4 h-4"></i> New Franchise</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              ${this.kpiCard('Active Franchises', '127', '+8', 'success')}
+              ${this.kpiCard('Network Coverage', '85%', '+5%', 'info')}
+              ${this.kpiCard('Average Revenue', '$45K/month', '+12%', 'success')}
+              ${this.kpiCard('Satisfaction Rate', '96%', '+2%', 'success')}
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="glass-card p-6 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="map-pin" class="w-5 h-5 text-cyan-400"></i> Franchise Locations</h3>
+                <div class="space-y-3">
+                  <div class="p-4 bg-surface rounded border border-gray-700">
+                    <div class="flex justify-between items-start mb-2">
+                      <div>
+                        <p class="font-medium text-sm">Addis Ababa Central</p>
+                        <p class="text-xs text-gray-400">Franchise ID: FR-001 | Manager: Amina Hassan</p>
+                      </div>
+                      <span class="px-2 py-1 bg-green-600 text-xs rounded">Active</span>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-400">
+                      <span>Monthly Sales: $67K</span>
+                      <span>Performance: Excellent</span>
+                    </div>
+                  </div>
+                  <div class="p-4 bg-surface rounded border border-gray-700">
+                    <div class="flex justify-between items-start mb-2">
+                      <div>
+                        <p class="font-medium text-sm">Hawassa Regional</p>
+                        <p class="text-xs text-gray-400">Franchise ID: FR-045 | Manager: Dawit Kebede</p>
+                      </div>
+                      <span class="px-2 py-1 bg-green-600 text-xs rounded">Active</span>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-400">
+                      <span>Monthly Sales: $42K</span>
+                      <span>Performance: Good</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="glass-card p-6 rounded-xl border border-gray-700">
+                <h3 class="font-semibold mb-4 flex items-center gap-2"><i data-lucide="trending-up" class="w-5 h-5 text-green-400"></i> Performance Metrics</h3>
+                <div class="space-y-4">
+                  <div class="p-4 bg-surface rounded border border-gray-700">
+                    <p class="font-medium text-sm mb-2">Revenue Growth</p>
+                    <div class="flex items-center justify-between">
+                      <span class="text-2xl font-bold text-green-400">+18%</span>
+                      <span class="text-xs text-gray-400">vs last quarter</span>
+                    </div>
+                  </div>
+                  <div class="p-4 bg-surface rounded border border-gray-700">
+                    <p class="font-medium text-sm mb-2">Customer Satisfaction</p>
+                    <div class="flex items-center justify-between">
+                      <span class="text-2xl font-bold text-blue-400">4.8/5</span>
+                      <span class="text-xs text-gray-400">average rating</span>
+                    </div>
+                  </div>
+                  <div class="p-4 bg-surface rounded border border-gray-700">
+                    <p class="font-medium text-sm mb-2">Network Expansion</p>
+                    <div class="flex items-center justify-between">
+                      <span class="text-2xl font-bold text-purple-400">12 new</span>
+                      <span class="text-xs text-gray-400">this year</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      },
+      openCertificationModal() {
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        modal.innerHTML = `
+          <div class="bg-surface p-6 rounded-xl border border-gray-700 max-w-md w-full mx-4">
+            <h3 class="text-lg font-semibold mb-4">New Seed Certification</h3>
+            <form onsubmit="SenaERP.submitCertification(event)">
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium mb-1">Crop Type</label>
+                  <select name="cropType" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" required>
+                    <option value="">Select crop</option>
+                    <option value="maize">Maize</option>
+                    <option value="wheat">Wheat</option>
+                    <option value="sorghum">Sorghum</option>
+                    <option value="teff">Teff</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1">Variety</label>
+                  <input type="text" name="variety" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" placeholder="e.g., Hybrid A-12" required>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1">Lot Number</label>
+                  <input type="text" name="lotNumber" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" placeholder="CERT-2026-XXX" required>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium mb-1">Purity (%)</label>
+                    <input type="number" name="purity" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" min="0" max="100" step="0.1" required>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium mb-1">Germination (%)</label>
+                    <input type="number" name="germination" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" min="0" max="100" step="0.1" required>
+                  </div>
+                </div>
+              </div>
+              <div class="flex gap-3 mt-6">
+                <button type="button" onclick="this.closest('.fixed').remove()" class="flex-1 px-4 py-2 bg-gray-700 rounded hover:bg-gray-600">Cancel</button>
+                <button type="submit" class="flex-1 px-4 py-2 bg-emerald-600 rounded hover:bg-emerald-500">Submit for Certification</button>
+              </div>
+            </form>
+          </div>
+        `;
+        document.body.appendChild(modal);
+      },
+      submitCertification(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        this.toast('Seed certification submitted successfully! Lot will be reviewed within 48 hours.', 'success');
+        event.target.closest('.fixed').remove();
+      },
+      openShipmentModal() {
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        modal.innerHTML = `
+          <div class="bg-surface p-6 rounded-xl border border-gray-700 max-w-md w-full mx-4">
+            <h3 class="text-lg font-semibold mb-4">New Shipment</h3>
+            <form onsubmit="SenaERP.submitShipment(event)">
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium mb-1">Product</label>
+                  <input type="text" name="product" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" placeholder="e.g., Maize Grain" required>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium mb-1">Origin</label>
+                    <input type="text" name="origin" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" placeholder="Warehouse location" required>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium mb-1">Destination</label>
+                    <input type="text" name="destination" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" placeholder="Market/Distribution" required>
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium mb-1">Quantity (tons)</label>
+                    <input type="number" name="quantity" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" min="0" step="0.1" required>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium mb-1">Temperature (°C)</label>
+                    <input type="number" name="temperature" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" step="0.1" value="4" required>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1">ETA</label>
+                  <input type="datetime-local" name="eta" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" required>
+                </div>
+              </div>
+              <div class="flex gap-3 mt-6">
+                <button type="button" onclick="this.closest('.fixed').remove()" class="flex-1 px-4 py-2 bg-gray-700 rounded hover:bg-gray-600">Cancel</button>
+                <button type="submit" class="flex-1 px-4 py-2 bg-orange-600 rounded hover:bg-orange-500">Create Shipment</button>
+              </div>
+            </form>
+          </div>
+        `;
+        document.body.appendChild(modal);
+      },
+      submitShipment(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        this.toast('Shipment created successfully! Cold-chain monitoring activated.', 'success');
+        event.target.closest('.fixed').remove();
+      },
+      openProcessingModal() {
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        modal.innerHTML = `
+          <div class="bg-surface p-6 rounded-xl border border-gray-700 max-w-md w-full mx-4">
+            <h3 class="text-lg font-semibold mb-4">New Processing Batch</h3>
+            <form onsubmit="SenaERP.submitProcessing(event)">
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium mb-1">Product Type</label>
+                  <select name="productType" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" required>
+                    <option value="">Select product</option>
+                    <option value="maize-flour">Maize Flour</option>
+                    <option value="wheat-flour">Wheat Flour</option>
+                    <option value="sunflower-oil">Sunflower Oil</option>
+                    <option value="sesame-oil">Sesame Oil</option>
+                  </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium mb-1">Input Quantity (tons)</label>
+                    <input type="number" name="inputQuantity" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" min="0" step="0.1" required>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium mb-1">Expected Yield (%)</label>
+                    <input type="number" name="expectedYield" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" min="0" max="100" step="0.1" required>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1">Processing Facility</label>
+                  <select name="facility" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" required>
+                    <option value="">Select facility</option>
+                    <option value="mill-1">Mill Facility 1</option>
+                    <option value="mill-2">Mill Facility 2</option>
+                    <option value="oil-extraction">Oil Extraction Plant</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1">Quality Standards</label>
+                  <select name="qualityStandard" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" required>
+                    <option value="export">Export Grade</option>
+                    <option value="premium">Premium Local</option>
+                    <option value="standard">Standard</option>
+                  </select>
+                </div>
+              </div>
+              <div class="flex gap-3 mt-6">
+                <button type="button" onclick="this.closest('.fixed').remove()" class="flex-1 px-4 py-2 bg-gray-700 rounded hover:bg-gray-600">Cancel</button>
+                <button type="submit" class="flex-1 px-4 py-2 bg-purple-600 rounded hover:bg-purple-500">Start Processing</button>
+              </div>
+            </form>
+          </div>
+        `;
+        document.body.appendChild(modal);
+      },
+      submitProcessing(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        this.toast('Processing batch created successfully! Production monitoring activated.', 'success');
+        event.target.closest('.fixed').remove();
+      },
+      openFranchiseModal() {
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        modal.innerHTML = `
+          <div class="bg-surface p-6 rounded-xl border border-gray-700 max-w-md w-full mx-4">
+            <h3 class="text-lg font-semibold mb-4">New Franchise Application</h3>
+            <form onsubmit="SenaERP.submitFranchise(event)">
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium mb-1">Location</label>
+                  <input type="text" name="location" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" placeholder="City/Region" required>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1">Applicant Name</label>
+                  <input type="text" name="applicantName" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" placeholder="Full name" required>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1">Contact Email</label>
+                  <input type="email" name="email" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" placeholder="email@example.com" required>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1">Phone Number</label>
+                  <input type="tel" name="phone" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" placeholder="+251 XXX XXX XXX" required>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1">Investment Amount (ETB)</label>
+                  <input type="number" name="investment" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" min="0" step="1000" required>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1">Experience Level</label>
+                  <select name="experience" class="w-full p-2 bg-gray-800 border border-gray-600 rounded" required>
+                    <option value="">Select experience</option>
+                    <option value="beginner">Beginner (0-2 years)</option>
+                    <option value="intermediate">Intermediate (2-5 years)</option>
+                    <option value="expert">Expert (5+ years)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="flex gap-3 mt-6">
+                <button type="button" onclick="this.closest('.fixed').remove()" class="flex-1 px-4 py-2 bg-gray-700 rounded hover:bg-gray-600">Cancel</button>
+                <button type="submit" class="flex-1 px-4 py-2 bg-cyan-600 rounded hover:bg-cyan-500">Submit Application</button>
+              </div>
+            </form>
+          </div>
+        `;
+        document.body.appendChild(modal);
+      },
+      submitFranchise(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        this.toast('Franchise application submitted successfully! Review process will begin within 7 days.', 'success');
+        event.target.closest('.fixed').remove();
       },
       toast(msg, type='info') {
         const container = document.getElementById('toast-container');
