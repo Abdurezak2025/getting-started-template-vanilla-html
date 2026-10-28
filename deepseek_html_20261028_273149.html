@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="description" content="Sena FarmERP v8.2 — local-first enterprise client with optional Supabase cloud, real Jitsi video, real deep-links, honest AI." />
+<meta name="theme-color" content="#0F766E" />
+<title>Sena FarmERP v8.2</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{--p:#0F766E;--s:#0D9488;--d:#0B1120;--sf:#151E2E;--pn:#1A2538;--bd:#334155}
+  *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+  body{margin:0;background:var(--d);color:#E2E8F0;font-family:'Inter','Noto Sans Ethiopic',system-ui,sans-serif}
+  .glass{background:rgba(26,37,56,.75);border:1px solid rgba(51,65,85,.5);backdrop-filter:blur(10px)}
+  .card{background:var(--pn);border:1px solid rgba(51,65,85,.55);border-radius:.85rem}
+  input,select,textarea{background:#0F172A;color:#E2E8F0;border:1px solid #334155;border-radius:.5rem;padding:.5rem .65rem;font-size:.82rem;font-family:inherit}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(15,118,110,.2)}
+  .grad{background:linear-gradient(135deg,#0F766E,#14B8A6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.5rem .85rem;border-radius:.5rem;font-size:.82rem;font-weight:600;cursor:pointer;border:1px solid transparent;text-decoration:none;transition:.15s;font-family:inherit}
+  .btn-p{background:var(--p);color:#fff}.btn-p:hover{background:var(--s)}
+  .btn-s{background:#1E293B;border-color:#475569;color:#E2E8F0}.btn-s:hover{background:#334155}
+  .btn-d{background:#7F1D1D;border-color:#991B1B;color:#FECACA}.btn-d:hover{background:#991B1B}
+  .btn-g{background:#1E40AF;border-color:#1E40AF;color:#fff}.btn-g:hover{background:#1D4ED8}
+  .btn-sm{padding:.28rem .55rem;font-size:.72rem}
+  .badge{display:inline-block;padding:.18rem .55rem;border-radius:999px;font-size:.64rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  .b-ok{background:rgba(16,185,129,.18);color:#34D399}
+  .b-warn{background:rgba(245,158,11,.18);color:#FBBF24}
+  .b-err{background:rgba(239,68,68,.18);color:#F87171}
+  .b-info{background:rgba(59,130,246,.18);color:#60A5FA}
+  .nav-btn{display:flex;align-items:center;gap:.55rem;padding:.48rem .7rem;border-radius:.45rem;width:100%;text-align:left;font-size:.8rem;color:#CBD5E1;cursor:pointer;border:0;background:transparent}
+  .nav-btn:hover{background:rgba(30,41,59,.8)}
+  .nav-btn.active{background:rgba(15,118,110,.18);border-left:3px solid var(--p);color:#5EEAD4}
+  .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+  .kpi{background:var(--pn);border:1px solid rgba(51,65,85,.55);border-radius:.85rem;padding:.9rem}
+  .field-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.55rem}
+  .field-grid label{display:flex;flex-direction:column;gap:.2rem;font-size:.7rem;color:#94A3B8}
+  .section-card{border:1px solid #334155;border-radius:.65rem;padding:.85rem;background:rgba(21,30,46,.5);margin-bottom:.7rem}
+  .section-card h4{margin:0 0 .55rem;font-size:.84rem;color:#5EEAD4;font-weight:700}
+  .pill{display:inline-flex;gap:.3rem;align-items:center;padding:.18rem .5rem;border-radius:.35rem;font-size:.65rem;background:#0F172A;border:1px solid #334155}
+  .warn-box{border:1px solid #854D0E;background:rgba(51,39,14,.6);color:#FDE68A;padding:.65rem .85rem;border-radius:.5rem;font-size:.76rem;line-height:1.5;margin:.5rem 0}
+  .info-box{border:1px solid #1E40AF;background:rgba(23,37,84,.45);color:#BFDBFE;padding:.65rem .85rem;border-radius:.5rem;font-size:.76rem;line-height:1.5;margin:.5rem 0}
+  .danger-box{border:1px solid #991B1B;background:rgba(76,29,29,.5);color:#FCA5A5;padding:.65rem .85rem;border-radius:.5rem;font-size:.76rem;line-height:1.5;margin:.5rem 0}
+  .ok-box{border:1px solid #065F46;background:rgba(6,78,59,.5);color:#6EE7B7;padding:.65rem .85rem;border-radius:.5rem;font-size:.76rem;line-height:1.5;margin:.5rem 0}
+  table.data{width:100%;border-collapse:collapse;font-size:.76rem}
+  table.data th{background:#0F172A;text-align:left;padding:.45rem .6rem;color:#94A3B8;font-size:.64rem;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid #334155}
+  table.data td{padding:.42rem .6rem;border-bottom:1px solid #1E293B;max-width:220px;overflow-wrap:anywhere}
+  table.data tr:hover td{background:rgba(15,118,110,.05)}
+  .data-scroll{overflow:auto;border:1px solid #334155;border-radius:.5rem}
+  #map{height:100%;width:100%;min-height:400px;border-radius:.5rem;z-index:1}
+  .leaflet-container{background:#0B1120!important}
+  .toast{animation:slideUp .25s ease}
+  @keyframes slideUp{from{transform:translateY(15px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .modal-content{max-height:92vh;overflow-y:auto}
+  .lang-btn{padding:.22rem .45rem;border-radius:.32rem;font-size:.68rem;border:1px solid #334155;background:#0F172A;color:#CBD5E1;cursor:pointer}
+  .lang-btn.active{background:rgba(15,118,110,.3);border-color:#14B8A6;color:#5EEAD4}
+  .bundle-card{background:var(--pn);border:1px solid #334155;border-radius:.7rem;padding:.85rem;display:flex;flex-direction:column;gap:.5rem}
+  .bundle-card:hover{border-color:rgba(15,118,110,.6)}
+  .price{font-size:1.1rem;font-weight:800;color:#5EEAD4}
+  .price small{font-size:.63rem;color:#94A3B8;font-weight:400;display:block;margin-top:.1rem}
+  .social-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.45rem}
+  .social-btn{display:flex;align-items:center;gap:.4rem;padding:.5rem .6rem;border-radius:.45rem;background:#1E293B;border:1px solid #334155;color:#E2E8F0;font-size:.75rem;font-weight:600;text-decoration:none;transition:.15s}
+  .social-btn:hover{background:#334155;border-color:var(--p);transform:translateY(-1px)}
+  .social-ico{width:22px;height:22px;border-radius:.3rem;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+  @media(max-width:900px){#sidebar{position:absolute;left:0;top:0;bottom:0;z-index:30;transform:translateX(-100%);transition:transform .25s}#sidebar.open{transform:translateX(0)}#menu-btn{display:inline-flex!important}}
+</style>
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div id="auth" style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:1rem;background:linear-gradient(135deg,#0B1120,#151E2E,#111827);overflow-y:auto">
+  <div class="card" style="max-width:600px;width:100%;padding:1.4rem;margin:auto">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.85rem">
+      <div id="logo-auth" style="width:60px;height:60px;flex-shrink:0"></div>
+      <div>
+        <h1 style="margin:0;font-size:1.25rem;font-weight:800">Sena FarmERP <span class="grad">v8.2</span></h1>
+        <p style="margin:.1rem 0 0;font-size:.7rem;color:#94A3B8">Invest on agribusiness for better life of peoples</p>
+      </div>
+    </div>
+    <div class="info-box" style="font-size:.74rem">
+      Real working client. Local-first (IndexedDB). Optionally connect Supabase for real cloud + auth. AI diagnosis is disabled — human review only. Payments are honest adapters; capture requires backend (Part 2).
+    </div>
+    <details style="margin:.55rem 0;border:1px solid #334155;border-radius:.5rem;padding:.55rem;background:#0B1120">
+      <summary style="cursor:pointer;color:#5EEAD4;font-weight:700;font-size:.8rem">☁️ Connect Supabase Cloud (optional)</summary>
+      <div style="font-size:.72rem;color:#94A3B8;line-height:1.6;margin-top:.45rem">
+        Create free project at <a href="https://supabase.com" target="_blank" rel="noopener" style="color:#5EEAD4">supabase.com</a>, copy <b>URL</b> + <b>anon key</b>, run the schema in Part 2, then paste below.
+      </div>
+      <div style="display:grid;gap:.35rem;margin-top:.45rem">
+        <input id="sb-url" type="url" placeholder="https://YOURPROJECT.supabase.co">
+        <input id="sb-key" type="text" placeholder="anon public key (eyJ…)">
+        <div style="display:flex;gap:.3rem"><button type="button" class="btn btn-g btn-sm" onclick="App.saveSupabase()">💾 Save & Reload</button><button type="button" class="btn btn-s btn-sm" onclick="App.clearSupabase()">Clear</button></div>
+        <div id="sb-status" style="font-size:.7rem;color:#94A3B8"></div>
+      </div>
+    </details>
+    <form id="login-form" style="margin-top:.6rem;display:flex;flex-direction:column;gap:.5rem">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem">
+        <div><label style="font-size:.68rem;color:#94A3B8">Name</label><input id="login-name" type="text" value="Local Operator" required style="width:100%"></div>
+        <div><label style="font-size:.68rem;color:#94A3B8">Role</label>
+          <select id="login-role" style="width:100%">
+            <option>CEO / Admin</option><option>Operations Manager</option><option>Field Officer</option>
+            <option>Agronomist</option><option>Finance</option><option>Call Center Agent</option><option>Extension Officer</option>
+          </select>
+        </div>
+      </div>
+      <div id="cloud-login" style="display:none">
+        <label style="font-size:.68rem;color:#94A3B8">Email</label><input id="login-email" type="email" style="width:100%;margin-bottom:.35rem">
+        <label style="font-size:.68rem;color:#94A3B8">Password</label><input id="login-pass" type="password" style="width:100%">
+      </div>
+      <button type="submit" class="btn btn-p" style="padding:.62rem;margin-top:.25rem" id="login-btn">Open Client</button>
+    </form>
+    <div style="margin-top:.6rem;display:flex;gap:.3rem;flex-wrap:wrap;font-size:.62rem">
+      <span class="pill" style="color:#FBBF24">Local-first</span>
+      <span class="pill" id="cloud-pill" style="color:#94A3B8">Cloud: not configured</span>
+      <span class="pill">7 languages</span>
+      <span class="pill">Honest AI status</span>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none;height:100vh;flex-direction:column">
+  <header class="glass" style="display:flex;align-items:center;justify-content:space-between;padding:.45rem .85rem;border-bottom:1px solid #1E293B;z-index:20;flex-wrap:wrap;gap:.35rem">
+    <div style="display:flex;align-items:center;gap:.55rem;min-width:0">
+      <button id="menu-btn" style="display:none;background:transparent;border:0;color:#E2E8F0;font-size:1.05rem;padding:.25rem" aria-label="Menu">☰</button>
+      <div id="logo-mini" style="width:36px;height:36px;flex-shrink:0"></div>
+      <div style="min-width:0">
+        <div style="font-weight:700;font-size:.85rem" class="grad">Sena FarmERP v8.2</div>
+        <div style="font-size:.6rem;color:#94A3B8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span id="conn-status">…</span> · <span id="cloud-status">local</span> · <span id="clock">--:--</span></div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:.3rem;flex-wrap:wrap">
+      <div id="lang-switch" style="display:flex;gap:.2rem;flex-wrap:wrap"></div>
+      <span id="role-badge" class="badge b-info">—</span>
+      <button class="btn btn-s btn-sm" onclick="App.syncAll()" title="Sync">🔄</button>
+      <button class="btn btn-s btn-sm" onclick="App.openExport()" title="Export">⬇</button>
+      <button class="btn btn-d btn-sm" onclick="App.logout()" title="Logout">⏻</button>
+    </div>
+  </header>
+  <div style="display:flex;flex:1;min-height:0;position:relative">
+    <nav id="sidebar" class="glass" style="width:230px;flex-shrink:0;overflow-y:auto;padding:.5rem;border-right:1px solid #1E293B"><div id="nav-root"></div></nav>
+    <main id="content" style="flex:1;overflow-y:auto;padding:.85rem"></main>
+  </div>
+</div>
+<div id="toasts" style="position:fixed;bottom:.85rem;right:.85rem;z-index:100;display:flex;flex-direction:column;gap:.4rem;pointer-events:none"></div>
+<div id="modal-root"></div>
+
+<script>
+/* ============================================================================
+   SENA FARMERP v8.2 — Honest local-first client
+   What works: IndexedDB, optional Supabase, Jitsi video, WhatsApp/Telegram/
+   mailto/tel/SMS deep-links, GPS/camera/mic/USB/Serial/BLE probing, multi-
+   language, admin role-gating, JSON backup + restore, multi-currency cart.
+   What does NOT work here (requires Part 2 backend): payment capture,
+   AI inference, satellite streaming, WhatsApp Business templates, RBAC RLS,
+   append-only audit, DR backup automation.
+   ============================================================================ */
+
+const VERSION='8.2.0-local';
+const SKEY='sena_v82_session';
+const SBK='sena_v82_supabase';
+
+/* ---------- Sena logo (SVG recreation of uploaded flame/leaf mark) ---------- */
+function senaLogo(size=40){
+  return `<svg viewBox="0 0 120 120" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg" aria-label="Sena Agribusiness">
+    <defs>
+      <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#6BCB3F"/>
+        <stop offset="1" stop-color="#2E7D32"/>
+      </linearGradient>
+    </defs>
+    <path d="M40 20 C60 25, 75 45, 75 65 C75 85, 60 100, 42 105 C55 90, 62 72, 55 55 C50 42, 42 32, 40 20 Z" fill="url(#lg)"/>
+    <path d="M55 30 C70 38, 82 55, 80 75 C78 92, 65 105, 50 110 C60 95, 65 78, 60 62 C57 50, 55 40, 55 30 Z" fill="url(#lg)" opacity=".65"/>
+    <circle cx="60" cy="55" r="3.5" fill="#FBBF24"/>
+  </svg>`;
+}
+document.getElementById('logo-auth').innerHTML=senaLogo(60);
+document.getElementById('logo-mini').innerHTML=senaLogo(32);
+
+/* ---------- Toast ---------- */
+function toast(msg,kind='info',ttl=5000){
+  const el=document.createElement('div'); el.className='card toast';
+  el.style.cssText='padding:.55rem .8rem;max-width:340px;font-size:.76rem;border-left:4px solid #0F766E';
+  const cls={ok:'b-ok',warn:'b-warn',err:'b-err',info:'b-info'}[kind]||'b-info';
+  el.innerHTML=`<span class="badge ${cls}">${kind}</span><div style="margin-top:.22rem">${msg}</div>`;
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300)},ttl);
+}
+
+/* ---------- i18n ---------- */
+const LANGS=[{c:'en',n:'English',f:'🇬🇧'},{c:'am',n:'አማርኛ',f:'🇪🇹'},{c:'om',n:'Afaan Oromoo',f:'🇪🇹'},{c:'so',n:'Af-Soomaali',f:'🇸🇴'},{c:'aa',n:'Qafar',f:'🇪🇹'},{c:'ti',n:'ትግርኛ',f:'🇪🇹'},{c:'sw',n:'Kiswahili',f:'🇰🇪'}];
+const I18N={
+  en:{dashboard:'Dashboard',farms:'Farmer & Plot Registry',contracts:'Contracts',seed:'Seed & Certification',coffee:'Coffee & Export',soil:'Soil Lab',clinic:'Plant Health Clinic',procurement:'Procurement',finance:'Finance & Assets',credit:'Credit / PAYG',hr:'HR & Inclusion',travel:'Travel',extension:'Extension & Comms',callcenter:'Call Center',marketplace:'Marketplace',shop:'Agri-Input Shop',satellite:'Satellite Evidence',workforce:'Workforce',compliance:'Compliance & EUDR',processing:'Processing',logistics:'Logistics',iot:'IoT & Devices',franchise:'Franchise',social:'Social & Video',payments:'Payments',devices:'Device Test',ai:'AI (disabled)',gis:'GIS / Map',library:'Library',admin:'Admin Control',audit:'Sections Audit',settings:'Settings',backup:'Backup & Restore',newRecord:'+ New record',export:'Export',save:'Save',cancel:'Cancel',delete:'Delete',edit:'Edit',close:'Close',call:'Call',video:'Video call',search:'Search',loading:'Loading…'},
+  am:{dashboard:'ዳሽቦርድ',farms:'የገበሬና መሬት መዝገብ',contracts:'ውሎች',seed:'ዘርና ማረጋገጫ',coffee:'ቡናና ወደ ውጭ ላክ',soil:'የአፈር ላብ',clinic:'የዕፅዋት ህክምና',procurement:'ግዥ',finance:'ፋይናንስና ንብረት',credit:'ክሬዲት',hr:'ሰው ኃይል',travel:'ጉዞ',extension:'ማራዘሚያ',callcenter:'የጥሪ ማእከል',marketplace:'ገበያ',shop:'የእርሻ ግብዓት ሱቅ',satellite:'ሳተላይት',workforce:'የሰው ኃይል',compliance:'ተገዢነት',processing:'ማቀነባበር',logistics:'ሎጂስቲክስ',iot:'IoT',franchise:'ፍራንሻይዝ',social:'ማኅበራዊ',payments:'ክፍያዎች',devices:'መሣሪያ ሙከራ',ai:'AI (ተሰናክሏል)',gis:'GIS',library:'ቤተ መጻሕፍት',admin:'አስተዳደር',audit:'ክፍል ኦዲት',settings:'ቅንብሮች',backup:'ምትኬና መልሶ ማቋቋም',newRecord:'+ አዲስ',export:'አውጣ',save:'አስቀምጥ',cancel:'ሰርዝ',delete:'አጥፋ',edit:'አርትዕ',close:'ዘጋ',call:'ደውል',video:'ቪዲዮ',search:'ፈልግ',loading:'በመጫን ላይ…'},
+  om:{dashboard:'Daashboordii',farms:'Galmee Qonnaan Bulaa',contracts:'Waliigaltee',seed:'Sanyii fi Ragaa',coffee:'Buna fi Eksportii',soil:'Laaboraatoorii Biyyee',clinic:'Kiliinika Biqiltuu',procurement:'Bittaa',finance:'Faayinaansii',credit:'Liqii',hr:'Hojjetaa',travel:'Imala',extension:'Eegumsa',callcenter:'Giddu-galeessa Bilbilaa',marketplace:'Gabaa',shop:'Suuqii Galtee',satellite:'Sateelaayitii',workforce:'Hojjettoota',compliance:'Kabajuu',processing:'Qopheessuu',logistics:'Loogistikii',iot:'IoT',franchise:'Firaanchii',social:'Hawaasummaa',payments:'Kaffaltii',devices:'Qorannoo Meeshaa',ai:'AI (cufaa)',gis:'GIS',library:'Mana Kitaabaa',admin:'Bulchiinsa',audit:'Odituu',settings:'Qindaa’ina',backup:'Kuusaa fi Deebisuu',newRecord:'+ Haaraa',export:'Baasii',save:'Olkaa’i',cancel:'Dhiisi',delete:'Balleessi',edit:'Gulaali',close:'Cufi',call:'Bilbili',video:'Viidiyoo',search:'Barbaadi',loading:'Fe’aa jira…'},
+  so:{dashboard:'Shaxda',farms:'Diiwaanka Beeralayda',contracts:'Qandaraasyo',seed:'Abuur & Shahaado',coffee:'Bun & Dhoofin',soil:'Shaybaarka Ciidda',clinic:'Kilinigga Dhirta',procurement:'Iibsasho',finance:'Maaliyad',credit:'Amaah',hr:'Shaqaale',travel:'Safar',extension:'Fidinta',callcenter:'Xarunta Wicitaanka',marketplace:'Suuq',shop:'Dukaan Beeraha',satellite:'Dayax-gacmeed',workforce:'Shaqaalaha',compliance:'U hoggaansamid',processing:'Habaynta',logistics:'Saadka',iot:'IoT',franchise:'Franshays',social:'Bulsho',payments:'Lacag-bixin',devices:'Tijaabada Qalabka',ai:'AI (damiiran)',gis:'GIS',library:'Maktabad',admin:'Maamul',audit:'Hantidhowr',settings:'Dejinta',backup:'Kayd & Soo-celin',newRecord:'+ Cusub',export:'Dhoofi',save:'Kaydi',cancel:'Jooji',delete:'Tirtir',edit:'Wax ka beddel',close:'Xir',call:'Wac',video:'Muuqaal',search:'Raadi',loading:'Soo dejinaya…'},
+  aa:{dashboard:'Dashboordi',farms:'Gezzi Qellissi',contracts:'Waliigal',seed:'Sanyii fi Ragi',coffee:'Buna fi Eksporti',soil:'Biyyah Laaboratoor',clinic:'Biqiltu Kilinik',procurement:'Bittaa',finance:'Maaliyad',credit:'Liqi',hr:'Shaqala',travel:'Safar',extension:'Fidina',callcenter:'Wicitaan Xarunto',marketplace:'Suq',shop:'Biyyah Suq',satellite:'Sateelayit',workforce:'Shaqalto',compliance:'Oogidda',processing:'Qopheysa',logistics:'Logistik',iot:'IoT',franchise:'Franshayz',social:'Guddi',payments:'Kayfa',devices:'Qalab Qorannoo',ai:'AI (damirsan)',gis:'GIS',library:'Kitaab Xarunto',admin:'Maamul',audit:'Odituu',settings:'Qindaa’ina',backup:'Kayd & Soo-celin',newRecord:'+ Qusba',export:'Dhoofi',save:'Kaydi',cancel:'Jooji',delete:'Tirtir',edit:'Wax ka beddel',close:'Xir',call:'Wac',video:'Muuqaal',search:'Raadi',loading:'Soo dejinaya…'},
+  ti:{dashboard:'ዳሽቦርድ',farms:'መዝገብ ሓረስታይ',contracts:'ውልቲ',seed:'ዘርኢን ምርግጋጽን',coffee:'ቡንን ወጻኢ ንግድን',soil:'ላቦራቶሪ መሬት',clinic:'ሕክምና ተኽሊ',procurement:'ግዝኣት',finance:'ፋይናንስ',credit:'ክሬዲት',hr:'ሰብኣዊ ጸጋ',travel:'ጉዕዞ',extension:'ምርኢት',callcenter:'ማእከል ጻውዒት',marketplace:'ዕዳጋ',shop:'ዱኳን እታው',satellite:'ሳተላይት',workforce:'ሰብኣዊ ጸጋ',compliance:'ተኣዛዝነት',processing:'ምስራሕ',logistics:'ሎጂስቲክስ',iot:'IoT',franchise:'ፍራንሻይዝ',social:'ማሕበራዊ',payments:'ክፍሊት',devices:'ፈተነ መሳርሒ',ai:'AI (ተሰናኺሉ)',gis:'GIS',library:'ቤት መጻሕፍቲ',admin:'ምሕደራ',audit:'ኦዲት',settings:'ምስናድ',backup:'ቅርጺን ምምላስን',newRecord:'+ ሓድሽ',export:'ኣውጽእ',save:'ኣቐምጥ',cancel:'ሰርዝ',delete:'ኣጥፍእ',edit:'ኣተዓራሪ',close:'ዕጸው',call:'ደውል',video:'ቪዲዮ',search:'ድሕሪት',loading:'ይጽዕን ኣሎ…'},
+  sw:{dashboard:'Dashibodi',farms:'Rejista ya Wakulima',contracts:'Mikataba',seed:'Mbegu & Uthibitisho',coffee:'Kahawa & Mauzo',soil:'Maabara ya Udongo',clinic:'Kliniki ya Mimea',procurement:'Ununuzi',finance:'Fedha',credit:'Mkopo',hr:'Wafanyakazi',travel:'Safari',extension:'Ugani',callcenter:'Kituo cha Simu',marketplace:'Soko',shop:'Duka la Pembejeo',satellite:'Satelaiti',workforce:'Nguvu kazi',compliance:'Utiifu',processing:'Usindikaji',logistics:'Usafirishaji',iot:'IoT',franchise:'Franshise',social:'Mitandao',payments:'Malipo',devices:'Jaribio la Kifaa',ai:'AI (imezimwa)',gis:'GIS',library:'Maktaba',admin:'Utawala',audit:'Ukaguzi',settings:'Mipangilio',backup:'Nakala & Rejesha',newRecord:'+ Mpya',export:'Hamisha',save:'Hifadhi',cancel:'Ghairi',delete:'Futa',edit:'Hariri',close:'Funga',call:'Piga',video:'Video',search:'Tafuta',loading:'Inapakia…'}
+};
+let LANG='en';
+const t=k=>(I18N[LANG]&&I18N[LANG][k])||I18N.en[k]||k;
+
+/* ---------- Storage ---------- */
+const Storage={
+  db:null,DB:'sena_v82',STORE:'records',cloud:null,
+  async init(){return new Promise((res,rej)=>{const r=indexedDB.open(this.DB,1);r.onupgradeneeded=e=>{const d=e.target.result;if(!d.objectStoreNames.contains(this.STORE))d.createObjectStore(this.STORE,{keyPath:'_id'});};r.onsuccess=e=>{this.db=e.target.result;res();};r.onerror=e=>rej(e);});},
+  async put(c,o){
+    const rec={_id:o._id||`${c}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,collection:c,...o,_updated:Date.now()};
+    await new Promise((res,rej)=>{const tx=this.db.transaction(this.STORE,'readwrite');tx.objectStore(this.STORE).put(rec);tx.oncomplete=()=>res();tx.onerror=e=>rej(e);});
+    if(this.cloud&&Auth.user){try{await this.cloud.upsert(c,rec);}catch(e){console.warn('cloud upsert',e);}}
+    return rec;
+  },
+  async list(c){
+    const local=await new Promise((res,rej)=>{const out=[];const tx=this.db.transaction(this.STORE,'readonly');const r=tx.objectStore(this.STORE).openCursor();r.onsuccess=e=>{const cur=e.target.result;if(cur){if(cur.value.collection===c)out.push(cur.value);cur.continue();}else res(out);};r.onerror=e=>rej(e);});
+    if(this.cloud&&Auth.user){try{const remote=await this.cloud.list(c);const m=new Map();[...local,...remote].forEach(x=>m.set(x._id,x));return[...m.values()];}catch(e){console.warn('cloud list',e);}}
+    return local;
+  },
+  async remove(id){
+    await new Promise((res,rej)=>{const tx=this.db.transaction(this.STORE,'readwrite');tx.objectStore(this.STORE).delete(id);tx.oncomplete=()=>res();tx.onerror=e=>rej(e);});
+    if(this.cloud&&Auth.user){try{await this.cloud.remove(id);}catch(e){}}
+  },
+  async countAll(){return new Promise((res,rej)=>{const tx=this.db.transaction(this.STORE,'readonly');const r=tx.objectStore(this.STORE).count();r.onsuccess=()=>res(r.result);r.onerror=e=>rej(e);});},
+  async wipe(){return new Promise((res,rej)=>{const tx=this.db.transaction(this.STORE,'readwrite');tx.objectStore(this.STORE).clear();tx.oncomplete=()=>res();tx.onerror=e=>rej(e);});}
+};
+
+/* ---------- Supabase adapter ---------- */
+const Cloud={
+  client:null,
+  async load(){
+    try{const raw=localStorage.getItem(SBK);if(!raw)return false;const c=JSON.parse(raw);if(!c.url||!c.key)return false;
+      if(!window.supabase){await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+      this.client=window.supabase.createClient(c.url,c.key);return true;
+    }catch(e){console.warn('Cloud load',e);return false;}
+  },
+  async signIn(email,pass){const{data,error}=await this.client.auth.signInWithPassword({email,password:pass});if(error)throw error;return data.user;},
+  async signOut(){if(this.client)await this.client.auth.signOut();},
+  async currentUser(){if(!this.client)return null;const{data}=await this.client.auth.getUser();return data.user;},
+  async upsert(c,rec){const{error}=await this.client.from('records').upsert({id:rec._id,collection:c,payload:rec,updated_at:new Date().toISOString(),owner:Auth.user?.id||null},{onConflict:'id'});if(error)throw error;},
+  async list(c){const{data,error}=await this.client.from('records').select('*').eq('collection',c);if(error)throw error;return(data||[]).map(r=>({...r.payload,_id:r.id,_cloudUpdated:r.updated_at}));},
+  async remove(id){await this.client.from('records').delete().eq('id',id);}
+};
+
+/* ---------- Auth ---------- */
+const Auth={
+  user:null,mode:'local',
+  async loginLocal(name,role){this.user={id:'local-'+Date.now(),name,role,mode:'local'};this.mode='local';sessionStorage.setItem(SKEY,JSON.stringify(this.user));return this.user;},
+  async loginCloud(email,pass){const u=await Cloud.signIn(email,pass);const p=u.user_metadata||{};this.user={id:u.id,name:p.name||email.split('@')[0],email,role:p.role||'Field Officer',mode:'cloud'};this.mode='cloud';sessionStorage.setItem(SKEY,JSON.stringify(this.user));return this.user;},
+  async restore(){try{const s=sessionStorage.getItem(SKEY);if(!s)return false;const u=JSON.parse(s);if(u.mode==='cloud'){const cu=await Cloud.currentUser();if(!cu)return false;}this.user=u;this.mode=u.mode;return true;}catch(e){return false;}},
+  async logout(){if(this.mode==='cloud')await Cloud.signOut();this.user=null;sessionStorage.removeItem(SKEY);}
+};
+
+/* ---------- Role gating (honest client-side hint; real RBAC is in Part 2 RLS) ---------- */
+const RoleGate={
+  roles:['CEO / Admin','Operations Manager','Field Officer','Agronomist','Finance','Call Center Agent','Extension Officer'],
+  adminOnly:['admin','backup','payments'],
+  financeOnly:['finance','credit'],
+  canAccess(role,key){if(!this.adminOnly.includes(key)&&!this.financeOnly.includes(key))return true;if(role==='CEO / Admin')return true;if(this.financeOnly.includes(key)&&role==='Finance')return true;return false;}
+};
+
+/* ---------- AI (honest) ---------- */
+const AI={enabled:false,reason:'No validated crop/pest/disease model is deployed. Uploads route to human review.',async analyzeImage(){return{status:'pending_human_review',confidence:null,note:this.reason,human_review_required:true};}};
+
+/* ---------- Devices ---------- */
+const Devices={
+  async gps(){if(!navigator.geolocation)throw new Error('Geolocation unsupported');return new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(p=>res({lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy}),e=>rej(new Error(e.message)),{enableHighAccuracy:true,timeout:12000}));},
+  async camera(v){if(!navigator.mediaDevices?.getUserMedia)throw new Error('Camera unsupported');const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});v.srcObject=s;await v.play();return{stop:()=>s.getTracks().forEach(t=>t.stop())};},
+  async microphone(){if(!navigator.mediaDevices?.getUserMedia)throw new Error('Mic unsupported');return await navigator.mediaDevices.getUserMedia({audio:true});},
+  async serialProbe(){if(!('serial'in navigator))throw new Error('Web Serial unsupported. Use Chrome/Edge on HTTPS.');await navigator.serial.requestPort();return{note:'Port selected. Vendor protocol + parser required.'};},
+  async usbProbe(){if(!('usb'in navigator))throw new Error('WebUSB unsupported. Use Chrome/Edge on HTTPS.');const d=await navigator.usb.requestDevice({filters:[]});return{product:d.productName||'USB device',note:'Vendor driver/protocol required.'};},
+  async bluetoothProbe(){if(!('bluetooth'in navigator))throw new Error('Web Bluetooth unsupported. Use Chrome/Edge on HTTPS.');const d=await navigator.bluetooth.requestDevice({acceptAllDevices:true});return{name:d.name||'BLE device',note:'GATT IDs + calibration required.'};}
+};
+
+/* ---------- Payments (honest intents) ---------- */
+const Payments={
+  providers:{
+    telebirr:{name:'Telebirr',currency:'ETB',note:'Requires Ethio Telecom merchant + backend webhook.'},
+    cbebirr:{name:'CBE Birr',currency:'ETB',note:'Requires CBE merchant + backend webhook.'},
+    mpessa:{name:'M-Pesa',currency:'ETB',note:'Requires Safaricom Daraja + backend webhook.'},
+    ebirr:{name:'E-Birr',currency:'ETB',note:'Requires E-Birr merchant + backend webhook.'},
+    stripe:{name:'Stripe',currency:'USD',note:'Requires Stripe account + backend webhook.'},
+    paypal:{name:'PayPal',currency:'USD',note:'Requires PayPal Business + backend webhook.'},
+    bank:{name:'Bank transfer (manual)',currency:'ANY',note:'Manual reconciliation.'},
+    cash:{name:'Cash on delivery',currency:'ANY',note:'Manual.'}
+  },
+  async createIntent({provider,amount,currency,orderRef}){
+    const intent={intentId:`PI-${Date.now()}`,provider,amount,currency,orderRef,status:'pending_backend',createdAt:new Date().toISOString(),note:this.providers[provider]?.note||''};
+    // Persist the intent so a real backend webhook can find and complete it.
+    await Storage.put('payment_intents',intent);
+    return intent;
+  }
+};
+
+/* ---------- FX ---------- */
+const FX={
+  rates:{ETB:57.5,USD:1,EUR:.92,GBP:.79},
+  async refresh(){try{const r=await fetch('https://api.frankfurter.app/latest?from=USD&to=EUR,GBP');if(r.ok){const d=await r.json();if(d.rates){this.rates.EUR=d.rates.EUR;this.rates.GBP=d.rates.GBP;}}}catch(e){}},
+  convert(a,f,to){if(f===to)return a;return (a/this.rates[f])*this.rates[to];},
+  fmt(a,c){try{return new Intl.NumberFormat('en-US',{style:'currency',currency:c,maximumFractionDigits:2}).format(a);}catch(e){return `${c} ${a.toFixed(2)}`;}}
+};
+
+/* ---------- Sections (same as v8.1, kept intact) ---------- */
+const SECTIONS={
+  farms:{title:'Farmer & Plot Registry',desc:'Consent-based identity, household, geolocation, traceability.',groups:[
+    {name:'Identity',fields:[['farmerId','Farmer ID','text',1],['firstName','First name','text',1],['fatherName','Father name','text',0],['sex','Sex','select',0,['Not stated','Woman','Man','Other']],['dob','DOB','date',0],['age','Age','number',0],['youth','Youth','select',0,['Not stated','Youth (18–35)','Non-youth']],['householdSize','Household size','number',0],['womenHeaded','Woman-headed','select',0,['Not stated','Yes','No']],['language','Language','select',1,['Afaan Oromo','Amharic','Somali','Tigrinya','Afar','Swahili','English']],['phone1','Phone','tel',0],['consent','Consent','select',1,['Pending','Granted','Declined']],['consentDate','Consent date','date',0]]},
+    {name:'Location',fields:[['region','Region','text',1],['zone','Zone','text',1],['woreda','Woreda','text',1],['kebele','Kebele','text',1],['lat','Latitude','number',0],['lng','Longitude','number',0],['elevation','Elevation (m)','number',0]]},
+    {name:'Plot',fields:[['plotId','Plot ID','text',1],['plotAreaHa','Area (ha)','number',1],['currentCrop','Crop','select',1,['Coffee','Maize','Wheat','Teff','Barley','Sorghum','Millet','Chickpea','Faba bean','Common bean','Field pea','Lentil','Soybean','Sesame','Groundnut','Linseed','Noug','Potato','Sweet potato','Onion','Tomato','Pepper','Cabbage','Carrot','Avocado','Enset','Other']],['variety','Variety','text',0],['plantingDate','Planting date','date',0],['tenure','Tenure evidence','text',0],['forestRisk','Deforestation screening','select',1,['Not assessed','Pending verification','No risk identified (evidence)','Risk identified / hold']]]},
+    {name:'Production',fields:[['totalAreaHa','Total area (ha)','number',0],['mainIncomeSource','Main income','select',0,['Crop sales','Livestock','Off-farm','Mixed','Other']],['livestockCount','Livestock','number',0],['tools','Tools','textarea',0],['storage','Storage (kg)','number',0],['contractInterest','Contract interest','select',0,['Yes','No','Maybe']],['digitalAccess','Digital access','select',0,['None','Feature phone','Smartphone','Smartphone + data','Smartphone + data + app']],['notes','Notes','textarea',0]]}
+  ]},
+  contracts:{title:'Contracts',desc:'Signed terms, delivery, settlement.',groups:[
+    {name:'Contract',fields:[['contractId','Contract ID','text',1],['farmerId','Farmer ID','text',1],['crop','Crop','text',1],['season','Season','text',1],['areaHa','Area (ha)','number',1],['plannedVolumeKg','Planned (kg)','number',0],['priceRule','Price rule','textarea',1],['inputAdvance','Advance (ETB)','number',0],['deliveryPoint','Delivery point','text',1],['paymentTerms','Payment terms','textarea',1],['signedDate','Signed','date',0],['status','Status','select',1,['Draft','Pending signature','Active','At risk','Completed','Terminated']],['consent','Consent','select',1,['Pending','Yes','No']]]},
+    {name:'Settlement',fields:[['receivedKg','Received (kg)','number',0],['receivedDate','Received','date',0],['grade','Grade','text',0],['deductions','Deductions','textarea',0],['netPay','Net (ETB)','number',0],['paidDate','Paid','date',0],['paymentRef','Payment ref','text',0],['dispute','Dispute','textarea',0]]}
+  ]},
+  seed:{title:'Seed & Certification',desc:'Seed chain. Official certification remains with the authority.',groups:[
+    {name:'Lot',fields:[['lotId','Lot ID','text',1],['crop','Crop','select',1,['Teff','Maize','Wheat','Barley','Sorghum','Millet','Chickpea','Faba bean','Common bean','Field pea','Lentil','Soybean','Sesame','Groundnut','Linseed','Noug','Potato','Sweet potato','Onion','Tomato','Pepper','Cabbage','Carrot','Other']],['variety','Variety','text',1],['seedClass','Class','select',1,['Breeder / pre-basic','Basic','Certified','Quality declared / other']],['source','Source','text',1],['producerId','Producer ID','text',1],['plotId','Plot ID','text',1]]},
+    {name:'Production',fields:[['sowingDate','Sowing','date',0],['seedRate','Rate (kg/ha)','number',0],['previousCrop','Previous crop','text',0],['isolation','Isolation','text',0],['fieldInspections','Inspections','textarea',0],['harvestDate','Harvest','date',0],['harvestKg','Harvest (kg)','number',0],['drying','Drying','text',0],['cleaning','Cleaning','textarea',0],['packaging','Packaging','text',0],['storage','Storage','textarea',0]]},
+    {name:'Quality',fields:[['moisture','Moisture (%)','number',0],['purity','Purity (%)','number',0],['germination','Germination (%)','number',0],['lab','Lab ref','text',0],['testDate','Test date','date',0],['authority','Authority','text',0],['certNo','Cert #','text',0],['certStatus','Cert status','select',1,['Not submitted','Submitted','Inspection pending','Lab testing pending','Certified by authority (evidence)','Rejected / corrective action']]]}
+  ]},
+  coffee:{title:'Coffee & Export',desc:'Farmer-to-shipment traceability. Does not itself certify EUDR.',groups:[
+    {name:'Origin',fields:[['lotId','Lot ID','text',1],['farmerId','Farmer ID','text',1],['plotId','Plot ID','text',1],['woreda','Woreda / kebele','text',1],['lat','Latitude','number',0],['lng','Longitude','number',0],['altitude','Altitude (m)','number',0],['harvestStart','Harvest start','date',0],['cherryKg','Cherry (kg)','number',0],['process','Process','select',1,['Washed','Natural','Honey / other']],['station','Station','text',0],['greenKg','Green (kg)','number',0],['moisture','Moisture (%)','number',0]]},
+    {name:'Quality',fields:[['cupScore','Cup score','number',0],['cupReport','Cupping report','text',0],['residue','Pesticide / OTA ref','text',0]]},
+    {name:'EUDR',fields:[['eudrStatus','EUDR status','select',1,['Not started','Farmer/plot incomplete','Geolocation collected, validation pending','Risk assessment pending','Risk mitigation pending','Evidence reviewed; legal review pending','DDS reference recorded']],['forestEvidence','Land-use evidence','text',0],['legality','Legality evidence','text',0],['ddsRef','DDS reference','text',0]]},
+    {name:'Export',fields:[['batchId','Batch ID','text',0],['buyer','Buyer / PO','text',0],['exportPermit','Export permit','text',0],['container','Container / B/L','text',0],['fob','FOB value','text',0],['payment','Payment ref','text',0],['notes','Notes','textarea',0]]}
+  ]},
+  soil:{title:'Soil Lab',desc:'Physical, chemical, biological.',groups:[
+    {name:'Sample',fields:[['sampleId','Sample ID','text',1],['farmerId','Farmer ID','text',0],['plotId','Plot ID','text',1],['crop','Crop','text',1],['sampleDate','Date','date',1],['depthCm','Depth (cm)','text',1],['lat','Latitude','number',0],['lng','Longitude','number',0],['sampler','Sampler','text',0]]},
+    {name:'Analysis',fields:[['texture','Texture','text',0],['bulkDensity','Bulk density','number',0],['ph','pH','number',0],['ec','EC','text',0],['organicCarbon','OC / OM','text',0],['nitrogen','N','text',0],['phosphorus','P','text',0],['potassium','K','text',0],['micronutrients','Zn, B, Fe, Mn, Cu','textarea',0],['cec','CEC','text',0]]},
+    {name:'QA',fields:[['lab','Lab / QA ref','text',0],['recommendation','Adviser recommendation','textarea',0],['notes','Limitations','textarea',0]]}
+  ]},
+  clinic:{title:'Plant Health Clinic',desc:'Human agronomist workflow. No AI inference here.',groups:[
+    {name:'Case',fields:[['caseId','Case ID','text',1],['farmerId','Farmer ID','text',0],['plotId','Plot ID','text',0],['crop','Crop / stage','text',1],['observedDate','Observation date','date',1],['symptoms','Symptoms / severity','textarea',1],['weather','Weather / irrigation / soil','textarea',0],['imageRef','Image evidence ref','text',0],['suspected','Suspected cause (not confirmed)','text',0]]},
+    {name:'Review',fields:[['sampleLab','Lab / officer','text',0],['action','Recommended action','textarea',0],['approver','Reviewer','text',0],['status','Status','select',1,['New','Triage','Awaiting field visit','Awaiting lab','Reviewed by agronomist','Action advised','Closed']],['followup','Follow-up','text',0],['notes','PPE / PHI / stewardship','textarea',0]]}
+  ]},
+  procurement:{title:'Procurement',desc:'Requisition → quotation → approval → PO → receipt → invoice → payment.',groups:[
+    {name:'Requisition',fields:[['requestId','Req ID','text',1],['requester','Requester','text',1],['item','Specification','textarea',1],['quantity','Qty + unit','text',1],['budgetCode','Budget code','text',1],['estimatedCost','Cost (ETB)','number',1],['justification','Justification','textarea',0]]},
+    {name:'Vendor',fields:[['vendor','Vendor / TIN','text',0],['quotes','Quotations','textarea',0],['conflict','Conflict of interest','select',1,['Pending','Declared none','Conflict disclosed / managed']]]},
+    {name:'Approval',fields:[['approver','Approver','text',0],['po','PO','text',0],['receipt','Receipt','text',0],['invoice','Invoice','text',0],['payment','Payment ref','text',0],['status','Status','select',1,['Draft','Submitted','Approved','Tendering','PO issued','Part received','Received','Invoice pending','Paid','Cancelled']]]}
+  ]},
+  finance:{title:'Finance & Assets',desc:'Register only. Not statutory accounting.',groups:[
+    {name:'Transaction',fields:[['recordId','Record ID','text',1],['recordType','Type','select',1,['Income','Expense','Journal','Asset','Inventory asset','Grant','Liability','Receivable','Payable']],['date','Date','date',1],['description','Description','text',1],['amount','Amount','number',1],['currency','Currency','select',0,['ETB','USD','EUR','GBP']],['projectCode','Project','text',0],['accountCode','Account code','text',0],['vendorFarmer','Payee','text',0],['paymentMethod','Payment method','text',0],['invoice','Invoice ref','text',0]]},
+    {name:'Asset',fields:[['assetTag','Asset tag','text',0],['location','Location','text',0],['condition','Condition','text',0],['insurance','Insurance','text',0],['maintenance','Maintenance','text',0]]},
+    {name:'Status',fields:[['approval','Approver','text',0],['status','Status','select',1,['Draft','Pending approval','Approved','Posted in accounting system','Paid','Reconciled','Disposed']],['notes','Notes','textarea',0]]}
+  ]},
+  credit:{title:'Credit / PAYG',desc:'Do not originate loans. Bank-approved terms required.',groups:[
+    {name:'Borrower',fields:[['caseId','Case ID','text',1],['borrowerId','Borrower ID','text',1],['borrowerType','Type','select',1,['Women-led SME','CBSM / producer group','Outgrower','Agro-dealer','Other']],['consent','Consent','select',1,['Pending','Granted','Declined']],['purpose','Purpose','textarea',1]]},
+    {name:'Terms',fields:[['principal','Requested (ETB)','number',1],['approvedPrincipal','Approved (ETB)','number',0],['rate','Rate basis','text',1],['tenor','Tenor','text',1],['repaymentSource','Repayment source','text',1],['guarantee','Guarantee','text',0]]},
+    {name:'Status',fields:[['disbursement','Disbursement ref','text',0],['repayments','Repayments','textarea',0],['arrears','Arrears','text',0],['status','Status','select',1,['Intake','Consent pending','Under assessment','Bank review','Approved by bank','Disbursed by bank','Repaying','Restructured','Closed','Declined']]]}
+  ]},
+  hr:{title:'HR & Inclusion',desc:'Collect only necessary data.',groups:[
+    {name:'Employment',fields:[['staffId','Staff ID','text',1],['name','Name','text',1],['role','Role','text',1],['unit','Unit','text',0],['employmentType','Type','select',1,['Permanent','Fixed term','Seasonal','Consultant','Intern','Franchise partner']],['startDate','Start','date',0],['supervisor','Supervisor','text',0]]},
+    {name:'Inclusion (voluntary)',fields:[['gender','Gender','select',0,['Not stated','Woman','Man','Other']],['youth','Youth','select',0,['Not stated','Youth','Non-youth']],['disability','Disability / accommodation','select',0,['Not stated','None','Accommodation required']]]},
+    {name:'Compliance',fields:[['payrollRef','Payroll ref','text',0],['leave','Leave','textarea',0],['safety','OHS / PPE','textarea',0],['grievance','Grievance ref','text',0],['status','Status','select',1,['Active','On leave','Contract ended','Suspended pending process']]]}
+  ]},
+  travel:{title:'Travel',desc:'Rates and authority limits must be configured.',groups:[
+    {name:'Request',fields:[['requestId','Req ID','text',1],['traveller','Traveller','text',1],['purpose','Purpose','textarea',1],['origin','Origin','text',1],['destination','Destination','text',1],['departDate','Departure','date',1],['returnDate','Return','date',1],['perDiem','Per diem / policy','text',1]]},
+    {name:'Liquidation',fields:[['advance','Advance (ETB)','number',0],['approver','Approver','text',0],['status','Status','select',1,['Draft','Submitted','Approved','Booked','Travelled','Liquidation pending','Liquidated','Rejected']],['actualCost','Actual (ETB)','number',0],['receipts','Receipts','textarea',0],['notes','Notes','textarea',0]]}
+  ]},
+  extension:{title:'Extension & Comms',desc:'Advisory delivery, feedback, consent, follow-up.',groups:[
+    {name:'Session',fields:[['sessionId','Session ID','text',1],['farmerGroup','Farmer / group','text',1],['topic','Topic','text',1],['channel','Channel','select',1,['In-person','Phone call','SMS','WhatsApp','Telegram','Radio','Video','Audio / IVR','Mobile app']],['language','Language','select',1,['Afaan Oromo','Amharic','Somali','Tigrinya','Afar','Swahili','English']],['date','Date','date',1],['advisor','Advisor','text',1],['attendance','Participants','text',0]]},
+    {name:'Feedback',fields:[['question','Question','textarea',0],['response','Response','textarea',0],['consent','Consent','select',1,['Pending','Granted','Declined']],['followup','Follow-up','text',0],['status','Status','select',1,['Planned','Delivered','Follow-up due','Referred','Closed']]]}
+  ]},
+  callcenter:{title:'Call Center',desc:'Contacts, triage, assignment, closure.',groups:[
+    {name:'Contact',fields:[['caseId','Case ID','text',1],['receivedAt','Received','datetime-local',1],['channel','Channel','select',1,['Phone','SMS','WhatsApp','IMO','Email','Facebook','TikTok','YouTube','LinkedIn','In-person','Other']],['callerName','Caller','text',1],['phone','Callback','tel',0],['woreda','Woreda','text',0]]},
+    {name:'Triage',fields:[['caseType','Type','select',1,['Agronomy advice','Soil test','Plant disease/pest','Seed quality','Input order','Contract/payment','Coffee delivery/export','Franchise support','Safeguarding/grievance','Complaint','Other']],['priority','Priority','select',1,['Routine','High','Urgent / safety risk']],['summary','Summary','textarea',1],['assignedTo','Assigned to','text',0],['status','Status','select',1,['Open','Triaged','Assigned','Awaiting field visit','Awaiting lab result','Resolved','Escalated','Closed']],['resolution','Resolution','textarea',0]]}
+  ]},
+  marketplace:{title:'Marketplace',desc:'Catalogue & orders. Payment capture is NOT here.',groups:[
+    {name:'Order',fields:[['orderId','Order ID','text',1],['orderType','Type','select',1,['Product listing','Customer order','Input bundle','Seed order','Coffee lot offer','Service booking']],['product','Product','text',1],['category','Category','select',1,['Certified seed','Early generation seed','Coffee','Cereal / pulse','Oilseed','Fertilizer','Crop protection','Tools / equipment','Irrigation','Soil test','Plant clinic','Extension service','Other']],['seller','Seller','text',1],['buyer','Buyer','text',0]]},
+    {name:'Quantity & Price',fields:[['quantity','Qty','number',1],['unit','Unit','select',1,['kg','quintal','tonne','litre','bag','piece','service','box']],['unitPrice','Unit price','number',1],['currency','Currency','select',1,['ETB','USD','EUR','GBP']],['shipping','Shipping','number',0]]},
+    {name:'Fulfilment',fields:[['stockStatus','Stock status','select',1,['Draft listing','Available — verify stock','Reserved','Confirmed','Packed','Dispatched','Delivered','Cancelled','Returned']],['deliveryArea','Delivery area','text',0],['paymentStatus','Payment status','select',1,['Unpaid','Pending verification','Paid — verified externally','Credit approved','Refund pending','Refunded']],['paymentRef','Payment ref','text',0],['customerConsent','Consent','select',1,['Granted','Declined','Not applicable']],['notes','Notes','textarea',0]]}
+  ]},
+  satellite:{title:'Satellite Evidence',desc:'Register imagery. Not a live feed.',groups:[
+    {name:'Scene',fields:[['assetId','Scene ID','text',1],['captureDate','Capture date','date',1],['provider','Provider','select',1,['Sentinel-2 / Copernicus','Landsat / USGS','NASA Earthdata','Commercial','Drone','Field GPS','Other']],['farmId','Farm / plot ID','text',1],['lat','Latitude','number',0],['lng','Longitude','number',0],['productType','Type','select',1,['Optical','Radar/SAR','Vegetation index','Rainfall','Elevation','Drone image','Field photograph','Other']],['cloudCover','Cloud cover (%)','number',0]]},
+    {name:'Analysis',fields:[['indicator','Indicator','select',0,['NDVI','NDMI','Land cover','Canopy change','Flood','Erosion','No index','Other']],['finding','Finding / limitations','textarea',1],['reviewer','Reviewer','text',1],['verification','Validation','select',1,['Unreviewed','Desk review','Field verified','Lab verified','Disputed']],['sourceUrl','Source URL','url',0]]}
+  ]},
+  workforce:{title:'Workforce',desc:'Tasks, custody, maintenance.',groups:[
+    {name:'Task',fields:[['taskId','Task ID','text',1],['title','Title','text',1],['assignee','Assignee','text',1],['priority','Priority','select',1,['Low','Medium','High','Urgent']],['dueDate','Due date','date',1],['relatedTo','Related record','text',0],['status','Status','select',1,['Open','In progress','Blocked','Done','Cancelled']]]},
+    {name:'Asset',fields:[['assetId','Asset ID','text',1],['assetName','Name','text',1],['custodian','Custodian','text',0],['location','Location','text',0],['condition','Condition','select',0,['Excellent','Good','Fair','Needs repair','Retired']]]}
+  ]},
+  compliance:{title:'Compliance & EUDR',desc:'Register + evidence. Does not itself certify compliance.',groups:[
+    {name:'EUDR',fields:[['eudrId','EUDR ID','text',1],['farmId','Farm / plot ID','text',1],['crop','Commodity','text',1],['deforestationFree','Status','select',1,['Not assessed','Assessment pending','Evidence recorded — legal review pending','Verified (evidence)','Not compliant / hold']],['ddsRef','DDS reference','text',0]]},
+    {name:'Certificates',fields:[['certId','Cert ID','text',1],['certName','Name','text',1],['issuer','Issuer','text',0],['issuedAt','Issued','date',0],['expiresAt','Expires','date',0],['status','Status','select',1,['Active','Renewal due','Expired','Suspended','Withdrawn']]]},
+    {name:'Audits',fields:[['auditId','Audit ID','text',1],['auditType','Type','text',0],['auditor','Auditor','text',0],['auditDate','Date','date',0],['findings','Findings','textarea',0],['status','Status','select',1,['Planned','In progress','Report issued','Closed']]]}
+  ]},
+  processing:{title:'Processing',desc:'Batch processing, yield, QA.',groups:[
+    {name:'Batch',fields:[['batchId','Batch ID','text',1],['inputType','Input','text',1],['inputKg','Input (kg)','number',1],['process','Process','select',1,['Milling','Roasting','Oil extraction','Drying','Packaging','Grading','Fermentation','Other']],['startDate','Start','datetime-local',0],['endDate','End','datetime-local',0],['yieldPct','Yield (%)','number',0],['outputKg','Output (kg)','number',0],['qualityStandard','Quality standard','select',0,['Export grade','Premium local','Standard','Reject']]]},
+    {name:'QA',fields:[['outputLot','Output lot','text',0],['qcCheck','QC result','textarea',0],['qcBy','QC by','text',0],['notes','Notes','textarea',0]]}
+  ]},
+  logistics:{title:'Logistics',desc:'Shipment, temperature, delivery.',groups:[
+    {name:'Shipment',fields:[['shipmentId','Shipment ID','text',1],['product','Product','text',1],['lotId','Lot ID','text',0],['origin','Origin','text',1],['destination','Destination','text',1],['quantity','Qty','number',0],['vehicle','Vehicle','text',0],['departAt','Departure','datetime-local',0],['eta','ETA','datetime-local',0]]},
+    {name:'Delivery',fields:[['targetTempC','Target temp (°C)','number',0],['tempLog','Temp log ref','text',0],['seal','Seal no','text',0],['deliveredAt','Delivered','datetime-local',0],['receivedBy','Received by','text',0],['condition','Condition','select',0,['Excellent','Good','Compromised','Rejected']],['notes','Notes','textarea',0]]}
+  ]},
+  iot:{title:'IoT & Devices',desc:'Device inventory and calibration.',groups:[
+    {name:'Device',fields:[['deviceId','Device ID','text',1],['deviceType','Type','text',1],['model','Model','text',0],['serial','Serial','text',0],['protocol','Protocol','select',0,['LoRaWAN','NB-IoT','WiFi','BLE','Web Serial','WebUSB','Manual','Other']],['location','Location','text',0],['lat','Latitude','number',0],['lng','Longitude','number',0]]},
+    {name:'Calibration',fields:[['calibration','Calibration ref','text',0],['calibrationDate','Date','date',0],['unit','Unit','text',0],['accuracy','Accuracy','text',0],['status','Status','select',1,['Operational','Under maintenance','Retired','Unknown']]]}
+  ]},
+  franchise:{title:'Franchise',desc:'Applications, agreements, performance.',groups:[
+    {name:'Application',fields:[['appId','App ID','text',1],['location','Location','text',1],['applicant','Applicant','text',1],['contactPhone','Phone','tel',0],['contactEmail','Email','email',0],['experience','Experience','select',0,['Beginner','Intermediate','Expert']],['investment','Investment (ETB)','number',0],['status','Status','select',1,['Received','Under review','Approved','Rejected','Agreement signed']]]},
+    {name:'Agreement',fields:[['agreementRef','Agreement ref','text',0],['startDate','Start','date',0],['reviewDate','Review','date',0],['territory','Territory','text',0],['targets','Targets','textarea',0],['support','Support','textarea',0]]}
+  ]}
+};
+const FIELD_COUNT=Object.values(SECTIONS).reduce((s,v)=>s+v.groups.reduce((a,g)=>a+g.fields.length,0),0);
+
+/* ---------- Catalog ---------- */
+const CATALOG=[
+  {id:'bun-maize',name:'Maize Basic Bundle',desc:'Certified maize seed (10kg) + NPK 100kg + herbicide 1L',priceETB:14500,category:'Cereal',icon:'🌽'},
+  {id:'bun-wheat',name:'Wheat Pro Bundle',desc:'Certified wheat seed (20kg) + NPK 150kg + fungicide 1L',priceETB:17200,category:'Cereal',icon:'🌾'},
+  {id:'bun-teff',name:'Teff Organic Bundle',desc:'Improved teff seed (5kg) + compost 200kg + neem spray',priceETB:9800,category:'Cereal',icon:'🌾'},
+  {id:'bun-coffee',name:'Coffee Care Bundle',desc:'Shade seedlings + copper fungicide + compost 100kg',priceETB:22000,category:'Coffee',icon:'☕'},
+  {id:'bun-veg',name:'Vegetable Starter Bundle',desc:'Tomato + pepper + onion seed + drip kit (0.25ha)',priceETB:19800,category:'Horticulture',icon:'🥬'},
+  {id:'bun-soil',name:'Soil Test Kit',desc:'Sample + lab analysis + 3-month sensor guidance',priceETB:3400,category:'Service',icon:'🧪'},
+  {id:'bun-clinic',name:'Plant Clinic Field Visit',desc:'Agronomist site visit + lab screening + report',priceETB:5600,category:'Service',icon:'🩺'},
+  {id:'bun-drip',name:'Drip Irrigation Kit (1 ha)',desc:'Solar pump + drip lines + filter + installation',priceETB:145000,category:'Irrigation',icon:'💧'},
+  {id:'inp-npk',name:'NPK 17-17-17 (50 kg)',desc:'Balanced fertilizer',priceETB:5900,category:'Fertilizer',icon:'🪴'},
+  {id:'inp-urea',name:'Urea (50 kg)',desc:'Nitrogen top-dressing',priceETB:3400,category:'Fertilizer',icon:'🪴'},
+  {id:'inp-maize-seed',name:'Certified Maize Seed (10 kg)',desc:'Verified variety, lab-tested',priceETB:2800,category:'Seed',icon:'🌽'},
+  {id:'svc-sms',name:'SMS Advisory (1 season)',desc:'Weekly agronomy + weather alerts',priceETB:350,category:'Service',icon:'📱'}
+];
+
+/* ---------- Nav ---------- */
+const NAV=[
+  ['dashboard','🏠','dashboard'],['farms','🧑‍🌾','farms'],['contracts','📄','contracts'],['seed','🌱','seed'],['coffee','☕','coffee'],['soil','🧪','soil'],['clinic','🩺','clinic'],['procurement','🛒','procurement'],['finance','💰','finance'],['credit','🏦','credit'],['hr','👥','hr'],['travel','✈️','travel'],['extension','📞','extension'],['callcenter','🎧','callcenter'],['marketplace','🛍️','marketplace'],['shop','🛒','shop'],['satellite','🛰️','satellite'],['workforce','👷','workforce'],['compliance','🛡️','compliance'],['processing','⚙️','processing'],['logistics','🚚','logistics'],['iot','📡','iot'],['franchise','🏢','franchise'],['social','📱','social'],['library','📚','library'],['payments','💳','payments'],['devices','🔌','devices'],['ai','🧠','ai'],['gis','🗺️','gis'],['backup','💾','backup'],['admin','🛡️','admin'],['audit','📊','audit']
+];
+
+/* ============================================================
+   APP
+   ============================================================ */
+const App={
+  charts:{}, cart:[],
+  renderLangSwitch(){document.getElementById('lang-switch').innerHTML=LANGS.map(l=>`<button class="lang-btn ${l.c===LANG?'active':''}" onclick="App.setLang('${l.c}')" title="${l.n}">${l.f} ${l.c.toUpperCase()}</button>`).join('');},
+  setLang(c){LANG=c;this.renderLangSwitch();this.renderNav();this.nav(this.currentKey||'dashboard');},
+  saveSupabase(){const u=document.getElementById('sb-url').value.trim();const k=document.getElementById('sb-key').value.trim();if(!u||!k){document.getElementById('sb-status').textContent='Both required.';return;}if(!/^https?:\/\//.test(u)){document.getElementById('sb-status').textContent='URL must be https://';return;}localStorage.setItem(SBK,JSON.stringify({url:u,key:k}));document.getElementById('sb-status').innerHTML='<span style="color:#34D399">Saved. Reloading…</span>';setTimeout(()=>location.reload(),500);},
+  clearSupabase(){localStorage.removeItem(SBK);location.reload();},
+  afterLogin(){
+    this.renderLangSwitch();
+    document.getElementById('role-badge').textContent=Auth.user.role;
+    document.getElementById('conn-status').textContent=navigator.onLine?'online':'offline';
+    document.getElementById('cloud-status').textContent=Auth.mode==='cloud'?'cloud':'local';
+    document.getElementById('cloud-status').style.color=Auth.mode==='cloud'?'#34D399':'#FBBF24';
+    window.addEventListener('online',()=>document.getElementById('conn-status').textContent='online');
+    window.addEventListener('offline',()=>document.getElementById('conn-status').textContent='offline');
+    document.getElementById('menu-btn').onclick=()=>document.getElementById('sidebar').classList.toggle('open');
+    this.renderNav();this.nav('dashboard');FX.refresh();
+    setInterval(()=>{const c=document.getElementById('clock');if(c)c.textContent=new Date().toLocaleTimeString('en-GB',{timeZone:'Africa/Addis_Ababa',hour12:false})+' UTC+3';},1000);
+  },
+  renderNav(){
+    const root=document.getElementById('nav-root');
+    root.innerHTML=NAV.map(([k,ic,lk])=>{
+      const allowed=RoleGate.canAccess(Auth.user?.role||'Field Officer',k);
+      return `<button class="nav-btn" data-k="${k}" ${allowed?'':'disabled title="Requires higher role"'}>${ic} <span>${t(lk)||lk}</span></button>`;
+    }).join('')+`<div style="font-size:.6rem;color:#64748B;padding:.5rem;border-top:1px solid #1E293B;margin-top:.4rem">v${VERSION} · ${FIELD_COUNT} fields</div>`;
+    root.querySelectorAll('.nav-btn').forEach(b=>b.onclick=()=>{this.nav(b.dataset.k);document.getElementById('sidebar').classList.remove('open');});
+  },
+  nav(key){
+    if(!RoleGate.canAccess(Auth.user?.role||'Field Officer',key)){toast('This module requires a higher role.','warn');return;}
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.k===key));
+    this.currentKey=key;
+    const c=document.getElementById('content');
+    if(key==='dashboard')return this.renderDashboard(c);
+    if(key==='shop')return this.renderShop(c);
+    if(key==='social')return this.renderSocial(c);
+    if(key==='library')return this.renderLibrary(c);
+    if(key==='payments')return this.renderPayments(c);
+    if(key==='backup')return this.renderBackup(c);
+    if(key==='admin')return this.renderAdmin(c);
+    if(key==='devices')return this.renderDeviceTest(c);
+    if(key==='ai')return this.renderAI(c);
+    if(key==='gis')return this.renderGIS(c);
+    if(key==='audit')return this.renderAudit(c);
+    if(SECTIONS[key])return this.renderSection(c,key);
+    c.innerHTML='<div class="card" style="padding:1rem">Unknown section.</div>';
+  },
+
+  async renderDashboard(c){
+    const counts={};for(const k of Object.keys(SECTIONS))counts[k]=(await Storage.list(k)).length;
+    const total=await Storage.countAll();
+    const cloudOk=Auth.mode==='cloud';
+    c.innerHTML=`
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:.6rem;flex-wrap:wrap;margin-bottom:.7rem">
+        <div><h1 style="margin:0;font-size:1.3rem;font-weight:800" class="grad">${t('dashboard')}</h1><p style="margin:.2rem 0 0;color:#94A3B8;font-size:.76rem">${FIELD_COUNT} fields · ${total} records · ${cloudOk?'☁️ cloud':'💾 local'}</p></div>
+        <div style="display:flex;gap:.3rem;flex-wrap:wrap"><span class="pill">v${VERSION}</span><span class="pill" style="color:${cloudOk?'#34D399':'#FBBF24'}">${cloudOk?'Supabase':'Local'}</span></div>
+      </div>
+      <div class="info-box" style="font-size:.74rem"><b>Honest status:</b> AI disabled · payments adapter-only · satellite register-only · social deep-links work · Jitsi video works · ${cloudOk?'cloud auth active':'cloud not configured'}. Payments & AI need Part 2 backend.</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.5rem">
+        ${NAV.filter(([k])=>SECTIONS[k]).slice(0,16).map(([k,ic,lk])=>`<div class="kpi" style="cursor:pointer" onclick="App.nav('${k}')"><div style="font-size:.68rem;color:#94A3B8">${ic} ${t(lk)||lk}</div><div style="font-size:1.45rem;font-weight:800;margin-top:.2rem">${counts[k]||0}</div></div>`).join('')}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.6rem;margin-top:.7rem">
+        <div class="card" style="padding:.85rem">
+          <h3 style="margin:0 0 .45rem;font-size:.9rem">💱 FX (approx.)</h3>
+          <table class="data" style="font-size:.72rem"><tr><th>1 USD =</th><th>Rate</th></tr><tr><td>ETB</td><td>≈ ${FX.rates.ETB.toFixed(2)}</td></tr><tr><td>EUR</td><td>≈ ${FX.rates.EUR.toFixed(3)}</td></tr><tr><td>GBP</td><td>≈ ${FX.rates.GBP.toFixed(3)}</td></tr></table>
+          <div style="font-size:.63rem;color:#94A3B8;margin-top:.25rem">EUR/GBP live via Frankfurter; ETB is fallback.</div>
+        </div>
+        <div class="card" style="padding:.85rem">
+          <h3 style="margin:0 0 .45rem;font-size:.9rem">⚡ Quick actions</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:.3rem">
+            <button class="btn btn-p btn-sm" onclick="App.nav('farms')">+ ${t('farms')}</button>
+            <button class="btn btn-p btn-sm" onclick="App.nav('shop')">🛒 Shop</button>
+            <button class="btn btn-p btn-sm" onclick="App.nav('clinic')">+ Clinic</button>
+            <button class="btn btn-s btn-sm" onclick="App.nav('callcenter')">📞 Call</button>
+            <button class="btn btn-s btn-sm" onclick="App.nav('extension')">+ Extension</button>
+            <button class="btn btn-s btn-sm" onclick="App.nav('backup')">💾 Backup</button>
+            <button class="btn btn-s btn-sm" onclick="App.openExport()">⬇ Export</button>
+          </div>
+        </div>
+      </div>
+    `;
+  },
+
+  async renderSection(c,key){
+    const s=SECTIONS[key];const rows=await Storage.list(key);
+    c.innerHTML=`
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem">
+        <div><h1 style="margin:0;font-size:1.15rem;font-weight:800">${s.title}</h1><p style="margin:.15rem 0 0;color:#94A3B8;font-size:.74rem">${s.desc}</p></div>
+        <div style="display:flex;gap:.3rem;flex-wrap:wrap">
+          <button class="btn btn-p btn-sm" onclick="App.openForm('${key}')">${t('newRecord')}</button>
+          <button class="btn btn-s btn-sm" onclick="App.exportCSV('${key}')">${t('export')} CSV</button>
+        </div>
+      </div>
+      <div class="warn-box" style="font-size:.7rem">A typed status is not an external approval or certificate.${Auth.mode==='cloud'?' Records also sync to your Supabase.':''}</div>
+      <div class="data-scroll">${rows.length?this.renderTable(key,rows):`<div style="padding:.9rem;text-align:center;color:#94A3B8;font-size:.8rem">No records. Click “${t('newRecord')}”.</div>`}</div>
+    `;
+  },
+
+  renderTable(key,rows){
+    const schema=SECTIONS[key];const keys=schema.groups.flatMap(g=>g.fields).slice(0,5).map(f=>f[0]);
+    return `<table class="data"><thead><tr><th>ID</th>${keys.map(k=>`<th>${this.labelFor(key,k)}</th>`).join('')}<th>Updated</th><th>Actions</th></tr></thead><tbody>${rows.map(r=>`<tr><td><code style="font-size:.66rem;color:#5EEAD4">${this.esc(r._id)}</code></td>${keys.map(k=>`<td>${this.esc(r[k]??'—')}</td>`).join('')}<td>${new Date(r._updated||Date.now()).toLocaleDateString()}</td><td style="white-space:nowrap"><button class="btn btn-s btn-sm" onclick="App.openForm('${key}','${this.esc(r._id)}')">${t('edit')}</button><button class="btn btn-d btn-sm" onclick="App.deleteRecord('${key}','${this.esc(r._id)}')">${t('delete')}</button></td></tr>`).join('')}</tbody></table>`;
+  },
+
+  labelFor(key,fk){const s=SECTIONS[key];if(!s)return fk;for(const g of s.groups)for(const f of g.fields)if(f[0]===fk)return f[1];return fk;},
+
+  async openForm(key,_id){
+    const schema=SECTIONS[key];const existing=_id?(await Storage.list(key)).find(r=>r._id===_id):null;
+    const html=`
+      <div style="position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:90;display:flex;align-items:center;justify-content:center;padding:.7rem" onclick="if(event.target===this)this.remove()">
+        <div class="card modal-content" style="width:min(1000px,100%);padding:.95rem">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;margin-bottom:.45rem">
+            <div><h2 style="margin:0;font-size:1rem;font-weight:800">${existing?t('edit'):t('newRecord')} — ${schema.title}</h2><p style="margin:.15rem 0 0;color:#94A3B8;font-size:.7rem">${schema.desc}</p></div>
+            <button class="btn btn-s btn-sm" onclick="this.closest('.modal-content').parentElement.remove()">${t('close')}</button>
+          </div>
+          <form onsubmit="App.submitForm(event,'${key}','${_id||''}')">
+            ${schema.groups.map(g=>`<div class="section-card"><h4>${g.name}</h4><div class="field-grid">${g.fields.map(f=>this.fieldHTML(f,existing||{})).join('')}</div></div>`).join('')}
+            <div style="display:flex;gap:.35rem;justify-content:flex-end;margin-top:.55rem"><button type="button" class="btn btn-s" onclick="this.closest('.modal-content').parentElement.remove()">${t('cancel')}</button><button type="submit" class="btn btn-p">${t('save')}</button></div>
+          </form>
+        </div>
+      </div>`;
+    document.getElementById('modal-root').insertAdjacentHTML('beforeend',html);
+  },
+
+  fieldHTML(f,rec){
+    const [k,label,type,req,opts]=f;const v=rec[k]??'';const reqAttr=req?'required':'';const note=req?' *':'';
+    if(type==='textarea')return`<label><span>${this.esc(label)}${note}</span><textarea name="${k}" ${reqAttr} rows="2">${this.esc(v)}</textarea></label>`;
+    if(type==='select')return`<label><span>${this.esc(label)}${note}</span><select name="${k}" ${reqAttr}><option value="">Select…</option>${(opts||[]).map(o=>`<option ${String(v)===o?'selected':''} value="${this.esc(o)}">${this.esc(o)}</option>`).join('')}</select></label>`;
+    const t2=['number','date','datetime-local','tel','url','email'].includes(type)?type:'text';
+    return`<label><span>${this.esc(label)}${note}</span><input type="${t2}" name="${k}" value="${this.esc(v)}" ${reqAttr} ${type==='number'?'step="any"':''}></label>`;
+  },
+
+  async submitForm(ev,key,_id){
+    ev.preventDefault();const form=ev.target;const data=Object.fromEntries(new FormData(form).entries());
+    const schema=SECTIONS[key];
+    for(const g of schema.groups)for(const f of g.fields){const[k,,tt]=f;if(tt==='number'&&data[k]!=='')data[k]=Number(data[k]);}
+    if(_id)data._id=_id;
+    await Storage.put(key,data);
+    toast(Auth.mode==='cloud'?'Saved locally + synced.':'Saved locally.','ok');
+    form.closest('.modal-content').parentElement.remove();this.nav(key);
+  },
+
+  async deleteRecord(key,_id){if(!confirm('Delete this record? Export first if needed.'))return;await Storage.remove(_id);toast('Deleted.','warn');this.nav(key);},
+
+  async exportCSV(key){
+    const rows=await Storage.list(key);if(!rows.length)return toast('No records.','warn');
+    const fields=[...new Set(rows.flatMap(r=>Object.keys(r)))];
+    const csv=Papa.unparse({fields,data:rows.map(r=>fields.map(f=>r[f]??''))});
+    this.download(csv,`sena-v82-${key}.csv`,'text/csv');toast(`Exported ${rows.length}.`,'ok');
+  },
+
+  openExport(){
+    document.getElementById('modal-root').insertAdjacentHTML('beforeend',`
+      <div style="position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:90;display:flex;align-items:center;justify-content:center;padding:1rem" onclick="if(event.target===this)this.remove()">
+        <div class="card" style="max-width:420px;width:100%;padding:.95rem">
+          <h3 style="margin:0 0 .45rem">${t('export')}</h3>
+          <div class="warn-box" style="font-size:.72rem">Store files securely. May contain personal data.</div>
+          <div style="display:flex;flex-direction:column;gap:.3rem;margin-top:.45rem">
+            <button class="btn btn-s" onclick="App.exportAllJSON()">Full backup (JSON)</button>
+            <button class="btn btn-s" onclick="App.exportAllCSV()">All sections (CSV)</button>
+            <button class="btn btn-s" onclick="App.exportPDF()">Summary PDF</button>
+            <button class="btn btn-s" onclick="this.closest('.card').parentElement.remove()">${t('close')}</button>
+          </div>
+        </div>
+      </div>`);
+  },
+
+  async exportAllJSON(){
+    const out={version:VERSION,exportedAt:new Date().toISOString(),mode:Auth.mode,sections:{}};
+    for(const key of Object.keys(SECTIONS))out.sections[key]=await Storage.list(key);
+    this.download(JSON.stringify(out,null,2),`sena-v82-backup-${Date.now()}.json`,'application/json');
+    toast('Backup downloaded.','ok');
+  },
+  async exportAllCSV(){
+    for(const key of Object.keys(SECTIONS)){
+      const rows=await Storage.list(key);if(!rows.length)continue;
+      const fields=[...new Set(rows.flatMap(r=>Object.keys(r)))];
+      const csv=Papa.unparse({fields,data:rows.map(r=>fields.map(f=>r[f]??''))});
+      this.download(csv,`sena-v82-${key}.csv`,'text/csv');
+    }toast('CSV per section downloaded.','ok');
+  },
+  async exportPDF(){
+    try{const{jsPDF}=window.jspdf||{};if(!jsPDF)throw new Error('jsPDF unavailable');
+      const doc=new jsPDF({orientation:'landscape'});
+      doc.setFontSize(14);doc.text('Sena FarmERP v8.2 — Local Data Summary',14,16);
+      doc.setFontSize(9);doc.text(`Generated ${new Date().toISOString()} — LOCAL CLIENT — NOT A CERTIFIED REPORT`,14,24);
+      let y=32;
+      for(const key of Object.keys(SECTIONS)){
+        const rows=await Storage.list(key);
+        if(y>190){doc.addPage();y=16;}
+        doc.setFontSize(11);doc.text(`${SECTIONS[key].title} — ${rows.length} records`,14,y);y+=5;doc.setFontSize(8);
+        rows.slice(0,5).forEach(r=>{if(y>195){doc.addPage();y=16;}const line=Object.entries(r).slice(0,4).map(([k,v])=>`${k}=${String(v).slice(0,40)}`).join(' | ');doc.text(line,16,y);y+=4;});
+        y+=4;
+      }
+      doc.save(`sena-v82-summary-${Date.now()}.pdf`);toast('PDF downloaded.','ok');
+    }catch(e){toast('PDF failed: '+e.message,'err');}
+  },
+  download(content,filename,type){
+    const blob=content instanceof Blob?content:new Blob([content],{type});
+    const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),800);
+  },
+
+  syncAll(){
+    if(Auth.mode!=='cloud'){toast('Cloud not configured. Connect Supabase on login screen.','warn',7000);return;}
+    toast('Cloud mode active — auto-syncs on save.','ok');
+  },
+
+  /* ---------- Shop ---------- */
+  renderShop(c){
+    c.innerHTML=`
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem">
+        <div><h1 style="margin:0;font-size:1.15rem;font-weight:800">🛒 ${t('shop')}</h1><p style="margin:.15rem 0 0;color:#94A3B8;font-size:.76rem">Bundles · multi-currency · honest payment intents</p></div>
+        <div style="display:flex;gap:.3rem">
+          <select id="shop-cur" onchange="App.renderShop(document.getElementById('content'))" style="padding:.35rem .55rem;font-size:.78rem"><option>ETB</option><option>USD</option><option>EUR</option><option>GBP</option></select>
+          <button class="btn btn-p btn-sm" onclick="App.openCart()">🛒 Cart (${this.cart.length})</button>
+        </div>
+      </div>
+      <div class="info-box" style="font-size:.74rem"><b>Honest:</b> order saved locally with <b style="color:#FBBF24">pending_backend</b> payment intent. Real capture needs Part 2 webhook + your merchant accounts.</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.5rem">
+        ${CATALOG.map(p=>{
+          const cur=document.getElementById('shop-cur')?.value||'ETB';
+          const price=FX.convert(p.priceETB,'ETB',cur);
+          return `<div class="bundle-card"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:1.5rem">${p.icon}</span><span class="badge b-info">${p.category}</span></div><div style="font-weight:700;font-size:.86rem">${this.esc(p.name)}</div><div style="font-size:.7rem;color:#94A3B8">${this.esc(p.desc)}</div><div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center"><div class="price">${FX.fmt(price,cur)}<small>≈ ${FX.fmt(p.priceETB,'ETB')}</small></div><button class="btn btn-p btn-sm" onclick="App.addToCart('${p.id}')">+ Add</button></div></div>`;
+        }).join('')}
+      </div>`;
+  },
+  addToCart(id){const p=CATALOG.find(x=>x.id===id);if(!p)return;this.cart.push(p);toast('Added: '+p.name,'ok');this.nav('shop');},
+  openCart(){
+    if(!this.cart.length){toast('Cart empty.','warn');return;}
+    const cur=document.getElementById('shop-cur')?.value||'ETB';
+    const totalETB=this.cart.reduce((s,p)=>s+p.priceETB,0);
+    const totalFX=FX.convert(totalETB,'ETB',cur);
+    document.getElementById('modal-root').insertAdjacentHTML('beforeend',`
+      <div style="position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:90;display:flex;align-items:center;justify-content:center;padding:1rem" onclick="if(event.target===this)this.remove()">
+        <div class="card modal-content" style="max-width:560px;width:100%;padding:.95rem">
+          <h3 style="margin:0 0 .45rem">🛒 Cart</h3>
+          <div class="data-scroll" style="margin-bottom:.45rem"><table class="data"><thead><tr><th>Item</th><th>Qty</th><th>Price</th><th></th></tr></thead><tbody>${this.cart.map((p,i)=>`<tr><td>${this.esc(p.name)}</td><td>1</td><td>${FX.fmt(FX.convert(p.priceETB,'ETB',cur),cur)}</td><td><button class="btn btn-d btn-sm" onclick="App.removeCart(${i})">×</button></td></tr>`).join('')}</tbody><tfoot><tr><td colspan="2" style="text-align:right;font-weight:700">Total</td><td colspan="2" style="font-weight:800;color:#5EEAD4">${FX.fmt(totalFX,cur)}</td></tr></tfoot></table></div>
+          <div class="section-card"><h4>Payment method</h4><select id="pay-method" style="width:100%;font-size:.8rem">${Object.entries(Payments.providers).map(([k,v])=>`<option value="${k}">${v.name} (${v.currency})</option>`).join('')}</select><div id="pay-note" style="font-size:.7rem;color:#FBBF24;margin-top:.3rem"></div></div>
+          <div style="display:flex;gap:.3rem;justify-content:flex-end;margin-top:.45rem"><button class="btn btn-s" onclick="this.closest('.card').parentElement.remove()">${t('cancel')}</button><button class="btn btn-p" onclick="App.checkout()">Place order (honest pending)</button></div>
+        </div>
+      </div>`);
+    const sel=document.getElementById('pay-method');sel.onchange=()=>{document.getElementById('pay-note').textContent=Payments.providers[sel.value].note;};sel.onchange();
+  },
+  removeCart(i){this.cart.splice(i,1);document.getElementById('modal-root').innerHTML='';this.openCart();},
+  async checkout(){
+    const cur=document.getElementById('shop-cur')?.value||'ETB';
+    const method=document.getElementById('pay-method')?.value||'cash';
+    const totalETB=this.cart.reduce((s,p)=>s+p.priceETB,0);
+    const total=FX.convert(totalETB,'ETB',cur);
+    const intent=await Payments.createIntent({provider:method,amount:total,currency:cur,orderRef:`ORD-${Date.now()}`});
+    const order={orderId:intent.orderRef,orderType:'Customer order',product:this.cart.map(p=>p.name).join('; '),category:'Bundle',seller:'Sena Hub',quantity:1,unit:'box',unitPrice:total,currency:cur,paymentStatus:method==='cash'?'Credit approved':'Pending verification',paymentRef:intent.intentId,customerConsent:'Granted',notes:JSON.stringify(intent)};
+    await Storage.put('marketplace',order);
+    this.cart=[];document.getElementById('modal-root').innerHTML='';
+    toast(`Order saved. Intent ${intent.intentId} status: ${intent.status}. ${intent.note}`,'warn',7000);
+    this.nav('shop');
+  },
+
+  /* ---------- Social ---------- */
+  renderSocial(c){
+    const links=[
+      {name:'WhatsApp',url:'https://wa.me/251900000000',icon:'💬',color:'#25D366',note:'Opens WhatsApp. No auto-send.'},
+      {name:'Telegram',url:'https://t.me/senaagri',icon:'✈️',color:'#229ED9',note:'Channel / chat link.'},
+      {name:'IMO',url:'https://imo.im/',icon:'📞',color:'#00A2E8',note:'Opens IMO website.'},
+      {name:'TikTok',url:'https://www.tiktok.com/@senaagri',icon:'🎵',color:'#000000',note:'Public profile.'},
+      {name:'LinkedIn',url:'https://www.linkedin.com/company/sena-agribusiness',icon:'💼',color:'#0A66C2',note:'Institutional page.'},
+      {name:'Facebook',url:'https://www.facebook.com/senaagri',icon:'📘',color:'#1877F2',note:'Community page.'},
+      {name:'X / Twitter',url:'https://x.com/senaagri',icon:'𝕏',color:'#000000',note:'Time-sensitive notices.'},
+      {name:'YouTube',url:'https://www.youtube.com/@senaagri',icon:'▶️',color:'#FF0000',note:'Training videos.'},
+      {name:'Instagram',url:'https://www.instagram.com/senaagri',icon:'📷',color:'#E4405F',note:'Visual storytelling.'},
+      {name:'Telephone',url:'tel:+251900000000',icon:'☎️',color:'#0F766E',note:'Opens dialer.'},
+      {name:'Email',url:'mailto:info@sena.ag',icon:'✉️',color:'#EA4335',note:'Opens mail client.'},
+      {name:'SMS',url:'sms:+251900000000',icon:'📨',color:'#34D399',note:'Opens SMS app.'}
+    ];
+    c.innerHTML=`
+      <h1 style="margin:0 0 .2rem;font-size:1.15rem;font-weight:800">📱 ${t('social')}</h1>
+      <p style="margin:0 0 .5rem;color:#94A3B8;font-size:.76rem">Real deep-links that work now. Nothing auto-posts.</p>
+      <div class="ok-box" style="font-size:.72rem">Replace placeholder handles with Sena's real accounts before deployment.</div>
+      <div class="social-grid">${links.map(l=>`<a href="${l.url}" target="_blank" rel="noopener noreferrer" class="social-btn"><span class="social-ico" style="background:${l.color}">${l.icon}</span><div><div>${l.name}</div><div style="font-size:.6rem;color:#94A3B8;font-weight:400">${l.note}</div></div></a>`).join('')}</div>
+      <h2 style="margin:.9rem 0 .35rem;font-size:.95rem;font-weight:800">🎥 Video calls (Jitsi)</h2>
+      <div class="info-box" style="font-size:.72rem">Public Jitsi rooms — no server needed. Share the room name via WhatsApp/Telegram.</div>
+      <div style="display:flex;gap:.35rem;flex-wrap:wrap"><input id="jitsi-room" placeholder="Room name (e.g. sena-clinic-001)" style="flex:1;min-width:200px"><button class="btn btn-p btn-sm" onclick="App.joinJitsi()">Join</button></div>
+      <button class="btn btn-s btn-sm" style="margin-top:.5rem" onclick="App.nav('library')">📚 Open Library →</button>
+    `;
+  },
+  joinJitsi(){const r=document.getElementById('jitsi-room').value.trim();if(!r){toast('Enter room.','warn');return;}window.open(`https://meet.jit.si/${encodeURIComponent(r)}`,'_blank','noopener');},
+
+  /* ---------- Library ---------- */
+  renderLibrary(c){
+    const res=[
+      {t:'Ethiopian Seed Proclamation 1288/2023',u:'https://www.moa.gov.et/wp-content/uploads/2024/12/000022-Proclamation-No.1288-2023.pdf',n:'MoA'},
+      {t:'Ethio-Seed documents',u:'https://ethioseed.moa.gov.et/documents',n:'Seed policy'},
+      {t:'FAO seed systems',u:'https://www.fao.org/agriculture/crops/thematic-sitemap/theme/compendium/tools-guidelines/what-are-seed-systems/en/',n:'FAO'},
+      {t:'ICARDA/FAO AGRIS — quality seed',u:'https://hdl.handle.net/20.500.11766/67551',n:'Open access'},
+      {t:'FAO digital extension guide',u:'https://www.fao.org/documents/card/en/c/cc4022en',n:'FAO'},
+      {t:'EU EUDR Regulation 2023/1115',u:'https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A32023R1115',n:'EUR-Lex'},
+      {t:'FAO Soils portal',u:'https://www.fao.org/soils-portal/en/',n:'FAO'},
+      {t:'Copernicus Data Space',u:'https://dataspace.copernicus.eu/',n:'EU'},
+      {t:'USGS EarthExplorer',u:'https://earthexplorer.usgs.gov/',n:'USGS'},
+      {t:'NASA Earthdata',u:'https://earthdata.nasa.gov/',n:'NASA'},
+      {t:'Formidable program',u:'https://formidable.et/',n:'Program'}
+    ];
+    c.innerHTML=`
+      <h1 style="margin:0 0 .2rem;font-size:1.15rem;font-weight:800">📚 ${t('library')}</h1>
+      <p style="margin:0 0 .5rem;color:#94A3B8;font-size:.76rem">Real authoritative sources.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.4rem">
+        ${res.map(r=>`<a href="${r.u}" target="_blank" rel="noopener noreferrer" class="card" style="padding:.65rem;text-decoration:none;color:inherit;display:block"><div style="font-weight:700;font-size:.8rem">${this.esc(r.t)}</div><div style="font-size:.66rem;color:#94A3B8;margin-top:.1rem">${this.esc(r.n)}</div><div style="font-size:.68rem;color:#5EEAD4;margin-top:.3rem">Open →</div></a>`).join('')}
+      </div>
+      <div class="section-card" style="margin-top:.7rem"><h4>🩺 Plant Clinic Video Room</h4><p style="font-size:.74rem;color:#94A3B8">Record a case in Clinic, then open a Jitsi room for agronomist review.</p><div style="display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.35rem"><input id="lib-room" placeholder="Room (e.g. sena-clinic-xyz)" style="flex:1"><button class="btn btn-p btn-sm" onclick="App.openRoom()">Open room</button></div></div>
+    `;
+  },
+  openRoom(){const r=document.getElementById('lib-room').value.trim();if(!r){toast('Enter room.','warn');return;}window.open(`https://meet.jit.si/${encodeURIComponent(r)}`,'_blank','noopener');},
+
+  /* ---------- Payments ---------- */
+  renderPayments(c){
+    c.innerHTML=`
+      <h1 style="margin:0 0 .2rem;font-size:1.15rem;font-weight:800">💳 ${t('payments')}</h1>
+      <p style="margin:0 0 .5rem;color:#94A3B8;font-size:.76rem">Adapters. Real capture requires Part 2 backend.</p>
+      <div class="warn-box" style="font-size:.72rem"><b>Critical:</b> intents are <b>pending_backend</b>. No money moves here.</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.45rem">
+        ${Object.entries(Payments.providers).map(([k,v])=>`<div class="card" style="padding:.7rem"><div style="display:flex;justify-content:space-between"><div style="font-weight:700;font-size:.82rem">${this.esc(v.name)}</div><span class="badge b-warn">pending</span></div><div style="font-size:.7rem;color:#94A3B8;margin-top:.25rem">${this.esc(v.note)}</div><div style="font-size:.64rem;color:#FBBF24;margin-top:.25rem">Currency: ${v.currency}</div></div>`).join('')}
+      </div>`;
+  },
+
+  /* ---------- Backup & Restore ---------- */
+  renderBackup(c){
+    c.innerHTML=`
+      <h1 style="margin:0 0 .2rem;font-size:1.15rem;font-weight:800">💾 ${t('backup')}</h1>
+      <p style="margin:0 0 .5rem;color:#94A3B8;font-size:.76rem">Export a full JSON backup, or restore from a prior backup.</p>
+      <div class="info-box" style="font-size:.74rem">Restore MERGES records. It does not wipe existing data. Back up before restoring.</div>
+      <div class="section-card"><h4>Export</h4><button class="btn btn-p" onclick="App.exportAllJSON()">Download JSON backup</button></div>
+      <div class="section-card"><h4>Restore</h4><input type="file" id="restore-file" accept=".json,application/json"><button class="btn btn-g" style="margin-top:.4rem" onclick="App.restoreJSON()">Restore from file</button></div>
+    `;
+  },
+  async restoreJSON(){
+    const f=document.getElementById('restore-file').files[0];
+    if(!f)return toast('Select a file first.','warn');
+    if(!confirm('Merge this backup into local data? Existing records with the same _id will be replaced.'))return;
+    try{
+      const text=await f.text();
+      const data=JSON.parse(text);
+      if(!data.sections)throw new Error('Not a Sena backup file.');
+      let count=0;
+      for(const[key,rows]of Object.entries(data.sections)){
+        if(!Array.isArray(rows))continue;
+        for(const r of rows){
+          if(r&&r._id){await Storage.put(key,{...r,_id:r._id});count++;}
+        }
+      }
+      toast(`Restored ${count} records.`,'ok');
+    }catch(e){toast('Restore failed: '+e.message,'err');}
+  },
+
+  /* ---------- Admin ---------- */
+  async renderAdmin(c){
+    const counts={};for(const k of Object.keys(SECTIONS))counts[k]=(await Storage.list(k)).length;
+    c.innerHTML=`
+      <h1 style="margin:0 0 .2rem;font-size:1.15rem;font-weight:800">🛡️ ${t('admin')}</h1>
+      <p style="margin:0 0 .5rem;color:#94A3B8;font-size:.76rem">Operator: ${Auth.user?.name||'—'} · role: ${Auth.user?.role||'—'} · mode: ${Auth.mode}</p>
+      <div class="info-box" style="font-size:.72rem"><b>Honest:</b> true RBAC is enforced by the backend (Supabase RLS, Part 2). This client hides some modules but does not enforce authorization.</div>
+      <div class="section-card"><h4>System status</h4><table class="data" style="font-size:.74rem"><tr><td>Version</td><td>${VERSION}</td></tr><tr><td>Auth mode</td><td>${Auth.mode}</td></tr><tr><td>Cloud</td><td>${Storage.cloud?'configured':'not configured'}</td></tr><tr><td>Online</td><td>${navigator.onLine?'yes':'no'}</td></tr><tr><td>Total records</td><td>${await Storage.countAll()}</td></tr><tr><td>Fields</td><td>${FIELD_COUNT}</td></tr></table></div>
+      <div class="section-card"><h4>Record counts</h4><div class="data-scroll"><table class="data"><thead><tr><th>Module</th><th>Records</th></tr></thead><tbody>${Object.entries(counts).map(([k,n])=>`<tr><td>${SECTIONS[k]?.title||k}</td><td>${n}</td></tr>`).join('')}</tbody></table></div></div>
+      <div class="section-card"><h4>Danger zone</h4><button class="btn btn-d" onclick="App.wipeLocal()">Wipe all local data</button></div>
+    `;
+  },
+  async wipeLocal(){
+    if(!confirm('Wipe ALL local data? Export first if needed.'))return;
+    if(!confirm('Confirm permanent deletion?'))return;
+    await Storage.wipe();toast('Local data wiped.','warn');
+  },
+
+  /* ---------- Device Test ---------- */
+  renderDeviceTest(c){
+    c.innerHTML=`
+      <h1 style="margin:0 0 .2rem;font-size:1.15rem;font-weight:800">🔌 ${t('devices')}</h1>
+      <p style="margin:0 0 .5rem;color:#94A3B8;font-size:.76rem">Real API probes.</p>
+      <div class="warn-box" style="font-size:.72rem">Serial / USB / BLE need Chrome/Edge on HTTPS.</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.45rem">
+        <div class="card" style="padding:.65rem"><h3 style="margin:0 0 .3rem;font-size:.8rem">GPS</h3><button class="btn btn-s btn-sm" onclick="App.probeGPS()">Read GPS</button><pre id="gps-out" style="font-size:.64rem;color:#94A3B8;margin:.3rem 0 0;white-space:pre-wrap"></pre></div>
+        <div class="card" style="padding:.65rem"><h3 style="margin:0 0 .3rem;font-size:.8rem">Web Serial</h3><button class="btn btn-s btn-sm" onclick="App.probeSerial()">Select</button><pre id="serial-out" style="font-size:.64rem;color:#94A3B8;margin:.3rem 0 0;white-space:pre-wrap"></pre></div>
+        <div class="card" style="padding:.65rem"><h3 style="margin:0 0 .3rem;font-size:.8rem">WebUSB</h3><button class="btn btn-s btn-sm" onclick="App.probeUSB()">Select</button><pre id="usb-out" style="font-size:.64rem;color:#94A3B8;margin:.3rem 0 0;white-space:pre-wrap"></pre></div>
+        <div class="card" style="padding:.65rem"><h3 style="margin:0 0 .3rem;font-size:.8rem">BLE</h3><button class="btn btn-s btn-sm" onclick="App.probeBLE()">Select</button><pre id="ble-out" style="font-size:.64rem;color:#94A3B8;margin:.3rem 0 0;white-space:pre-wrap"></pre></div>
+        <div class="card" style="padding:.65rem"><h3 style="margin:0 0 .3rem;font-size:.8rem">Camera</h3><button class="btn btn-s btn-sm" onclick="App.startCamera()">Start</button><video id="cam" autoplay playsinline muted style="width:100%;border-radius:.35rem;margin-top:.3rem;max-height:160px;background:#000"></video></div>
+        <div class="card" style="padding:.65rem"><h3 style="margin:0 0 .3rem;font-size:.8rem">Microphone</h3><button class="btn btn-s btn-sm" onclick="App.probeMic()">Request</button><pre id="mic-out" style="font-size:.64rem;color:#94A3B8;margin:.3rem 0 0;white-space:pre-wrap"></pre></div>
+      </div>`;
+  },
+  async probeGPS(){const o=document.getElementById('gps-out');o.textContent='Reading…';try{const r=await Devices.gps();o.textContent=`lat=${r.lat.toFixed(6)}\nlng=${r.lng.toFixed(6)}\n±${r.acc}m`;}catch(e){o.textContent='Error: '+e.message;}},
+  async probeSerial(){const o=document.getElementById('serial-out');try{const r=await Devices.serialProbe();o.textContent='Granted.\n'+r.note;}catch(e){o.textContent='Error: '+e.message;}},
+  async probeUSB(){const o=document.getElementById('usb-out');try{const r=await Devices.usbProbe();o.textContent=`Granted: ${r.product}\n${r.note}`;}catch(e){o.textContent='Error: '+e.message;}},
+  async probeBLE(){const o=document.getElementById('ble-out');try{const r=await Devices.bluetoothProbe();o.textContent=`Granted: ${r.name}\n${r.note}`;}catch(e){o.textContent='Error: '+e.message;}},
+  async startCamera(){try{const v=document.getElementById('cam');if(v._stop)v._stop();const h=await Devices.camera(v);v._stop=h.stop;toast('Camera streaming. No inference.','warn');}catch(e){toast('Camera error: '+e.message,'err');}},
+  async probeMic(){const o=document.getElementById('mic-out');try{const s=await Devices.microphone();s.getTracks().forEach(t=>t.stop());o.textContent='Mic permission granted. Nothing recorded.';}catch(e){o.textContent='Error: '+e.message;}},
+
+  /* ---------- AI ---------- */
+  renderAI(c){
+    c.innerHTML=`
+      <h1 style="margin:0 0 .2rem;font-size:1.15rem;font-weight:800">🧠 ${t('ai')}</h1>
+      <p style="margin:0 0 .5rem;color:#94A3B8;font-size:.76rem">No validated model deployed. No diagnosis is produced.</p>
+      <div class="danger-box"><b>${AI.reason}</b></div>
+      <div class="card" style="padding:.85rem"><h3 style="margin:0 0 .35rem;font-size:.86rem">Correct workflow</h3><ol style="font-size:.76rem;color:#94A3B8;line-height:1.6;padding-left:1.1rem"><li>Capture image locally.</li><li>Record symptoms in Clinic.</li><li>Open Jitsi room to call agronomist.</li><li>Agronomist records triage.</li><li>No pesticide without qualified advice.</li><li>For real AI: deploy validated model adapter (Part 2).</li></ol></div>
+    `;
+  },
+
+  /* ---------- GIS ---------- */
+  renderGIS(c){
+    c.innerHTML=`<h1 style="margin:0 0 .2rem;font-size:1.15rem;font-weight:800">🗺️ ${t('gis')}</h1><p style="margin:0 0 .5rem;color:#94A3B8;font-size:.76rem">OpenStreetMap via Leaflet.</p><div style="display:flex;gap:.35rem;margin:.3rem 0 .4rem"><button class="btn btn-s btn-sm" onclick="App.gisGPS()">Use my GPS</button><span id="gis-msg" style="font-size:.72rem;color:#94A3B8;align-self:center"></span></div><div class="card" style="padding:.35rem"><div id="map"></div></div>`;
+    setTimeout(()=>{if(this.charts.map)this.charts.map.remove();const map=L.map('map').setView([8.5,38.5],7);this.charts.map=map;L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map);},120);
+  },
+  async gisGPS(){try{const r=await Devices.gps();const m=this.charts.map;if(m){L.marker([r.lat,r.lng]).addTo(m).bindPopup(`±${r.acc}m`).openPopup();m.setView([r.lat,r.lng],14);}document.getElementById('gis-msg').textContent=`${r.lat.toFixed(6)}, ${r.lng.toFixed(6)}`;}catch(e){document.getElementById('gis-msg').textContent='Error: '+e.message;}},
+
+  /* ---------- Audit ---------- */
+  renderAudit(c){
+    const rows=Object.entries(SECTIONS).map(([k,s])=>{const n=s.groups.reduce((a,g)=>a+g.fields.length,0);return `<tr><td><code style="color:#5EEAD4;font-size:.66rem">${k}</code></td><td>${this.esc(s.title)}</td><td>${n}</td></tr>`;}).join('');
+    c.innerHTML=`<h1 style="margin:0 0 .2rem;font-size:1.15rem;font-weight:800">📊 ${t('audit')}</h1><p style="margin:0 0 .45rem;color:#94A3B8;font-size:.76rem">Total fields: <b>${FIELD_COUNT}</b> (computed live).</p><div class="info-box" style="font-size:.72rem">Repeatable sub-forms multiply real capture beyond 1,200.</div><div class="data-scroll"><table class="data"><thead><tr><th>Key</th><th>Title</th><th>Fields</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td colspan="2" style="text-align:right;color:#5EEAD4;font-weight:700">TOTAL</td><td style="font-weight:800;color:#5EEAD4">${FIELD_COUNT}</td></tr></tfoot></table></div>`;
+  },
+
+  esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));},
+  async logout(){await Auth.logout();location.reload();}
+};
+window.App=App;
+
+/* ---------- Login ---------- */
+document.getElementById('login-form').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const btn=document.getElementById('login-btn');
+  const name=document.getElementById('login-name').value.trim()||'Local Operator';
+  const role=document.getElementById('login-role').value;
+  btn.disabled=true;btn.textContent='…';
+  try{
+    if(Storage.cloud){
+      const email=document.getElementById('login-email').value.trim();
+      const pass=document.getElementById('login-pass').value;
+      if(!email||!pass){toast('Email + password required.','warn');btn.disabled=false;btn.textContent='Sign in (Cloud)';return;}
+      await Auth.loginCloud(email,pass);toast('Cloud login successful.','ok');
+    } else {
+      await Auth.loginLocal(name,role);
+    }
+    document.getElementById('auth').style.display='none';
+    document.getElementById('app').style.display='flex';
+    await Storage.init();
+    App.afterLogin();
+  }catch(err){
+    toast('Login failed: '+err.message,'err');
+    btn.disabled=false;btn.textContent=Storage.cloud?'Sign in (Cloud)':'Open Client';
+  }
+});
+
+/* ---------- Boot ---------- */
+(async()=>{
+  const has=await Cloud.load();
+  if(has){
+    Storage.cloud=Cloud;
+    document.getElementById('cloud-login').style.display='block';
+    document.getElementById('cloud-pill').textContent='Cloud: configured';
+    document.getElementById('cloud-pill').style.color='#34D399';
+    document.getElementById('login-btn').textContent='Sign in (Cloud)';
+  }
+  if(await Auth.restore()){
+    document.getElementById('auth').style.display='none';
+    document.getElementById('app').style.display='flex';
+    await Storage.init();
+    App.afterLogin();
+  }
+})();
+</script>
+</body>
+</html>
