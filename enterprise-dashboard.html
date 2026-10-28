@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sena Enterprise Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root {
+      --bg:#071820; --panel:#0d1f2a; --panel-2:#112b34; --line:rgba(148,163,184,.18); --text:#eef9ff; --muted:#9eb5c1; --emerald:#14b8a6; --forest:#0f766e; --gold:#f59e0b; --violet:#8b5cf6; --red:#ef4444; --success:#22c55e;
+      --shadow:0 18px 30px rgba(0,0,0,.25)
+    }
+    *{box-sizing:border-box} html,body{margin:0;font-family:Inter,'Segoe UI',sans-serif;background:linear-gradient(180deg,#06181d,#0b1b22,#06151a);color:var(--text)}
+    body{min-height:100vh} a{text-decoration:none;color:inherit} button,input,select{font:inherit}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line);background:rgba(7,24,32,.85);backdrop-filter:blur(12px);position:sticky;top:0;z-index:20}
+    .brand{display:flex;align-items:center;gap:12px}.brand-mark{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--emerald),#34d399);display:grid;place-items:center;font-size:1.4rem}.brand-name{font-weight:900;font-size:1.1rem}.brand-name small{display:block;color:var(--muted);font-weight:600;font-size:.7rem}
+    .top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.chip{padding:8px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(17,43,52,.75);font-size:.72rem;color:var(--muted)}.chip.live{color:#b3f3d3}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--success);margin-right:8px;box-shadow:0 0 0 4px rgba(34,197,94,.12)}
+    .btn{padding:10px 14px;border:none;border-radius:12px;cursor:pointer;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--emerald),var(--forest));box-shadow:0 12px 20px rgba(20,184,166,.18)}.btn.secondary{background:rgba(17,43,52,.85);border:1px solid var(--line)}.btn.warn{background:linear-gradient(135deg,#f59e0b,#ea580c)}
+    .container{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:calc(100vh - 76px)}
+    .sidebar{background:rgba(7,17,20,.85);border-right:1px solid var(--line);padding:18px 14px}.side-group{margin-bottom:18px}.side-title{color:var(--muted);text-transform:uppercase;letter-spacing:.14em;font-size:.68rem;padding:0 10px 10px}.nav-item{width:100%;display:flex;justify-content:space-between;align-items:center;padding:11px 12px;border-radius:12px;border:1px solid transparent;background:transparent;color:var(--text);margin-bottom:8px;cursor:pointer}.nav-item.active{background:rgba(20,184,166,.12);border-color:rgba(20,184,166,.26)}.nav-item .left{display:flex;align-items:center;gap:10px}.nav-pill{width:8px;height:8px;border-radius:50%;background:var(--emerald)}.count{background:rgba(20,184,166,.10);color:#c9ffef;padding:4px 7px;border-radius:999px;font-size:.7rem}
+    .content{padding:18px}.page{display:none}.page.active{display:block}
+    .row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.card{background:linear-gradient(180deg,rgba(14,28,34,.98),rgba(10,22,27,.96));border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.kpi{padding:18px;position:relative;overflow:hidden}.kpi::before{content:'';position:absolute;left:0;top:0;width:100%;height:3px;background:linear-gradient(90deg,var(--emerald),transparent)}.kpi-top{display:flex;justify-content:space-between;align-items:flex-start}.kpi-label{color:var(--muted);font-size:.74rem} .kpi-value{font-size:1.9rem;font-weight:800;margin-top:8px}.kpi-change{margin-top:12px;font-size:.72rem;padding:6px 8px;border-radius:999px;border:1px solid rgba(34,197,94,.2);background:rgba(34,197,94,.1);color:#b6fcd1;display:inline-block}.kpi .icon{width:42px;height:42px;border-radius:12px;background:rgba(20,184,166,.12);display:grid;place-items:center;font-size:1.2rem;color:var(--emerald)}
+    .panel{padding:18px;margin-top:16px}.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.panel-head h3{margin:0;font-size:1.08rem}.small{color:var(--muted);font-size:.74rem}.two-col{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}.chart-box{height:300px}.canvas-wrap{width:100%;height:100%}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:12px 10px;border-bottom:1px solid var(--line);font-size:.82rem;text-align:left}.table th{color:var(--muted);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase}.tag{display:inline-block;padding:5px 8px;border-radius:999px;font-size:.7rem;border:1px solid transparent}.tag.ok{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.28);color:#baf7d0}.tag.warn{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.28);color:#fdd38a}.tag.alert{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.28);color:#fecaca}.tag.info{background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.28);color:#bdd9ff}
+    .stack{display:grid;gap:12px}.stat-box{padding:14px;border:1px solid var(--line);border-radius:12px;background:rgba(14,26,31,.7)}.stat-box strong{display:block;font-size:1.2rem;margin-top:8px}.mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field-card{padding:16px;border:1px solid var(--line);border-radius:12px;background:rgba(11,25,29,.78)}
+    .map-box{height:300px;border:1px solid var(--line);border-radius:12px;overflow:hidden}.social-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.social-btn{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(15,31,36,.75)}.social-ico{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;color:#fff}.social-ico.whats{background:#25d366}.social-ico.telegram{background:#2ca5e0}.social-ico.email{background:#ef4444}.social-ico.call{background:#f59e0b}
+    @media(max-width:980px){.container{grid-template-columns:1fr}.sidebar{display:none}.sidebar.open{display:block}.row{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:1fr}.mini-grid{grid-template-columns:1fr}}
+    @media(max-width:560px){.row{grid-template-columns:1fr}.content{padding:10px}.topbar{padding:12px 12px}.brand-name{font-size:1rem}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">🌿</div>
+      <div class="brand-name">Sena FarmERP <small>Enterprise command center</small></div>
+    </div>
+    <div class="top-actions">
+      <span class="chip">EN</span>
+      <span class="chip live"><span class="dot"></span>Online</span>
+      <button class="btn secondary">Sync</button>
+      <button class="btn warn">Export</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar open" id="sidebar">
+      <div class="side-group">
+        <div class="side-title">Main</div>
+        <button class="nav-item active" data-page="overview"><span class="left"><span class="nav-pill"></span>Overview</span><span class="count">24</span></button>
+        <button class="nav-item" data-page="operations"><span class="left"><span class="nav-pill"></span>Operations</span><span class="count">9</span></button>
+        <button class="nav-item" data-page="field"><span class="left"><span class="nav-pill"></span>Farms</span><span class="count">18</span></button>
+        <button class="nav-item" data-page="finance"><span class="left"><span class="nav-pill"></span>Finance</span><span class="count">12</span></button>
+      </div>
+      <div class="side-group">
+        <div class="side-title">Intelligence</div>
+        <button class="nav-item" data-page="ai"><span class="left"><span class="nav-pill"></span>AI Insights</span><span class="count">7</span></button>
+        <button class="nav-item" data-page="media"><span class="left"><span class="nav-pill"></span>Media</span><span class="count">3</span></button>
+        <button class="nav-item" data-page="approvals"><span class="left"><span class="nav-pill"></span>Approvals</span><span class="count">4</span></button>
+        <button class="nav-item" data-page="integrations"><span class="left"><span class="nav-pill"></span>Integrations</span><span class="count">5</span></button>
+      </div>
+    </aside>
+
+    <main class="content">
+      <section id="overview" class="page active">
+        <div class="row">
+          <div class="card kpi"><div class="kpi-top"><div><div class="kpi-label">Total revenue</div><div class="kpi-value">$2.48M</div></div><div class="icon">💰</div></div><div class="kpi-change">+18.4% vs last month</div></div>
+          <div class="card kpi"><div class="kpi-top"><div><div class="kpi-label">Active farms</div><div class="kpi-value">324</div></div><div class="icon">🌾</div></div><div class="kpi-change">+26 new plots</div></div>
+          <div class="card kpi"><div class="kpi-top"><div><div class="kpi-label">Health score</div><div class="kpi-value">87.4</div></div><div class="icon">📈</div></div><div class="kpi-change">Healthy crop trend</div></div>
+          <div class="card kpi"><div class="kpi-top"><div><div class="kpi-label">Pending approvals</div><div class="kpi-value">14</div></div><div class="icon">✅</div></div><div class="kpi-change">CEO review queue</div></div>
+        </div>
+
+        <div class="panel card">
+          <div class="panel-head"><h3>Revenue & yield analytics</h3><div class="small">12-month performance</div></div>
+          <div class="chart-box"><canvas id="revenueChart"></canvas></div>
+        </div>
+
+        <div class="two-col" style="margin-top:16px;">
+          <div class="panel card">
+            <div class="panel-head"><h3>Operating queue</h3><div class="small">Priority</div></div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead><tr><th>Task</th><th>Region</th><th>Status</th><th>Owner</th></tr></thead>
+                <tbody>
+                  <tr><td>Coffee inspection</td><td>Yirgacheffe</td><td><span class="tag ok">In progress</span></td><td>Agronomist</td></tr>
+                  <tr><td>Input procurement</td><td>Jimma</td><td><span class="tag warn">Waiting</span></td><td>Procurement</td></tr>
+                  <tr><td>Farmer onboarding</td><td>Harar</td><td><span class="tag info">Approved</span></td><td>Field Officer</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel card">
+            <div class="panel-head"><h3>AI explanations</h3><div class="small">Decision support</div></div>
+            <div class="stack">
+              <div class="stat-box"><strong>Water stress detected</strong><div class="small" style="margin-top:8px; color:var(--muted);">North-west irrigation rows are below moisture threshold. Inspect in 48 hours.</div></div>
+              <div class="stat-box"><strong>Yield uplift</strong><div class="small" style="margin-top:8px; color:var(--muted);">Organic amendment and foliar feed can improve harvest yield by 9–12% in the next cycle.</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="operations" class="page">
+        <div class="panel card">
+          <div class="panel-head"><h3>Operations command board</h3><div class="small">Field, supply, and execution</div></div>
+          <div class="table-wrap"><table class="table"><thead><tr><th>Task</th><th>Location</th><th>Priority</th><th>Owner</th><th>Status</th></tr></thead><tbody><tr><td>Irrigation review</td><td>Bale</td><td><span class="tag alert">Critical</span></td><td>Operations</td><td><span class="tag warn">Scheduled</span></td></tr><tr><td> harvest planning</td><td>Jimma</td><td><span class="tag warn">High</span></td><td>Logistics</td><td><span class="tag ok">Executing</span></td></tr></tbody></table></div>
+        </div>
+      </section>
+
+      <section id="field" class="page">
+        <div class="panel card">
+          <div class="panel-head"><h3>Farm registry</h3><div class="small">Plots and suppliers</div></div>
+          <div class="mini-grid">
+            <div class="field-card"><strong>Kombolcha Block A</strong><div class="small">Coffee • 420 acres • Healthy</div></div>
+            <div class="field-card"><strong>Dilla South</strong><div class="small">Maize • 260 acres • Monitoring</div></div>
+            <div class="field-card"><strong>Wolaita Valley</strong><div class="small">Tea • 310 acres • Attention</div></div>
+            <div class="field-card"><strong>Bule Hora</strong><div class="small">Vegetables • 180 acres • Healthy</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="finance" class="page">
+        <div class="panel card">
+          <div class="panel-head"><h3>Financial control center</h3><div class="small">P&L and cash flow</div></div>
+          <div class="chart-box"><canvas id="financeChart"></canvas></div>
+        </div>
+      </section>
+
+      <section id="ai" class="page">
+        <div class="two-col">
+          <div class="panel card"><div class="panel-head"><h3>AI alert center</h3><div class="small">Actionable interpretations</div></div><div class="stack"><div class="stat-box"><strong>Procurement anomaly</strong><div class="small" style="margin-top:8px; color:var(--muted);">Input prices 7.3% above market median. Negotiate better terms or alternate vendor.</div></div><div class="stat-box"><strong>Inventory risk</strong><div class="small" style="margin-top:8px; color:var(--muted);">Fertilizer stock is projected to run below safety threshold in 10 days.</div></div></div></div>
+          <div class="panel card"><div class="panel-head"><h3>Risk radar</h3><div class="small">Executive summary</div></div><div class="chart-box"><canvas id="riskChart"></canvas></div></div>
+        </div>
+      </section>
+
+      <section id="media" class="page">
+        <div class="panel card">
+          <div class="panel-head"><h3>Capture and evidence suite</h3><div class="small">GPS, image, video, and audio</div></div>
+          <div class="stat-box"><strong>GPS</strong><div class="small" style="margin-top:8px; color:var(--muted);">8.9806, 38.7578</div></div>
+        </div>
+      </section>
+
+      <section id="approvals" class="page">
+        <div class="panel card">
+          <div class="panel-head"><h3>Approval matrix</h3><div class="small">CEO and board</div></div>
+          <div class="table-wrap"><table class="table"><thead><tr><th>Request</th><th>Submitted by</th><th>Stage</th><th>Status</th></tr></thead><tbody><tr><td>Seed purchase approval</td><td>A. Bekele</td><td>Board review</td><td><span class="tag warn">Pending</span></td></tr><tr><td>Field subsidy release</td><td>M. Tadesse</td><td>Finance signoff</td><td><span class="tag info">Awaiting CEO</span></td></tr></tbody></table></div>
+        </div>
+      </section>
+
+      <section id="integrations" class="page">
+        <div class="two-col">
+          <div class="panel card"><div class="panel-head"><h3>Field map</h3><div class="small">GIS and satellite view</div></div><div id="mapBox" class="map-box"></div></div>
+          <div class="panel card"><div class="panel-head"><h3>Connected channels</h3><div class="small">Social, calls, cloud</div></div><div class="social-grid"><a href="https://wa.me/251911000000" target="_blank" class="social-btn"><span class="social-ico whats">W</span><span>WhatsApp</span></a><a href="https://t.me/sena_erp" target="_blank" class="social-btn"><span class="social-ico telegram">T</span><span>Telegram</span></a><a href="mailto:ops@sena.ag" class="social-btn"><span class="social-ico email">@</span><span>Email</span></a><a href="tel:+251110000000" class="social-btn"><span class="social-ico call">☎</span><span>Call</span></a></div></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(button => {
+      button.addEventListener('click', () => {
+        navItems.forEach(item => item.classList.remove('active'));
+        button.classList.add('active');
+        const pageId = button.dataset.page;
+        document.querySelectorAll('.page').forEach(panel => panel.classList.remove('active'));
+        const target = document.getElementById(pageId);
+        if (target) target.classList.add('active');
+      });
+    });
+
+    new Chart(document.getElementById('revenueChart'), {
+      type: 'line',
+      data: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+        datasets: [{
+          label: 'Revenue ($M)',
+          data: [1.2,1.5,1.7,1.8,2.0,2.2,2.0,2.3,2.1,2.4,2.5,2.7],
+          borderColor: '#14b8a6',
+          backgroundColor: 'rgba(20,184,166,0.16)',
+          fill: true,
+          tension: .35,
+          borderWidth: 3
+        }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#dfeaf0' } } }, scales: { x: { ticks: { color: '#a9b6bb' }, grid: { color: 'rgba(148,163,184,.08)' } }, y: { ticks: { color: '#a9b6bb' }, grid: { color: 'rgba(148,163,184,.08)' } } } }
+    });
+
+    new Chart(document.getElementById('financeChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+        datasets: [{
+          label: 'Cash flow',
+          data: [320, 420, 480, 540, 610, 720],
+          backgroundColor: ['#14b8a6','#0f766e','#14b8a6','#0f766e','#14b8a6','#0f766e'],
+          borderRadius: 8
+        }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#dfeaf0' } } }, scales: { x: { ticks: { color: '#a9b6bb' }, grid: { display: false } }, y: { ticks: { color: '#a9b6bb' }, grid: { color: 'rgba(148,163,184,.08)' } } } }
+    });
+
+    new Chart(document.getElementById('riskChart'), {
+      type: 'radar',
+      data: {
+        labels: ['Water','Yield','Finance','Soil','Logistics','Climate'],
+        datasets: [{
+          label: 'Risk index',
+          data: [68,42,53,36,58,49],
+          borderColor: '#8b5cf6',
+          backgroundColor: 'rgba(139,92,246,.18)',
+          borderWidth: 2
+        }]
+      },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#dfeaf0' } } }, scales: { r: { angleLines: { color: 'rgba(148,163,184,.18)' }, grid: { color: 'rgba(148,163,184,.18)' }, suggestedMin:0, suggestedMax:100, ticks: { display: false } } } }
+    });
+
+    if (window.L) {
+      const map = L.map('mapBox').setView([8.98, 38.75], 6);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+      const coords = [[8.9806,38.7578],[7.9558,39.1472],[9.0250,38.7500]];
+      coords.forEach(([lat,lng], i) => {
+        L.marker([lat,lng]).addTo(map).bindPopup(i===0 ? 'HQ and operations' : i===1 ? 'Collection hub' : 'Satellite farm');
+      });
+    }
+  </script>
+</body>
+</html>
